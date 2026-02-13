@@ -1,4 +1,40 @@
 package window.screen.menuScreen;
 
-public class MenuScreen {
+import window.screen.menuScreen.menuButton.exitButton.MenuExitButton;
+import window.screen.menuScreen.menuButton.startButton.MenuStartButton;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
+
+public class MenuScreen extends JPanel {
+
+    JLayeredPane menuLayer;
+
+    public MenuScreen() {
+        menuLayer = new JLayeredPane();
+        setLayout(new BorderLayout());
+        add(menuLayer, BorderLayout.CENTER);
+
+        MenuStartButton startButton = new MenuStartButton();
+        menuLayer.add(startButton, JLayeredPane.PALETTE_LAYER);
+
+        MenuExitButton exitButton = new MenuExitButton();
+        menuLayer.add(exitButton, JLayeredPane.PALETTE_LAYER);
+
+        menuLayer.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                for (Component c : menuLayer.getComponents()) {
+                    if (c instanceof MenuListener r) {
+                        r.menuResized(menuLayer.getSize());
+                    }
+                }
+            }
+        });
+
+    }
+
 }

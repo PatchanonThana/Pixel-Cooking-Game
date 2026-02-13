@@ -5,12 +5,13 @@ import window.screen.mainScreen.MainScreen;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.random.RandomGenerator;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class MainWindow extends JFrame {
     public MainWindow() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setUndecorated(false);
+        setUndecorated(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLayout(new BorderLayout());
 
