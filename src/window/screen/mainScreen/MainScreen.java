@@ -1,6 +1,5 @@
 package window.screen.mainScreen;
 
-import window.mainWindow.LayerListener;
 import window.screen.menuScreen.MenuScreen;
 
 import javax.swing.*;
