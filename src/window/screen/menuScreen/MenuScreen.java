@@ -1,5 +1,7 @@
 package window.screen.menuScreen;
 
+import app.Main;
+import window.screen.mainScreen.MainScreen;
 import window.screen.menuScreen.background.Background;
 import window.screen.menuScreen.menuButton.exitButton.MenuExitButton;
 import window.screen.menuScreen.menuButton.startButton.MenuStartButton;
@@ -13,8 +15,10 @@ import java.awt.event.ComponentEvent;
 public class MenuScreen extends JPanel {
 
     JLayeredPane menuLayer;
+    MainScreen mainScreen;
 
-    public MenuScreen() {
+    public MenuScreen(MainScreen mainScreen) {
+        this.mainScreen = mainScreen;
         menuLayer = new JLayeredPane();
         setLayout(new BorderLayout());
         add(menuLayer, BorderLayout.CENTER);
@@ -22,7 +26,7 @@ public class MenuScreen extends JPanel {
         Background background = new Background();
         menuLayer.add(background, JLayeredPane.DEFAULT_LAYER);
 
-        MenuStartButton startButton = new MenuStartButton();
+        MenuStartButton startButton = new MenuStartButton(this.mainScreen);
         menuLayer.add(startButton, JLayeredPane.PALETTE_LAYER);
 
         MenuExitButton exitButton = new MenuExitButton();
