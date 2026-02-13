@@ -17,12 +17,6 @@ public class MainWindow extends JFrame {
         JLayeredPane layer = getLayeredPane();
         layer.setLayout(null);
 
-        JButton exit = new JButton("exit");
-        exit.addActionListener(e -> System.exit(0));
-        exit.setBounds(10,10,60,30);
-        exit.setFocusable(false);
-        layer.add(exit, JLayeredPane.DEFAULT_LAYER);
-
         MainScreen mainScreen = new MainScreen();
         add(mainScreen, BorderLayout.CENTER);
 
