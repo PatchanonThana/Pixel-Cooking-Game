@@ -1,4 +1,16 @@
 package window.screen.menuScreen;
 
-public class MenuScreen {
+import javax.swing.*;
+
+
+public class MenuScreen extends JPanel{
+
+    JLayeredPane menuLayer;
+
+    public MenuScreen() {
+        menuLayer = new JLayeredPane();
+        setLayout(null);
+
+    }
+
 }
