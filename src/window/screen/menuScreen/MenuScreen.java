@@ -1,5 +1,6 @@
 package window.screen.menuScreen;
 
+import window.screen.menuScreen.background.Background;
 import window.screen.menuScreen.menuButton.exitButton.MenuExitButton;
 import window.screen.menuScreen.menuButton.startButton.MenuStartButton;
 
@@ -17,6 +18,9 @@ public class MenuScreen extends JPanel {
         menuLayer = new JLayeredPane();
         setLayout(new BorderLayout());
         add(menuLayer, BorderLayout.CENTER);
+
+        Background background = new Background();
+        menuLayer.add(background, JLayeredPane.DEFAULT_LAYER);
 
         MenuStartButton startButton = new MenuStartButton();
         menuLayer.add(startButton, JLayeredPane.PALETTE_LAYER);
