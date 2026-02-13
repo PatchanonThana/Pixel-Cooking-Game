@@ -9,9 +9,14 @@ import java.awt.*;
 public class MenuStartButton extends JButton implements MenuListener {
 
     final private Dimension thisSize = new Dimension(100,30);
+    MenuStartButtonListener startButtonListener;
 
-    public MenuStartButton(){
+    public MenuStartButton(MenuStartButtonListener startButtonListener){
+        this.startButtonListener = startButtonListener;
         setText("start");
+        addActionListener(e ->
+                this.startButtonListener.menuStartButtonClicked()
+        );
     }
 
     @Override
