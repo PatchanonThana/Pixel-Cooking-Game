@@ -9,16 +9,17 @@ import java.awt.*;
 public class MenuExitButton extends JButton implements MenuListener {
 
     final private Dimension thisSize = new Dimension(100,30);
+    private final ExitButtonSoundListener exitButtonSoundListener;
 
-    public MenuExitButton() {
-
+    public MenuExitButton(ExitButtonSoundListener exitButtonSoundListener) {
+        this.exitButtonSoundListener = exitButtonSoundListener;
         setText("exit");
 
         ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
 
         addActionListener(e -> {
             buttonSoundPlayer.playSound();
-            System.exit(0);
+            this.exitButtonSoundListener.exitButtonClicked();
 
         });
 
