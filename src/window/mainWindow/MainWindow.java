@@ -2,6 +2,7 @@ package window.mainWindow;
 
 import app.Main;
 import window.screen.mainScreen.MainScreen;
+import window.soundPlayer.bgmPlayer.BGMPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,8 +21,6 @@ public class MainWindow extends JFrame {
 
         MainScreen mainScreen = new MainScreen();
         add(mainScreen, BorderLayout.CENTER);
-
-
         setVisible(true);
     }
 }
