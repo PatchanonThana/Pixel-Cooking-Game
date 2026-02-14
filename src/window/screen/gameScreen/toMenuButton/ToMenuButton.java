@@ -1,5 +1,6 @@
 package window.screen.gameScreen.toMenuButton;
 
+import window.buttonSoundPlayer.ButtonSoundPlayer;
 import window.screen.gameScreen.GameScreen;
 import window.screen.gameScreen.GameScreenListener;
 
@@ -14,7 +15,14 @@ public class ToMenuButton extends JButton implements GameScreenListener {
     public ToMenuButton(ToMenuButtonListener toMenuButtonListener) {
         this.toMenuButtonListener = toMenuButtonListener;
         setText("to menu");
-        addActionListener(e -> this.toMenuButtonListener.gameToMenuButtonClicked());
+
+        ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
+
+        addActionListener(e -> {
+            this.toMenuButtonListener.gameToMenuButtonClicked();
+            buttonSoundPlayer.playSound();
+        }
+        );
     }
 
     @Override
