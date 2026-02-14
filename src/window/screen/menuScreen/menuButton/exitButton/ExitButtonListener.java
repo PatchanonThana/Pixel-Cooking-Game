@@ -1,5 +1,5 @@
 package window.screen.menuScreen.menuButton.exitButton;
 
-public interface ExitButtonSoundListener {
+public interface ExitButtonListener {
     void exitButtonClicked();
 }

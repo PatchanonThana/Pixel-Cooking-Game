@@ -8,10 +8,12 @@ import java.util.Objects;
 
 public class BGMPlayer {
 
+    private Clip clip;
+
     public BGMPlayer() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResource("BGM.wav")));
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
 
@@ -21,6 +23,14 @@ public class BGMPlayer {
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void stop() {
+        if (clip != null) {
+            clip.stop();
+            clip.flush();
+            clip.close();
         }
     }
 }

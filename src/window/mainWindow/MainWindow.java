@@ -1,16 +1,12 @@
 package window.mainWindow;
 
-import app.Main;
 import window.screen.mainScreen.MainScreen;
-import window.screen.menuScreen.menuButton.exitButton.ExitButtonSoundListener;
-import window.soundPlayer.bgmPlayer.BGMPlayer;
+import window.screen.menuScreen.menuButton.exitButton.ExitButtonListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
-public class MainWindow extends JFrame implements ExitButtonSoundListener {
+public class MainWindow extends JFrame implements ExitButtonListener {
     public MainWindow() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setUndecorated(true);
