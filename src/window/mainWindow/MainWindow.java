@@ -2,6 +2,7 @@ package window.mainWindow;
 
 import app.Main;
 import window.screen.mainScreen.MainScreen;
+import window.screen.menuScreen.menuButton.exitButton.ExitButtonSoundListener;
 import window.soundPlayer.bgmPlayer.BGMPlayer;
 
 import javax.swing.*;
@@ -9,7 +10,7 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements ExitButtonSoundListener {
     public MainWindow() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -19,8 +20,13 @@ public class MainWindow extends JFrame {
         JLayeredPane layer = getLayeredPane();
         layer.setLayout(null);
 
-        MainScreen mainScreen = new MainScreen();
+        MainScreen mainScreen = new MainScreen(this);
         add(mainScreen, BorderLayout.CENTER);
         setVisible(true);
+    }
+
+    @Override
+    public void exitButtonClicked() {
+        this.dispose();
     }
 }

@@ -1,5 +1,6 @@
 package window.screen.mainScreen;
 
+import window.mainWindow.MainWindow;
 import window.screen.gameScreen.GameScreen;
 import window.screen.gameScreen.toMenuButton.ToMenuButton;
 import window.screen.gameScreen.toMenuButton.ToMenuButtonListener;
@@ -13,17 +14,18 @@ import java.awt.*;
 public class MainScreen extends JPanel implements MenuStartButtonListener, ToMenuButtonListener {
 
     CardLayout cardLayout;
+    MainWindow mainWindow;
 
     enum Screen {
         MENU,GAME
     }
 
-    public MainScreen() {
-
+    public MainScreen(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
         cardLayout = new CardLayout();
         setLayout(cardLayout);
 
-        MenuScreen menuScreen = new MenuScreen(this);
+        MenuScreen menuScreen = new MenuScreen(this,mainWindow);
         add(menuScreen, Screen.MENU.name());
 
         GameScreen gameScreen = new GameScreen(this);
