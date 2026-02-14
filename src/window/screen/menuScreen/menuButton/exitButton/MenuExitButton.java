@@ -1,6 +1,7 @@
 package window.screen.menuScreen.menuButton.exitButton;
 
 import window.screen.menuScreen.MenuListener;
+import window.soundPlayer.buttonSoundPlayer.ButtonSoundPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,14 @@ public class MenuExitButton extends JButton implements MenuListener {
     public MenuExitButton() {
 
         setText("exit");
-        addActionListener(e -> System.exit(0));
+
+        ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
+
+        addActionListener(e -> {
+            buttonSoundPlayer.playSound();
+            System.exit(0);
+
+        });
 
     }
 
