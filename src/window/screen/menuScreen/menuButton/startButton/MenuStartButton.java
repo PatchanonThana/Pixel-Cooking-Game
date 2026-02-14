@@ -21,8 +21,8 @@ public class MenuStartButton extends JButton implements MenuListener {
         ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
 
         addActionListener(e -> {
-                    this.startButtonListener.menuStartButtonClicked();
                     buttonSoundPlayer.playSound();
+                    this.startButtonListener.menuStartButtonClicked();
                 }
         );
     }

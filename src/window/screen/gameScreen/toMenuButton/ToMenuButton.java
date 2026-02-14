@@ -18,8 +18,8 @@ public class ToMenuButton extends JButton implements GameScreenListener {
         ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
 
         addActionListener(e -> {
-            this.toMenuButtonListener.gameToMenuButtonClicked();
             buttonSoundPlayer.playSound();
+            this.toMenuButtonListener.gameToMenuButtonClicked();
         }
         );
     }
