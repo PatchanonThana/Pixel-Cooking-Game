@@ -10,17 +10,17 @@ import java.util.List;
 public class MenuExitButton extends JButton implements MenuListener {
 
     final private Dimension thisSize = new Dimension(100,30);
-    private final List<ExitButtonSoundListener> exitButtonSoundListeners;
+    private final List<ExitButtonListener> exitButtonListeners;
 
-    public MenuExitButton(List<ExitButtonSoundListener> exitButtonSoundListener) {
-        this.exitButtonSoundListeners = exitButtonSoundListener;
+    public MenuExitButton(List<ExitButtonListener> exitButtonSoundListener) {
+        this.exitButtonListeners = exitButtonSoundListener;
         setText("exit");
 
         ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
 
         addActionListener(e -> {
             buttonSoundPlayer.playSound();
-            for (ExitButtonSoundListener listener : this.exitButtonSoundListeners) {
+            for (ExitButtonListener listener : this.exitButtonListeners) {
                 listener.exitButtonClicked();
             }
 

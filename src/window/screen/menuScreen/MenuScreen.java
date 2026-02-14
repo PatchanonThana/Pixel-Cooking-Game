@@ -3,7 +3,7 @@ package window.screen.menuScreen;
 import window.mainWindow.MainWindow;
 import window.screen.mainScreen.MainScreen;
 import window.screen.menuScreen.background.Background;
-import window.screen.menuScreen.menuButton.exitButton.ExitButtonSoundListener;
+import window.screen.menuScreen.menuButton.exitButton.ExitButtonListener;
 import window.screen.menuScreen.menuButton.exitButton.MenuExitButton;
 import window.screen.menuScreen.menuButton.startButton.MenuStartButton;
 
@@ -34,7 +34,7 @@ public class MenuScreen extends JPanel {
         MenuStartButton startButton = new MenuStartButton(this.mainScreen);
         menuLayer.add(startButton, JLayeredPane.PALETTE_LAYER);
 
-        List<ExitButtonSoundListener> exitButtonListeners = new ArrayList<>();
+        List<ExitButtonListener> exitButtonListeners = new ArrayList<>();
         exitButtonListeners.add(mainScreen);
         exitButtonListeners.add(mainWindow);
 

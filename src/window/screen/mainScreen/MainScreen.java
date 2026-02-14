@@ -2,17 +2,16 @@ package window.screen.mainScreen;
 
 import window.mainWindow.MainWindow;
 import window.screen.gameScreen.GameScreen;
-import window.screen.gameScreen.toMenuButton.ToMenuButton;
 import window.screen.gameScreen.toMenuButton.ToMenuButtonListener;
 import window.screen.menuScreen.MenuScreen;
-import window.screen.menuScreen.menuButton.exitButton.ExitButtonSoundListener;
+import window.screen.menuScreen.menuButton.exitButton.ExitButtonListener;
 import window.screen.menuScreen.menuButton.startButton.MenuStartButtonListener;
 import window.soundPlayer.bgmPlayer.BGMPlayer;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MainScreen extends JPanel implements MenuStartButtonListener, ToMenuButtonListener, ExitButtonSoundListener {
+public class MainScreen extends JPanel implements MenuStartButtonListener, ToMenuButtonListener, ExitButtonListener {
 
     CardLayout cardLayout;
     MainWindow mainWindow;
