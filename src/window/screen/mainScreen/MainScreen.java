@@ -5,6 +5,7 @@ import window.screen.gameScreen.toMenuButton.ToMenuButton;
 import window.screen.gameScreen.toMenuButton.ToMenuButtonListener;
 import window.screen.menuScreen.MenuScreen;
 import window.screen.menuScreen.menuButton.startButton.MenuStartButtonListener;
+import window.soundPlayer.bgmPlayer.BGMPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +28,8 @@ public class MainScreen extends JPanel implements MenuStartButtonListener, ToMen
 
         GameScreen gameScreen = new GameScreen(this);
         add(gameScreen, Screen.GAME.name());
+
+        BGMPlayer bgm = new BGMPlayer();
 
         cardLayout.show(this,Screen.MENU.name());
 

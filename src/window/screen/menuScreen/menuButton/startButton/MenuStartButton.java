@@ -1,12 +1,10 @@
 package window.screen.menuScreen.menuButton.startButton;
 
-import window.buttonSoundPlayer.ButtonSoundPlayer;
+import window.soundPlayer.buttonSoundPlayer.ButtonSoundPlayer;
 import window.screen.menuScreen.MenuListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.util.Objects;
 import javax.sound.sampled.*;
 
 

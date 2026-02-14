@@ -1,7 +1,6 @@
 package window.screen.gameScreen.toMenuButton;
 
-import window.buttonSoundPlayer.ButtonSoundPlayer;
-import window.screen.gameScreen.GameScreen;
+import window.soundPlayer.buttonSoundPlayer.ButtonSoundPlayer;
 import window.screen.gameScreen.GameScreenListener;
 
 import javax.swing.*;
