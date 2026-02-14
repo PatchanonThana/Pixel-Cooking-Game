@@ -5,21 +5,24 @@ import window.soundPlayer.buttonSoundPlayer.ButtonSoundPlayer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class MenuExitButton extends JButton implements MenuListener {
 
     final private Dimension thisSize = new Dimension(100,30);
-    private final ExitButtonSoundListener exitButtonSoundListener;
+    private final List<ExitButtonSoundListener> exitButtonSoundListeners;
 
-    public MenuExitButton(ExitButtonSoundListener exitButtonSoundListener) {
-        this.exitButtonSoundListener = exitButtonSoundListener;
+    public MenuExitButton(List<ExitButtonSoundListener> exitButtonSoundListener) {
+        this.exitButtonSoundListeners = exitButtonSoundListener;
         setText("exit");
 
         ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
 
         addActionListener(e -> {
             buttonSoundPlayer.playSound();
-            this.exitButtonSoundListener.exitButtonClicked();
+            for (ExitButtonSoundListener listener : this.exitButtonSoundListeners) {
+                listener.exitButtonClicked();
+            }
 
         });
 
