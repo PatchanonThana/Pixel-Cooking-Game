@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import javax.sound.sampled.*;
 
+import static java.awt.Cursor.HAND_CURSOR;
+
 
 public class MenuStartButton extends JButton implements MenuListener {
 
@@ -17,6 +19,7 @@ public class MenuStartButton extends JButton implements MenuListener {
     public MenuStartButton(MenuStartButtonListener startButtonListener){
         this.startButtonListener = startButtonListener;
         setText("start");
+        setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
 
         ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
 

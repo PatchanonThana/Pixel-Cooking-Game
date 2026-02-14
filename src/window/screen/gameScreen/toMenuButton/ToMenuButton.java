@@ -6,6 +6,8 @@ import window.screen.gameScreen.GameScreenListener;
 import javax.swing.*;
 import java.awt.*;
 
+import static java.awt.Cursor.HAND_CURSOR;
+
 public class ToMenuButton extends JButton implements GameScreenListener {
 
     final private Dimension thisSize = new Dimension(100,30);
@@ -14,6 +16,7 @@ public class ToMenuButton extends JButton implements GameScreenListener {
     public ToMenuButton(ToMenuButtonListener toMenuButtonListener) {
         this.toMenuButtonListener = toMenuButtonListener;
         setText("to menu");
+        setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
 
         ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
 
