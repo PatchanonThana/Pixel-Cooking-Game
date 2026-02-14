@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+import static java.awt.Cursor.HAND_CURSOR;
+
 public class MenuExitButton extends JButton implements MenuListener {
 
     final private Dimension thisSize = new Dimension(100,30);
@@ -15,6 +17,7 @@ public class MenuExitButton extends JButton implements MenuListener {
     public MenuExitButton(List<ExitButtonListener> exitButtonSoundListener) {
         this.exitButtonListeners = exitButtonSoundListener;
         setText("exit");
+        setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
 
         ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
 
