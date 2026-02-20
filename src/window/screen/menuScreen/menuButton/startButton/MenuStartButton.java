@@ -5,6 +5,7 @@ import window.screen.menuScreen.MenuListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 import javax.sound.sampled.*;
 
 import static java.awt.Cursor.HAND_CURSOR;
@@ -12,14 +13,25 @@ import static java.awt.Cursor.HAND_CURSOR;
 
 public class MenuStartButton extends JButton implements MenuListener {
 
-    final private Dimension thisSize = new Dimension(100,30);
+    final private Dimension thisSize = new Dimension(300,100);
     MenuStartButtonListener startButtonListener;
     private Clip clip;
 
     public MenuStartButton(MenuStartButtonListener startButtonListener){
         this.startButtonListener = startButtonListener;
-        setText("start");
         setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+
+        ImageIcon rawStart = new ImageIcon(Objects.requireNonNull(getClass().getResource(
+                "/window/screen/menuScreen/menuButton/startButton/startImage/startbutton.png"
+                        )));
+        Image scaledStart = rawStart.getImage().getScaledInstance(thisSize.width, thisSize.height, Image.SCALE_SMOOTH);
+        Icon startImage = new ImageIcon(scaledStart);
+        setIcon(startImage);
+
+        setFocusPainted(false);
+        setBorderPainted(false);
+        setContentAreaFilled(false);
+        setOpaque(false);
 
         ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
 
