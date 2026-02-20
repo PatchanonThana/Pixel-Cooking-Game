@@ -13,7 +13,7 @@ import static java.awt.Cursor.HAND_CURSOR;
 
 public class MenuStartButton extends JButton implements MenuListener {
 
-    final private Dimension thisSize = new Dimension(130,50);
+    final private Dimension thisSize = new Dimension(300,100);
     MenuStartButtonListener startButtonListener;
     private Clip clip;
 

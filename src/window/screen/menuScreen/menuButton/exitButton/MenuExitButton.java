@@ -12,7 +12,7 @@ import static java.awt.Cursor.HAND_CURSOR;
 
 public class MenuExitButton extends JButton implements MenuListener {
 
-    final private Dimension thisSize = new Dimension(130,50);
+    final private Dimension thisSize = new Dimension(325,110);
     private final List<ExitButtonListener> exitButtonListeners;
 
     public MenuExitButton(List<ExitButtonListener> exitButtonSoundListener) {
