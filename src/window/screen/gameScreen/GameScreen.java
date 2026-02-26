@@ -1,6 +1,7 @@
 package window.screen.gameScreen;
 
 import window.screen.gameScreen.backgrond.Background;
+import window.screen.gameScreen.customer.Customer;
 import window.screen.gameScreen.toMenuButton.ToMenuButton;
 import window.screen.mainScreen.MainScreen;
 import window.screen.menuScreen.MenuListener;
@@ -14,6 +15,7 @@ public class GameScreen extends JPanel{
 
     JLayeredPane gameLayer;
     MainScreen mainScreen;
+    private Customer currentCustomer;
 
     public GameScreen(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
@@ -21,6 +23,9 @@ public class GameScreen extends JPanel{
         gameLayer.setLayout(null);
         setLayout(new BorderLayout());
         add(gameLayer, BorderLayout.CENTER);
+        currentCustomer = new Customer(400, 300);
+        gameLayer.add(currentCustomer, JLayeredPane.MODAL_LAYER);
+
 
         Background background = new Background();
         gameLayer.add(background, JLayeredPane.DEFAULT_LAYER);
