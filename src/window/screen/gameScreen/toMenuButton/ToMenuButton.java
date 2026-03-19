@@ -5,6 +5,7 @@ import window.screen.gameScreen.GameScreenListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 import static java.awt.Cursor.HAND_CURSOR;
 
@@ -15,8 +16,26 @@ public class ToMenuButton extends JButton implements GameScreenListener {
 
     public ToMenuButton(ToMenuButtonListener toMenuButtonListener) {
         this.toMenuButtonListener = toMenuButtonListener;
-        setText("to menu");
         setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+
+        ImageIcon rawBack = new ImageIcon(Objects.requireNonNull(getClass().getResource(
+                "/window/screen/gameScreen/toMenuButton/toMenuImage/Backbutton.png"
+        )));
+        Image scaledBack = rawBack.getImage().getScaledInstance(thisSize.width,thisSize.height,Image.SCALE_DEFAULT);
+        Icon back = new ImageIcon(scaledBack);
+        setIcon(back);
+
+        ImageIcon rawHoverBack = new ImageIcon(Objects.requireNonNull(getClass().getResource(
+                "/window/screen/gameScreen/toMenuButton/toMenuImage/Backbutton-Hover (1).png"
+        )));
+        Image scaledHoverBack = rawHoverBack.getImage().getScaledInstance(thisSize.width,thisSize.height,Image.SCALE_DEFAULT);
+        Icon hoverBack = new ImageIcon(scaledHoverBack);
+        setRolloverIcon(hoverBack);
+
+        setFocusPainted(false);
+        setBorderPainted(false);
+        setContentAreaFilled(false);
+        setOpaque(false);
 
         ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
 
