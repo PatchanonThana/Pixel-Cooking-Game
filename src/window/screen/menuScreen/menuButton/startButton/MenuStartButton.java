@@ -15,7 +15,6 @@ public class MenuStartButton extends JButton implements MenuListener {
 
     final private Dimension thisSize = new Dimension(300,100);
     MenuStartButtonListener startButtonListener;
-    private Clip clip;
 
     public MenuStartButton(MenuStartButtonListener startButtonListener){
         this.startButtonListener = startButtonListener;
@@ -27,6 +26,16 @@ public class MenuStartButton extends JButton implements MenuListener {
         Image scaledStart = rawStart.getImage().getScaledInstance(thisSize.width, thisSize.height, Image.SCALE_SMOOTH);
         Icon startImage = new ImageIcon(scaledStart);
         setIcon(startImage);
+
+        ImageIcon rawHoverStart = new ImageIcon(
+                Objects.requireNonNull(getClass().getResource(
+                    "/window/screen/menuScreen/menuButton/startButton/startImage/Startbutton-hover.png"
+                ))
+        );
+        Image scaledHoverStart = rawHoverStart.getImage().getScaledInstance(thisSize.width,thisSize.height,Image.SCALE_SMOOTH);
+        Icon hoverStart = new ImageIcon(scaledHoverStart);
+        setRolloverIcon(hoverStart);
+
 
         setFocusPainted(false);
         setBorderPainted(false);
