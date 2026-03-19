@@ -26,6 +26,13 @@ public class MenuExitButton extends JButton implements MenuListener {
         Icon exitImage = new ImageIcon(scaledExit);
         setIcon(exitImage);
 
+        ImageIcon rawHoverExit = new ImageIcon(Objects.requireNonNull(getClass().getResource(
+                "/window/screen/menuScreen/menuButton/exitButton/exitImage/Quitbutton-Hover.png"
+        )));
+        Image scaledHoverExit = rawHoverExit.getImage().getScaledInstance(thisSize.width,thisSize.height,Image.SCALE_DEFAULT);
+        Icon hoverExit = new ImageIcon(scaledHoverExit);
+        setRolloverIcon(hoverExit);
+
 
         setBorderPainted(false);
         setContentAreaFilled(false);
