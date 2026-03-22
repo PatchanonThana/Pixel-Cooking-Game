@@ -8,7 +8,7 @@ public class Pot extends JComponent {
     private Rectangle potZone;
 
     public Pot() {
-        potZone = new Rectangle(635,510,200,100);
+        potZone = new Rectangle(700,685,150,50);
     }
 
     public Rectangle getPotZone(){
