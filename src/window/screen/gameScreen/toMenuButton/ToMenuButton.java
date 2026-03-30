@@ -11,7 +11,7 @@ import static java.awt.Cursor.HAND_CURSOR;
 
 public class ToMenuButton extends JButton implements GameScreenListener {
 
-    final private Dimension thisSize = new Dimension(100,30);
+    final private Dimension thisSize = new Dimension(150,50);
     final private ToMenuButtonListener toMenuButtonListener;
 
     public ToMenuButton(ToMenuButtonListener toMenuButtonListener) {
@@ -19,14 +19,14 @@ public class ToMenuButton extends JButton implements GameScreenListener {
         setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
 
         ImageIcon rawBack = new ImageIcon(Objects.requireNonNull(getClass().getResource(
-                "/window/screen/gameScreen/toMenuButton/toMenuImage/Backbutton.png"
+                "/window/screen/gameScreen/toMenuButton/toMenuImage/backbutton.png"
         )));
         Image scaledBack = rawBack.getImage().getScaledInstance(thisSize.width,thisSize.height,Image.SCALE_DEFAULT);
         Icon back = new ImageIcon(scaledBack);
         setIcon(back);
 
         ImageIcon rawHoverBack = new ImageIcon(Objects.requireNonNull(getClass().getResource(
-                "/window/screen/gameScreen/toMenuButton/toMenuImage/Backbutton-Hover (1).png"
+                "/window/screen/gameScreen/toMenuButton/toMenuImage/backbutton-Hover.png"
         )));
         Image scaledHoverBack = rawHoverBack.getImage().getScaledInstance(thisSize.width,thisSize.height,Image.SCALE_DEFAULT);
         Icon hoverBack = new ImageIcon(scaledHoverBack);
@@ -50,7 +50,7 @@ public class ToMenuButton extends JButton implements GameScreenListener {
     public void gameScreenResized(Dimension size) {
         setBounds(
                 30,
-                50,
+                30,
                 thisSize.width,
                 thisSize.height
         );

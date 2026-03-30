@@ -15,7 +15,7 @@ public class Background extends JPanel implements MenuListener {
     public Background() {
         setBackground(Color.GRAY);
         backgroundImage = new ImageIcon(Objects.requireNonNull(getClass().getResource(
-                "/window/screen/screenImage/Mainscreen.png"
+                "/window/screen/menuScreen/background/Mainscreen.png"
         ))).getImage();
     }
 

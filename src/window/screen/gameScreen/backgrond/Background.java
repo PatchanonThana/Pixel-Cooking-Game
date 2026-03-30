@@ -13,7 +13,7 @@ public class Background extends JPanel implements GameScreenListener {
 
     public  Background() {
         backgroundImg = new ImageIcon(Objects.requireNonNull(getClass().getResource(
-                "/window/screen/screenImage/Mainscreen.png"))
+                "/window/screen/gameScreen/backgrond/Mainscreen.png"))
         ).getImage();
     }
 
