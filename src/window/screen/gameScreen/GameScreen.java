@@ -6,6 +6,7 @@ import window.screen.gameScreen.ingredient.Ingredient;
 import window.screen.gameScreen.pot.Pot;
 import window.screen.gameScreen.toMenuButton.ToMenuButton;
 import window.screen.mainScreen.MainScreen;
+import window.screen.gameScreen.customer.Customer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,7 @@ public class GameScreen extends JPanel{
     MainScreen mainScreen;
     Pot pot = new Pot();
     CutBoard cutBoard = new CutBoard();
+    Customer currentCustomer;
 
     public GameScreen(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
@@ -31,6 +33,9 @@ public class GameScreen extends JPanel{
 
         ToMenuButton toMenuButton = new ToMenuButton(mainScreen);
         gameLayer.add(toMenuButton, JLayeredPane.PALETTE_LAYER);
+
+        currentCustomer = new Customer(700, 220, 500, 600);
+        gameLayer.add(currentCustomer, JLayeredPane.PALETTE_LAYER);
 
         gameLayer.add(pot,JLayeredPane.POPUP_LAYER);
         Ingredient Oil = new Ingredient("/equipment/oil.png", 1270,490,18,38,pot);
