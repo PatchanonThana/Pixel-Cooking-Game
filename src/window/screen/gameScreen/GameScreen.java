@@ -2,6 +2,7 @@ package window.screen.gameScreen;
 
 import window.screen.gameScreen.CutBoard.CutBoard;
 import window.screen.gameScreen.backgrond.Background;
+import window.screen.gameScreen.ingredient.Dough;
 import window.screen.gameScreen.ingredient.Ingredient;
 import window.screen.gameScreen.pot.Pot;
 import window.screen.gameScreen.toMenuButton.ToMenuButton;
@@ -57,8 +58,8 @@ public class GameScreen extends JPanel{
         Ingredient PalmSugar = new Ingredient("/equipment/palmsugar.png", 535,670,11,9,pot);
         gameLayer.add(PalmSugar , JLayeredPane.DRAG_LAYER);
 
-        Ingredient Dough = new Ingredient("/dessert/dough.png", 950 , 700,15,9,pot,cutBoard);
-        gameLayer.add(Dough, JLayeredPane.DRAG_LAYER);
+        Dough dough = new Dough(950 , 700,pot,cutBoard);
+        gameLayer.add(dough, JLayeredPane.DRAG_LAYER);
 
 
         addComponentListener(new ComponentAdapter() {
