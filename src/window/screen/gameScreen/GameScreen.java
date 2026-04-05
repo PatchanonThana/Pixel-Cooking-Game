@@ -69,8 +69,6 @@ public class GameScreen extends JPanel{
             @Override
             public void componentResized(ComponentEvent e) {
                 gameLayer.setBounds(0, 0, getWidth(), getHeight());
-                System.out.println("width: " + getWidth());
-                System.out.println("height: " + getHeight());
                 for (Component c : gameLayer.getComponents()) {
                     if (c instanceof GameScreenListener r) {
                         r.gameScreenResized(gameLayer.getSize());
