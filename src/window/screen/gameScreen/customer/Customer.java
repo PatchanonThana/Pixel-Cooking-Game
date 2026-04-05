@@ -1,5 +1,6 @@
 package window.screen.gameScreen.customer;
 
+import window.screen.gameScreen.GameScreenListener;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -7,15 +8,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 
-public class Customer extends JComponent {
+public class Customer extends JComponent implements GameScreenListener {
 
     private Image customerImage;
     private Image chatImage;
     private String currentOrder;
 
     private final String[] menuItems = {"ขนมวง", "ขนมเทียน", "ขนมแคบ"};
+    private final int frameWidth = 700;
+    private final int frameHeight = 460;
 
-    public Customer(int startX, int startY, int width, int height) {
+    public Customer() {
         Random random = new Random();
         int menuIndex = random.nextInt(menuItems.length);
         this.currentOrder = menuItems[menuIndex];
@@ -43,7 +46,6 @@ public class Customer extends JComponent {
             e.printStackTrace();
         }
 
-        setBounds(startX, startY, width, height);
         setOpaque(false);
     }
 
@@ -53,31 +55,51 @@ public class Customer extends JComponent {
     }
 
     @Override
+    public void gameScreenResized(Dimension size) {
+        //ตำแหน่งตัวละคร
+        int responsiveX = (int) (size.width * 0.40);
+        int responsiveY = (int) (size.height * 0.28);
+
+        setBounds(responsiveX, responsiveY, frameWidth, frameHeight);
+    }
+
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        //วาดรูปลูกค้าแบบล็อคขนาด
         if (customerImage != null) {
-            g.drawImage(customerImage, 0, 60, getWidth() - 80, getHeight() - 60, this);
+            int fixedCharWidth = 400;
+            int fixedCharHeight = 500;
+            g.drawImage(customerImage, 0, 60, fixedCharWidth, fixedCharHeight, this);
         }
 
+        //วาดกล่องข้อความ
         if (chatImage != null) {
-            int chatWidth = 300;
-            int chatHeight = 210;
-
-            int chatX = 217;
-            int chatY = 30;
+            int chatWidth = 400;
+            int chatHeight = 280;
+            //ตำแหน่งกล่อง
+            int chatX = 250;
+            int chatY = 0;
 
             g.drawImage(chatImage, chatX, chatY, chatWidth, chatHeight, this);
 
             g.setColor(Color.BLACK);
-            g.setFont(new Font("Tahoma", Font.BOLD, 35));
+            g.setFont(new Font("Tahoma", Font.BOLD, 24));
 
+            String fullText = "ขอสั่งเมนู(" + currentOrder + ")";
             FontMetrics metrics = g.getFontMetrics(g.getFont());
-            int textWidth = metrics.stringWidth(currentOrder);
-            int textX = chatX + (chatWidth - textWidth) / 2 + 10;
+            int textWidth = metrics.stringWidth(fullText);
+
+            int textX = chatX + ((chatWidth - textWidth) / 2) + 15;
             int textY = chatY + ((chatHeight - metrics.getHeight()) / 2) + metrics.getAscent() - 20;
 
-            g.drawString(currentOrder, textX, textY);
+            g.drawString(fullText, textX, textY);
         }
     }
 }
+
+
+
+
+
