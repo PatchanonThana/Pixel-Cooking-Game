@@ -1,5 +1,6 @@
 package window.screen.gameScreen.ingredient;
-import window.screen.gameScreen.CutBoard.CutBoard;
+import window.screen.gameScreen.cutBoard.CutBoard;
+import window.screen.gameScreen.GameScreenListener;
 import window.screen.gameScreen.pot.Pot;
 
 import javax.imageio.ImageIO;
@@ -10,11 +11,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 
-import java.io.File;
+
 import java.io.IOException;
 
-public class Ingredient extends JComponent {
+public class Ingredient extends JComponent implements GameScreenListener {
     private String filename;
+    private double relX , relY;
     private int startX, startY;
     private int width, height;
     BufferedImage IngredientImage;
@@ -22,13 +24,14 @@ public class Ingredient extends JComponent {
     Point imageCorner;
     Point pressedPoint;
     int scale = 5;
-    private Pot pot;
-    private  CutBoard cutBoard;
+    protected Pot pot;
+    protected   CutBoard cutBoard;
 
-    public Ingredient(String filename, int startX, int startY, int width, int height, Pot pot) {
+    public Ingredient(String filename, double relX, double relY, int width, int height, Pot pot) {
         this.filename = filename;
-        this.startX = startX;
-        this.startY = startY;
+        this.relX = relX;
+        this.relY = relY;
+
         this.isVisible = true;
         setOpaque(false);
         this.width = width*scale;
@@ -43,7 +46,7 @@ public class Ingredient extends JComponent {
             e.printStackTrace();
         }
         //ตั้งค่าตำแหน่งรุปบนจอหลัก
-        setBounds(startX,startY,this.width,this.height);
+        setBounds(0,0,this.width,this.height);
 
         imageCorner = new Point(0,0);
         ClickListener clickListener = new ClickListener();
@@ -52,10 +55,11 @@ public class Ingredient extends JComponent {
         this.addMouseMotionListener(dragListener);
     }
 
-    public Ingredient(String filename, int startX, int startY, int width, int height, Pot pot , CutBoard cutBoard) {
+    public Ingredient(String filename, double relX,double relY, int width, int height, Pot pot , CutBoard cutBoard) {
         this.filename = filename;
-        this.startX = startX;
-        this.startY = startY;
+        this.relX = relX;
+        this.relY = relY;
+
         this.isVisible = true;
         setOpaque(false);
         this.width = width*scale;
@@ -81,12 +85,19 @@ public class Ingredient extends JComponent {
     }
 
 
+
+
     private class ClickListener extends MouseAdapter{
         public void mousePressed(MouseEvent e){
             pressedPoint = e.getPoint();
+
+            if(SwingUtilities.isRightMouseButton(e)){
+                OnRightClick();
+            }
         }
         public void mouseReleased(MouseEvent e){
             Rectangle ingredientRect = new Rectangle(getLocation().x, getLocation().y, getWidth(), getHeight());
+
             boolean onPot = (pot != null) && pot.getPotZone().intersects(ingredientRect);
             boolean onBoard = (cutBoard != null) && cutBoard.getBoardZone().intersects(ingredientRect);
             if (!onPot && !onBoard){
@@ -95,7 +106,9 @@ public class Ingredient extends JComponent {
 
 
         }
+
     }
+    protected void OnRightClick(){}
 
 
 
@@ -115,6 +128,12 @@ public class Ingredient extends JComponent {
         }
 
 
+    }
+    @Override
+    public void gameScreenResized(Dimension size){
+        startX = (int)(size.width * relX);
+        startY = (int)(size.height * relY);
+        setLocation(startX,startY);
     }
 
     @Override
