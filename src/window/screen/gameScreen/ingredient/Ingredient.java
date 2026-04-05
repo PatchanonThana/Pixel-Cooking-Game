@@ -98,12 +98,6 @@ public class Ingredient extends JComponent implements GameScreenListener {
         public void mouseReleased(MouseEvent e){
             Rectangle ingredientRect = new Rectangle(getLocation().x, getLocation().y, getWidth(), getHeight());
 
-            System.out.println("ingredient: " + getLocation());
-            System.out.println("ingredientRect: " + ingredientRect);
-            System.out.println("cutBoard: " + cutBoard);
-            System.out.println("boardZone: " + (cutBoard != null ? cutBoard.getBoardZone() : "null"));
-            System.out.println("onBoard: " + ((cutBoard != null) && cutBoard.getBoardZone().intersects(ingredientRect)));
-
             boolean onPot = (pot != null) && pot.getPotZone().intersects(ingredientRect);
             boolean onBoard = (cutBoard != null) && cutBoard.getBoardZone().intersects(ingredientRect);
             if (!onPot && !onBoard){
