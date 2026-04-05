@@ -35,12 +35,11 @@ public class GameScreen extends JPanel{
         ToMenuButton toMenuButton = new ToMenuButton(mainScreen);
         gameLayer.add(toMenuButton, JLayeredPane.PALETTE_LAYER);
 
-        currentCustomer = new Customer(700, 220, 500, 600);
+        currentCustomer = new Customer();
         gameLayer.add(currentCustomer, JLayeredPane.PALETTE_LAYER);
 
 
         gameLayer.add(cutBoard,JLayeredPane.POPUP_LAYER);
-        Ingredient Oil = new Ingredient("/equipment/oil.png", 1270,490,18,38,pot);
         gameLayer.add(pot,JLayeredPane.POPUP_LAYER);
 
         Ingredient Oil = new Ingredient("/equipment/oil.png", 0.82,0.56,18,38,pot);
