@@ -65,7 +65,7 @@ public class Customer extends JComponent implements GameScreenListener {
         int responsiveY = (int) (size.height * 0.766) - charH;
 
         //กรอบใสที่ใส่ตัวละครและกล่องข้อความ
-        setBounds(responsiveX, responsiveY, charW + 450, charH - 65);
+        setBounds(responsiveX, responsiveY, (int) (charW * 1.8), (int) (charH * 0.88));
     }
 
     @Override
