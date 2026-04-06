@@ -58,7 +58,7 @@ public class Customer extends JComponent implements GameScreenListener {
     public void gameScreenResized(Dimension size) {
         //ตำแหน่งตัวละคร
         int responsiveX = (int) (size.width * 0.40);
-        int responsiveY = (int) (size.height * 0.30);
+        int responsiveY = (int) (size.height * 0.80) - 542;
 
         setBounds(responsiveX, responsiveY, frameWidth, frameHeight);
     }
