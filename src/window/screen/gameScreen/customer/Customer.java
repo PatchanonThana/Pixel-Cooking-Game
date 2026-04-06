@@ -4,20 +4,20 @@ import window.screen.gameScreen.GameScreenListener;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 
 public class Customer extends JComponent implements GameScreenListener {
 
-    private BufferedImage customerImage;
+    private Image customerImage;
     private Image chatImage;
     private String currentOrder;
 
     private final String[] menuItems = {"ขนมวง", "ขนมเทียน", "ขนมแคบ"};
-    private  int frameWidth;
-    private  int frameHeight;
+
+    private int charW = 450;
+    private int charH = 550;
 
     public Customer() {
         Random random = new Random();
@@ -46,47 +46,44 @@ public class Customer extends JComponent implements GameScreenListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        frameWidth = customerImage.getWidth();
-        frameHeight = customerImage.getHeight();
 
         setOpaque(false);
-        setBounds(0,0,frameWidth * 9,frameHeight * 5);
     }
 
-    // ฟังก์ชันสำหรับส่งค่าเมนูที่ลูกค้าสั่ง
     public String getCurrentOrder() {
         return currentOrder;
     }
 
     @Override
     public void gameScreenResized(Dimension size) {
-        //ตำแหน่งตัวละคร
-        System.out.println("width: " + size.getWidth());
-        System.out.println("height" + size.getHeight());
-        int responsiveX = (int) (size.width * 0.30);
-        int responsiveY = (int) (size.height * 0.17);
+        //ขนาดตัวละคร
+        charH = (int) (size.height * 0.50);
+        charW = (int) (charH * 0.81);
 
-        setLocation(responsiveX,responsiveY);
+        // ตำแหน่งตัวละคร
+        int responsiveX = (int) (size.width * 0.39);
+        int responsiveY = (int) (size.height * 0.766) - charH;
+
+        //กรอบใสที่ใส่ตัวละครและกล่องข้อความ
+        setBounds(responsiveX, responsiveY, charW + 450, charH - 65);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        //วาดรูปลูกค้าแบบล็อคขนาด
         if (customerImage != null) {
-            int fixedCharWidth = customerImage.getWidth();
-            int fixedCharHeight = customerImage.getHeight();
-            g.drawImage(customerImage, 0, 0, fixedCharWidth*6, fixedCharHeight*6, this);
+            //เลื่อนตัวละครลงมาวาดที่Y=50เพื่อเผื่อพื้นที่ด้านบนให้กล่องข้อความ
+            g.drawImage(customerImage, 0, 50, charW, charH, this);
         }
 
-        //วาดกล่องข้อความ
+        // วาดกล่องข้อความ
         if (chatImage != null) {
             int chatWidth = 400;
             int chatHeight = 280;
-            //ตำแหน่งกล่อง
-            int chatX = 250;
-            int chatY = -50;
+
+            int chatX = charW - 80;
+            int chatY = 0;
 
             g.drawImage(chatImage, chatX, chatY, chatWidth, chatHeight, this);
 
@@ -104,8 +101,3 @@ public class Customer extends JComponent implements GameScreenListener {
         }
     }
 }
-
-
-
-
-
