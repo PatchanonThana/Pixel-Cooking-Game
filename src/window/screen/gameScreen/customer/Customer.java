@@ -16,7 +16,7 @@ public class Customer extends JComponent implements GameScreenListener {
 
     private final String[] menuItems = {"ขนมวง", "ขนมเทียน", "ขนมแคบ"};
     private final int frameWidth = 700;
-    private final int frameHeight = 460;
+    private final int frameHeight = 440;
 
     public Customer() {
         Random random = new Random();
@@ -58,7 +58,7 @@ public class Customer extends JComponent implements GameScreenListener {
     public void gameScreenResized(Dimension size) {
         //ตำแหน่งตัวละคร
         int responsiveX = (int) (size.width * 0.40);
-        int responsiveY = (int) (size.height * 0.28);
+        int responsiveY = (int) (size.height * 0.30);
 
         setBounds(responsiveX, responsiveY, frameWidth, frameHeight);
     }
@@ -69,9 +69,9 @@ public class Customer extends JComponent implements GameScreenListener {
 
         //วาดรูปลูกค้าแบบล็อคขนาด
         if (customerImage != null) {
-            int fixedCharWidth = 400;
-            int fixedCharHeight = 500;
-            g.drawImage(customerImage, 0, 60, fixedCharWidth, fixedCharHeight, this);
+            int fixedCharWidth = 450;
+            int fixedCharHeight = 550;
+            g.drawImage(customerImage, 0, 0, fixedCharWidth, fixedCharHeight, this);
         }
 
         //วาดกล่องข้อความ
@@ -80,7 +80,7 @@ public class Customer extends JComponent implements GameScreenListener {
             int chatHeight = 280;
             //ตำแหน่งกล่อง
             int chatX = 250;
-            int chatY = 0;
+            int chatY = -50;
 
             g.drawImage(chatImage, chatX, chatY, chatWidth, chatHeight, this);
 
