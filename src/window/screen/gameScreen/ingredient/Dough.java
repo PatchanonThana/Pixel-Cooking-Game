@@ -10,9 +10,10 @@ import java.awt.event.MouseEvent;
 
 public class Dough extends Ingredient{
     public Dough(Pot pot, CutBoard cutBoard){
-        super("/dessert/dough.png", 0.61 , 0.79,15,9,pot,cutBoard);
+        super("/dessert/dough.png", 0.61 , 0.79,0.009,0.010,pot,cutBoard);
         }
 
+        //ฟังก์ชันคลิกขวาได้ขนมวงที่เขียนoverride
     @Override
     protected void OnRightClick(){
         Container parent = getParent();

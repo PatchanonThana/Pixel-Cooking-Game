@@ -16,9 +16,10 @@ import java.io.IOException;
 
 public class Ingredient extends JComponent implements GameScreenListener {
     private String filename;
-    private double relX , relY;
+    private double relX , relY; //พิกัดจริง
     private int startX, startY;
-    private int width, height;
+    private  int width , height; //พิกัดเริ่ม
+    private double relWidth , relHeight;
     BufferedImage IngredientImage;
     private boolean isVisible;
     Point imageCorner;
@@ -27,15 +28,14 @@ public class Ingredient extends JComponent implements GameScreenListener {
     protected Pot pot;
     protected   CutBoard cutBoard;
 
-    public Ingredient(String filename, double relX, double relY, int width, int height, Pot pot) {
+    public Ingredient(String filename, double relX, double relY, double relWidth, double relHeight, Pot pot) {
         this.filename = filename;
         this.relX = relX;
         this.relY = relY;
-
         this.isVisible = true;
         setOpaque(false);
-        this.width = width*scale;
-        this.height = height*scale;
+        this.relWidth = relWidth * scale;
+        this.relHeight = relHeight * scale;
         this.pot = pot;
 
         //รับไฟล์รูป
@@ -46,8 +46,9 @@ public class Ingredient extends JComponent implements GameScreenListener {
             e.printStackTrace();
         }
         //ตั้งค่าตำแหน่งรุปบนจอหลัก
-        setBounds(0,0,this.width,this.height);
+        setBounds(0,0,0,0);
 
+        //เพิ่มระบบเมาส์และตำแหน่งแรกสำหรับคำนวณ
         imageCorner = new Point(0,0);
         ClickListener clickListener = new ClickListener();
         DragListener dragListener = new DragListener();
@@ -55,33 +56,13 @@ public class Ingredient extends JComponent implements GameScreenListener {
         this.addMouseMotionListener(dragListener);
     }
 
-    public Ingredient(String filename, double relX,double relY, int width, int height, Pot pot , CutBoard cutBoard) {
-        this.filename = filename;
-        this.relX = relX;
-        this.relY = relY;
-
+    //constructor สำหรับวัตถุดิบที่ต้องใช้เขียง
+    public Ingredient(String filename, double relX,double relY, double relWidth, double relHeight, Pot pot , CutBoard cutBoard) {
+        this(filename , relX , relY , relWidth , relHeight , pot);
+        this.cutBoard = cutBoard;
         this.isVisible = true;
         setOpaque(false);
-        this.width = width*scale;
-        this.height = height*scale;
-        this.pot = pot;
-        this.cutBoard = cutBoard;
 
-        //รับไฟล์รูป
-        try {
-            java.net.URL imgUrl = getClass().getResource(filename);
-            IngredientImage = ImageIO.read(imgUrl);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //ตั้งค่าตำแหน่งรุปบนจอหลัก
-        setBounds(startX,startY,this.width,this.height);
-
-        imageCorner = new Point(0,0);
-        ClickListener clickListener = new ClickListener();
-        DragListener dragListener = new DragListener();
-        this.addMouseListener(clickListener);
-        this.addMouseMotionListener(dragListener);
     }
 
 
@@ -95,6 +76,7 @@ public class Ingredient extends JComponent implements GameScreenListener {
                 OnRightClick();
             }
         }
+        //เช็คการปล่อยวัตถุออกจากเมาส์
         public void mouseReleased(MouseEvent e){
             Rectangle ingredientRect = new Rectangle(getLocation().x, getLocation().y, getWidth(), getHeight());
 
@@ -108,12 +90,13 @@ public class Ingredient extends JComponent implements GameScreenListener {
         }
 
     }
+    //เอาไว้ให้เรียกแล้วoverrideอีกที
     protected void OnRightClick(){}
 
 
 
 
-
+    //ลากวัตถุ
     private class DragListener extends MouseMotionAdapter{
         public void mouseDragged(MouseEvent e){
 
@@ -129,13 +112,17 @@ public class Ingredient extends JComponent implements GameScreenListener {
 
 
     }
+    //เพิ่มวัตถุบน gamescreen
     @Override
     public void gameScreenResized(Dimension size){
         startX = (int)(size.width * relX);
         startY = (int)(size.height * relY);
-        setLocation(startX,startY);
+        width = (int)(size.width * relWidth);
+        height = (int)(size.height * relHeight);
+        setBounds(startX , startY , width,height);
     }
 
+    //วาดวัตถุเริ่มต้น
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
