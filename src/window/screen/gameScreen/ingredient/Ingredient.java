@@ -15,6 +15,18 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Ingredient extends JComponent implements GameScreenListener {
+    //add
+    public enum Type {
+        WATER,
+        OIL,
+        FOOD,
+        OTHER
+    }protected Type type = Type.OTHER;
+    public Type getType() {
+        return type;
+    }
+
+
     private String filename;
     private double relX , relY; //พิกัดจริง
     private int startX, startY;
@@ -55,8 +67,14 @@ public class Ingredient extends JComponent implements GameScreenListener {
         this.addMouseListener(clickListener);
         this.addMouseMotionListener(dragListener);
     }
+    //add บอกว่ามันคืออะไร --> ตั้งว่า ingredient นี้เป็น WATER,OIL,FOOD
+    public Ingredient(String filename, double relX, double relY, double relWidth, double relHeight, Pot pot, Type type) {
 
-    //constructor สำหรับวัตถุดิบที่ต้องใช้เขียง
+        this(filename, relX, relY, relWidth, relHeight, pot);
+        this.type = type;
+    }
+
+    //constructor สำหรับวัตถุดิบที่ต้องใช้เขียง --> วัตถุดิบนี้ใช้กับเขียงได้
     public Ingredient(String filename, double relX,double relY, double relWidth, double relHeight, Pot pot , CutBoard cutBoard) {
         this(filename , relX , relY , relWidth , relHeight , pot);
         this.cutBoard = cutBoard;
@@ -82,6 +100,10 @@ public class Ingredient extends JComponent implements GameScreenListener {
 
             boolean onPot = (pot != null) && pot.getPotZone().intersects(ingredientRect);
             boolean onBoard = (cutBoard != null) && cutBoard.getBoardZone().intersects(ingredientRect);
+            //add --> ส่งวัตถุดิบนี้เข้าไปในหม้อ ใน Pot เช็ค เป็น WATER → เปลี่ยนเป็นหม้อน้ำ, เป็น OIL → เปลี่ยนเป็นหม้อน้ำมัน
+            if (onPot) {
+                pot.addIngredient(Ingredient.this);
+            }
             if (!onPot && !onBoard){
                 setLocation(startX,startY);
             }
@@ -109,9 +131,9 @@ public class Ingredient extends JComponent implements GameScreenListener {
             int newY = parentPoint.y - pressedPoint.y;
             setLocation(newX, newY);
         }
-
-
     }
+
+
     //เพิ่มวัตถุบน gamescreen
     @Override
     public void gameScreenResized(Dimension size){
