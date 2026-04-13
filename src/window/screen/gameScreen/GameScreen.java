@@ -54,13 +54,13 @@ public class GameScreen extends JPanel{
         Ingredient SteamerMid = new Ingredient("/equipment/steamermid.png", 0.83,0.91,0.029,0.012,pot);
         gameLayer.add(SteamerMid , JLayeredPane.DRAG_LAYER);
 
-        Ingredient Filling = new Ingredient("/equipment/filling.png", 0.15,0.81,0.006,0.009,pot);
+        Ingredient Filling = new Ingredient("/equipment/filling.png", 0.15,0.81,0.006,0.009,pot,cutBoard);
         gameLayer.add(Filling,JLayeredPane.DRAG_LAYER);
 
         Ingredient Leaf = new Ingredient("/equipment/leaf.png", 0.21,0.79,0.005,0.020,pot);
         gameLayer.add(Leaf, JLayeredPane.DRAG_LAYER);
 
-        Ingredient Sesame = new Ingredient("/equipment/sesame.png", 0.30,0.78,0.007,0.010,pot);
+        Ingredient Sesame = new Ingredient("/equipment/sesame.png", 0.30,0.78,0.007,0.010,pot,cutBoard);
         gameLayer.add(Sesame, JLayeredPane.DRAG_LAYER);
 
         Ingredient PalmSugar = new Ingredient("/equipment/palmsugar.png", 0.35,0.78,0.007,0.010,pot);

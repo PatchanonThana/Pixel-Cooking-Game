@@ -15,6 +15,7 @@ public class CutBoard extends JComponent implements GameScreenListener {
     CutBoard cutBoard;
     private ArrayList<Ingredient> ingredients = new ArrayList<>();
 
+
     public CutBoard(){
         boardZone = new Rectangle();
     }
@@ -23,28 +24,45 @@ public class CutBoard extends JComponent implements GameScreenListener {
         return boardZone;
     }
 
+    //นำวัตถุดิบเข้าเขียงและเรียกใช้งานสูตร
     public void addIngredient(Ingredient ingredient){
         ingredients.add(ingredient);
         checkRecipe();
     }
 
+    //เช็คสูตร รับค่าของวัตถุที่ถูกใส่ในลิสและนำมาเช็ค boolean
     public void checkRecipe(){
         boolean hasDough = ingredients.stream().anyMatch(i-> i instanceof Dough);
+        //**หมายเหตุว่าใช้เป็นpathไฟล์เพื่อลองระบบ อาจจะเพิ่มชื่อให้เรียกใช้งานง่ายขึ้นในอนาคต
         boolean hasFilling = ingredients.stream().anyMatch(i-> i.getFilename().contains("/equipment/filling.png"));
+        boolean hasSesame = ingredients.stream().anyMatch(i -> i.getFilename().contains("equipment/sesame.png"));
 
+        //อันนี้สูตรสำหรับ ขนมเทียนห่อไส้ยังไม่นึ่ง
         if(hasDough&&hasFilling){
             for(Ingredient i : ingredients){
-                i.returnToStrat();
+                i.returnToStart();
             }
             ingredients.clear();
-
+            Ingredient DoughandFilling = new Ingredient("/dessert/ขนมเทียน1.png" , 0.76,0.80,0.009,0.010,pot);
             JLayeredPane gameLayer = (JLayeredPane) getParent();
-            Ingredient DoughandFiling = new Ingredient("/dessert/ขนมเทียน1.png",0.77,0.79,0.009,0.010,pot,cutBoard);
-            DoughandFiling.gameScreenResized(gameLayer.getSize());
-            gameLayer.add(DoughandFiling,JLayeredPane.DRAG_LAYER);
+            gameLayer.add(DoughandFilling , JLayeredPane.DRAG_LAYER);
+            DoughandFilling.gameScreenResized(gameLayer.getSize());
             gameLayer.revalidate();
             gameLayer.repaint();
+        }
 
+        //สูตรข้าวแคบดิบ จริงๆมันน่าจะย่อได้ แต่ค่อยแก้ ฮุฮิ
+        if(hasDough&&hasSesame){
+            for(Ingredient i : ingredients){
+                i.returnToStart();
+            }
+            ingredients.clear();
+            Ingredient DoughandSesame = new Ingredient("/dessert/ข้าวแคบ1.png" , 0.76,0.80,0.010,0.012,pot);
+            JLayeredPane gameLayer = (JLayeredPane) getParent();
+            gameLayer.add(DoughandSesame , JLayeredPane.DRAG_LAYER);
+            DoughandSesame.gameScreenResized(gameLayer.getSize());
+            gameLayer.revalidate();
+            gameLayer.repaint();
         }
     }
     @Override
