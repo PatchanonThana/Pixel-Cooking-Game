@@ -65,8 +65,13 @@ public class Ingredient extends JComponent implements GameScreenListener {
 
     }
 
+    public String getFilename() {
+        return filename;
+    }
 
-
+    public void returnToStrat(){
+        setLocation(startX , startY);
+    }
 
     private class ClickListener extends MouseAdapter{
         public void mousePressed(MouseEvent e){
@@ -80,11 +85,20 @@ public class Ingredient extends JComponent implements GameScreenListener {
         public void mouseReleased(MouseEvent e){
             Rectangle ingredientRect = new Rectangle(getLocation().x, getLocation().y, getWidth(), getHeight());
 
+
+
             boolean onPot = (pot != null) && pot.getPotZone().intersects(ingredientRect);
             boolean onBoard = (cutBoard != null) && cutBoard.getBoardZone().intersects(ingredientRect);
+
+            if(onBoard){
+                cutBoard.addIngredient(Ingredient.this);
+            }
+
             if (!onPot && !onBoard){
                 setLocation(startX,startY);
             }
+
+
 
 
         }
