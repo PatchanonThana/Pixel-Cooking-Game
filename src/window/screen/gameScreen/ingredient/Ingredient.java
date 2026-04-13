@@ -83,14 +83,6 @@ public class Ingredient extends JComponent implements GameScreenListener {
 
     }
 
-    public String getFilename(){
-        return filename;
-    }
-
-    public void returnToStart(){
-        setLocation(startX,startY);
-    }
-
 
 
 
@@ -112,12 +104,6 @@ public class Ingredient extends JComponent implements GameScreenListener {
             if (onPot) {
                 pot.addIngredient(Ingredient.this);
             }
-
-            //add --> ส่งวัตถุดิบไปเขียง
-            if(onBoard){
-                cutBoard.addIngredient(Ingredient.this);
-            }
-
             if (!onPot && !onBoard){
                 setLocation(startX,startY);
             }
@@ -148,7 +134,7 @@ public class Ingredient extends JComponent implements GameScreenListener {
     }
 
 
-    //เพิ่มวัตถุบน gamescreen 2
+    //เพิ่มวัตถุบน gamescreen
     @Override
     public void gameScreenResized(Dimension size){
         startX = (int)(size.width * relX);
@@ -158,7 +144,7 @@ public class Ingredient extends JComponent implements GameScreenListener {
         setBounds(startX , startY , width,height);
     }
 
-    //วาดวัตถุเริ่มต้น 1
+    //วาดวัตถุเริ่มต้น
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
