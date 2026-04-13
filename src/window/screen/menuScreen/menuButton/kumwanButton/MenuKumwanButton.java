@@ -6,37 +6,39 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-public class MenuKumwanButton extends JLabel implements MenuListener {
+public class MenuKumwanButton extends JButton implements MenuListener {
 
-    private final Image rawImage;
+    private final Dimension thisSize = new Dimension(825, 150);
 
     public MenuKumwanButton() {
 
-        rawImage = new ImageIcon(Objects.requireNonNull(getClass().getResource(
+        // --------- รูป ---------
+        ImageIcon raw = new ImageIcon(Objects.requireNonNull(getClass().getResource(
                 "/window/screen/menuScreen/menuButton/kumwanButton/kumwanImage/Kumwanbutton.png"
-        ))).getImage();
+        )));
+        Image scaled = raw.getImage().getScaledInstance(
+                thisSize.width, thisSize.height, Image.SCALE_SMOOTH
+        );
+        setIcon(new ImageIcon(scaled));
 
-        setHorizontalAlignment(CENTER);
-        setVerticalAlignment(CENTER);
-
+        // --------- UI ---------
+        setBorder(null);
+        setContentAreaFilled(false);
         setOpaque(false);
+        setFocusPainted(false);
+
+        // --------- ปิดการคลิก ---------
+        setEnabled(true);
+        setCursor(Cursor.getDefaultCursor());
     }
 
     @Override
     public void menuResized(Dimension size) {
-
-        int width = (int)(size.getWidth() * 0.4);
-        int height = (int)(width * 0.18);
-
-        int spacing = (int)(size.getHeight() * 0.12);
-        int centerY = (int)(size.getHeight() / 2 - height / 2);
-
-        int x = (int)(size.getWidth() / 2 - width / 2);
-        int y = centerY - spacing;
-
-        setBounds(x, y, width, height);
-
-        Image scaled = rawImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        setIcon(new ImageIcon(scaled));
+        setBounds(
+                (int)(size.getWidth()/2 - thisSize.width/2.0),
+                (int)(size.getHeight()/2 - thisSize.height/2.0) - 150,
+                thisSize.width,
+                thisSize.height
+        );
     }
 }
