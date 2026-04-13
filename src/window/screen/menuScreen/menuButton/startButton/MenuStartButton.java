@@ -11,51 +11,35 @@ import static java.awt.Cursor.HAND_CURSOR;
 
 public class MenuStartButton extends JButton implements MenuListener {
 
-    private final Dimension thisSize = new Dimension(600, 150);
     private final MenuStartButtonListener startButtonListener;
+
+    private final Image rawStartImage;
+    private final Image rawHoverStartImage;
 
     public MenuStartButton(MenuStartButtonListener startButtonListener){
         this.startButtonListener = startButtonListener;
 
         setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
 
-        // --------- Img ---------
-        ImageIcon rawStart = new ImageIcon(Objects.requireNonNull(getClass().getResource(
+        rawStartImage = new ImageIcon(Objects.requireNonNull(getClass().getResource(
                 "/window/screen/menuScreen/menuButton/startButton/startImage/startbutton.png"
-        )));
-        Image scaledStart = rawStart.getImage().getScaledInstance(
-                thisSize.width, thisSize.height, Image.SCALE_SMOOTH
-        );
-        setIcon(new ImageIcon(scaledStart));
+        ))).getImage();
 
-        // --------- Hover ---------
-        ImageIcon rawHoverStart = new ImageIcon(Objects.requireNonNull(getClass().getResource(
+        rawHoverStartImage = new ImageIcon(Objects.requireNonNull(getClass().getResource(
                 "/window/screen/menuScreen/menuButton/startButton/startImage/startbutton-hover.png"
-        )));
-        Image scaledHoverStart = rawHoverStart.getImage().getScaledInstance(
-                thisSize.width, thisSize.height, Image.SCALE_SMOOTH
-        );
-        setRolloverIcon(new ImageIcon(scaledHoverStart));
+        ))).getImage();
 
-        // --------- FIX ---------
         setMargin(new Insets(0, 0, 0, 0));
         setBorder(null);
         setRolloverEnabled(true);
 
-        setSize(thisSize);
-        setPreferredSize(thisSize);
-        setMinimumSize(thisSize);
-        setMaximumSize(thisSize);
-
         setHorizontalAlignment(SwingConstants.CENTER);
         setVerticalAlignment(SwingConstants.CENTER);
 
-        // --------- UI ---------
         setFocusPainted(false);
         setContentAreaFilled(false);
         setOpaque(false);
 
-        // --------- Sound ---------
         ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
 
         addActionListener(e -> {
@@ -66,11 +50,21 @@ public class MenuStartButton extends JButton implements MenuListener {
 
     @Override
     public void menuResized(Dimension size) {
-        setBounds(
-                (int)(size.getWidth()/2 - thisSize.width/2.0),
-                (int)(size.getHeight()/2 - thisSize.height/2.0),
-                thisSize.width,
-                thisSize.height
-        );
+
+        int width = (int)(size.getWidth() * 0.25);
+        int height = (int)(width * 0.25);
+
+        int centerY = (int)(size.getHeight() / 2 - height / 2);
+
+        int x = (int)(size.getWidth() / 2 - width / 2);
+        int y = centerY;
+
+        setBounds(x, y, width, height);
+
+        Image scaledStart = rawStartImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        setIcon(new ImageIcon(scaledStart));
+
+        Image scaledHover = rawHoverStartImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        setRolloverIcon(new ImageIcon(scaledHover));
     }
 }
