@@ -1,12 +1,11 @@
 package window.screen.gameScreen.cutBoard;
-import window.screen.gameScreen.ingredient.Ingredient;
+
 import window.screen.gameScreen.GameScreenListener;
 import window.screen.gameScreen.ingredient.Dough;
 import window.screen.gameScreen.pot.Pot;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class CutBoard extends JComponent implements GameScreenListener {
     Rectangle boardZone;
