@@ -32,18 +32,46 @@ public class CutBoard extends JComponent implements GameScreenListener {
         boolean hasFilling = ingredients.stream().anyMatch(i-> i.getFilename().contains("/equipment/filling.png"));
         boolean hasLeaf = ingredients.stream().anyMatch(i->i.getFilename().contains("/equipment/leaf.png"));
         boolean hasSesame = ingredients.stream().anyMatch(i-> i.getFilename().contains("/equipment/sesame.png"));
+        boolean hasDoughandFilling = ingredients.stream().anyMatch(i-> i.getFilename().contains("/dessert/ขนมเทียน1.png"));
+
+        JLayeredPane gameLayer = (JLayeredPane) getParent();
+        for(Component c : gameLayer.getComponents()) {
+            if(c instanceof Pot p) {
+                pot = p;
+                break;
+            }
+        }
 
         //สูตรขนมเทียนห่อใบตอง
-        if(hasDough&&hasFilling&&hasLeaf){
+        if(hasDough&&hasFilling){
             for(Ingredient i : ingredients){
                 i.returnToStart();
             }
             ingredients.clear();
 
-            JLayeredPane gameLayer = (JLayeredPane) getParent();
-            Ingredient DoughandFiling = new Ingredient("/dessert/ขนมเทียน2.png",0.77,0.79,0.009,0.010,pot,cutBoard);
+            Ingredient DoughandFiling = new Ingredient("/dessert/ขนมเทียน1.png",0.77,0.79,0.009,0.010,pot,cutBoard);
+            ingredients.add(DoughandFiling);
             DoughandFiling.gameScreenResized(gameLayer.getSize());
             gameLayer.add(DoughandFiling,JLayeredPane.DRAG_LAYER);
+            gameLayer.revalidate();
+            gameLayer.repaint();
+        }
+
+        if(hasDoughandFilling&&hasLeaf){
+            for(Ingredient i : ingredients){
+                if(i.getFilename().contains("/dessert/ขนมเทียน1.png")){
+
+                    gameLayer.remove(i);
+                } else{
+                    i.returnToStart();
+                }
+            }
+            ingredients.clear();
+
+
+            Ingredient DoughandLeaf = new Ingredient("/dessert/ขนมเทียน2.png",0.77,0.79,0.009,0.010,pot,cutBoard);
+            DoughandLeaf.gameScreenResized(gameLayer.getSize());
+            gameLayer.add(DoughandLeaf,JLayeredPane.DRAG_LAYER);
             gameLayer.revalidate();
             gameLayer.repaint();
         }
@@ -55,7 +83,7 @@ public class CutBoard extends JComponent implements GameScreenListener {
             }
             ingredients.clear();
 
-            JLayeredPane gameLayer = (JLayeredPane) getParent();
+
             Ingredient DoughandSesame = new Ingredient("/dessert/ข้าวแคบ1.png",0.77,0.79,0.009,0.010,pot,cutBoard);
             DoughandSesame.gameScreenResized(gameLayer.getSize());
             gameLayer.add(DoughandSesame,JLayeredPane.DRAG_LAYER);
