@@ -1,0 +1,256 @@
+[33mcommit 65eaa2ce9dfb87ccd596958f0b5877907f34e697[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mingredient2[m[33m)[m
+Author: Nat <karn1122549@gmail.com>
+Date:   Mon Apr 13 22:00:54 2026 +0700
+
+    Revert "Reapply "Add files via upload""
+    
+    This reverts commit 4289436cdcf4c434ffa6f7d0e7482fbdb4500216.
+
+[33mcommit 4289436cdcf4c434ffa6f7d0e7482fbdb4500216[m
+Author: Nat <karn1122549@gmail.com>
+Date:   Mon Apr 13 22:00:47 2026 +0700
+
+    Reapply "Add files via upload"
+    
+    This reverts commit bb374bf41e212d3af0a3932dafad4c393e6766ee.
+
+[33mcommit bb374bf41e212d3af0a3932dafad4c393e6766ee[m
+Author: Nat <karn1122549@gmail.com>
+Date:   Mon Apr 13 21:59:58 2026 +0700
+
+    Revert "Add files via upload"
+    
+    This reverts commit 84a902968b3e42e28edfa234ada1660f6ec8891d.
+
+[33mcommit d82fd81de42ec0a8f381dd988c1b34df403bdf88[m
+Author: Nat <karn1122549@gmail.com>
+Date:   Mon Apr 13 21:56:45 2026 +0700
+
+    Revert "Add files via upload"
+    
+    This reverts commit 293a8187ecd128c93761a6c6863c6110a82cf63b.
+
+[33mcommit 76e187b0e5922908858ced1283bce00f20773d87[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 293a818 0c24050
+Author: flaxcolor <147905587+flaxcolor@users.noreply.github.com>
+Date:   Mon Apr 13 20:42:29 2026 +0700
+
+    Merge pull request #30 from PatchanonThana/ingredient2
+    
+    Ingredient2
+
+[33mcommit 0c2405010c4a66f460e28de55acd49b4651d24c0[m[33m ([m[1;31morigin/ingredient2[m[33m)[m
+Author: Nat <karn1122549@gmail.com>
+Date:   Mon Apr 13 20:19:37 2026 +0700
+
+    add recipe and cutBoard function
+
+[33mcommit 27f520c4a478591b0388fa7391a4c8c8dab66855[m
+Merge: daf9e65 293a818
+Author: Nat <karn1122549@gmail.com>
+Date:   Mon Apr 13 15:53:07 2026 +0700
+
+    Merge branch 'main' of https://github.com/PatchanonThana/Pixel-Cooking-Game into ingredient2
+
+[33mcommit daf9e65d76155e8f7b151f611141e6912131b835[m
+Author: Nat <karn1122549@gmail.com>
+Date:   Mon Apr 13 15:45:21 2026 +0700
+
+    เพิ่มระบบcutBoard
+
+[33mcommit 293a8187ecd128c93761a6c6863c6110a82cf63b[m
+Author: raindewywy <suwanchindachayapa@gmail.com>
+Date:   Mon Apr 13 03:25:44 2026 +0700
+
+    Add files via upload
+
+[33mcommit 9bd1b5edaeee21ef43492d9a5bbed4480dfa0b67[m
+Author: raindewywy <suwanchindachayapa@gmail.com>
+Date:   Mon Apr 13 03:20:52 2026 +0700
+
+    Add files via upload
+
+[33mcommit 84a902968b3e42e28edfa234ada1660f6ec8891d[m
+Author: raindewywy <suwanchindachayapa@gmail.com>
+Date:   Mon Apr 13 03:15:31 2026 +0700
+
+    Add files via upload
+    
+    add some constructor in ingreaient link to pot
+
+[33mcommit 80fb394422d7dfe2c79b323fdd51dcbed2bdd3ad[m
+Merge: a143c11 f028006
+Author: flaxcolor <147905587+flaxcolor@users.noreply.github.com>
+Date:   Sat Apr 11 18:29:18 2026 +0700
+
+    Merge pull request #29 from PatchanonThana/ingredient2
+    
+    Ingredient2
+
+[33mcommit f0280068454ffb4112fbfcf37fba4ed645fc171f[m
+Author: Nat <karn1122549@gmail.com>
+Date:   Fri Apr 10 22:29:10 2026 +0700
+
+    แก้ขนาดให้วัตถุขนาดยืดหยุ่น
+
+[33mcommit 542376512ae4faf9d72682cb5e1691cb1eb26e45[m
+Merge: 81b6c7c a143c11
+Author: Nat <karn1122549@gmail.com>
+Date:   Mon Apr 6 22:16:32 2026 +0700
+
+    Merge branch 'main' of https://github.com/PatchanonThana/Pixel-Cooking-Game into ingredient2
+
+[33mcommit a143c110383ed41597d0bf70e35000da7e5402cb[m[33m ([m[1;31morigin/pot[m[33m)[m
+Merge: 14667bc 01af894
+Author: Natthawut Rakammek <natthawut.rakammek@g.swu.ac.th>
+Date:   Mon Apr 6 21:59:29 2026 +0700
+
+    Merge pull request #28 from PatchanonThana/function/customer
+    
+    Edit position customer
+
+[33mcommit 01af894ec073e7f013e01790788f41a7edbc7e81[m[33m ([m[1;31morigin/function/customer[m[33m)[m
+Author: natthawutrakammek <natthawut.rakammek@g.swu.ac.th>
+Date:   Mon Apr 6 21:58:06 2026 +0700
+
+    Edit position customer
+
+[33mcommit 81b6c7c208ac17265775f4059799b123e85a7496[m
+Merge: 5725240 14667bc
+Author: Nat <karn1122549@gmail.com>
+Date:   Mon Apr 6 21:53:12 2026 +0700
+
+    Merge branch 'main' of https://github.com/PatchanonThana/Pixel-Cooking-Game into ingredient2
+
+[33mcommit 14667bcb7380260ab11079a20c32af13b99837fb[m
+Merge: 47d9642 4b0ded0
+Author: Natthawut Rakammek <natthawut.rakammek@g.swu.ac.th>
+Date:   Mon Apr 6 21:39:08 2026 +0700
+
+    Merge pull request #27 from PatchanonThana/function/customer
+    
+    edit position customer
+
+[33mcommit 4b0ded048d9acb9ffc6c3ad39fe073f0cc5a3521[m
+Author: natthawutrakammek <natthawut.rakammek@g.swu.ac.th>
+Date:   Mon Apr 6 21:37:49 2026 +0700
+
+    edit position customer
+
+[33mcommit 57252402693229f83d2b2e9a38519fb8161390a0[m
+Author: Nat <karn1122549@gmail.com>
+Date:   Mon Apr 6 20:48:59 2026 +0700
+
+    ทดลองแก้ไขขนาดตัวละคร
+
+[33mcommit 47d96427a1f7d0ee351bf8eb2ad5ef11d5bc197d[m
+Merge: 5f1f1a4 ca2fa4e
+Author: Natthawut Rakammek <natthawut.rakammek@g.swu.ac.th>
+Date:   Mon Apr 6 20:22:37 2026 +0700
+
+    Merge pull request #25 from PatchanonThana/function/customer
+    
+    edit code
+
+[33mcommit ca2fa4e1c1011101e9354d109726741f2e17cc0e[m
+Author: natthawutrakammek <natthawut.rakammek@g.swu.ac.th>
+Date:   Mon Apr 6 20:20:54 2026 +0700
+
+    edit code
+
+[33mcommit 5f1f1a41b92f60dd37a7a0a7a952d5f845dc9387[m
+Merge: e80921a 3938916
+Author: Natthawut Rakammek <natthawut.rakammek@g.swu.ac.th>
+Date:   Mon Apr 6 20:03:31 2026 +0700
+
+    Merge pull request #24 from PatchanonThana/function/customer
+    
+    edit code
+
+[33mcommit 3938916a81debafca61ef403d3119e4627096388[m
+Author: natthawutrakammek <natthawut.rakammek@g.swu.ac.th>
+Date:   Mon Apr 6 20:02:27 2026 +0700
+
+    edit code
+
+[33mcommit e80921af63cac482a2d6a858d990ba8fd47debe3[m
+Merge: 6ac05e0 2bcae37
+Author: Natthawut Rakammek <natthawut.rakammek@g.swu.ac.th>
+Date:   Mon Apr 6 03:13:48 2026 +0700
+
+    Merge pull request #23 from PatchanonThana/function/customer
+    
+    Edit position customer
+
+[33mcommit 2bcae372ea021b2b3c9f0881d99e3121401bc9df[m
+Author: natthawutrakammek <natthawut.rakammek@g.swu.ac.th>
+Date:   Mon Apr 6 03:12:01 2026 +0700
+
+    Edit position customer
+
+[33mcommit 6ac05e06092fbebe18251c6ac917e9710ffc1c11[m
+Merge: ac88273 4b84ae9
+Author: Natthawut Rakammek <natthawut.rakammek@g.swu.ac.th>
+Date:   Sun Apr 5 22:43:58 2026 +0700
+
+    Merge pull request #22 from PatchanonThana/feature/customer
+    
+    Feature/customer
+
+[33mcommit 4b84ae9c8e0f8b0139da9a46df657ef744e241fa[m[33m ([m[1;31morigin/feature/customer[m[33m)[m
+Merge: f3906b8 ac88273
+Author: Natthawut Rakammek <natthawut.rakammek@g.swu.ac.th>
+Date:   Sun Apr 5 22:40:57 2026 +0700
+
+    Merge branch 'main' into feature/customer
+
+[33mcommit ac88273b1fa36c2eedfdb86ab5566f6a37e519a4[m
+Merge: 15bb951 9e01d49
+Author: flaxcolor <147905587+flaxcolor@users.noreply.github.com>
+Date:   Sun Apr 5 22:18:04 2026 +0700
+
+    Merge pull request #21 from PatchanonThana/ingredient2
+    
+    Ingredient2
+
+[33mcommit 9e01d49bdfb7caf8ddbed7f5a8713dd2bf715f7e[m
+Author: Nat <karn1122549@gmail.com>
+Date:   Sun Apr 5 22:11:11 2026 +0700
+
+    delete print out screen size
+
+[33mcommit dca60c6b8007f6aa5fa61208ccef539ab61b579b[m
+Author: Nat <karn1122549@gmail.com>
+Date:   Sun Apr 5 22:05:54 2026 +0700
+
+    delete unused file
+
+[33mcommit 15bb951966f62b55fbea63252dca3d15da53ba67[m
+Merge: 1054e72 563706e
+Author: flaxcolor <147905587+flaxcolor@users.noreply.github.com>
+Date:   Sun Apr 5 21:42:20 2026 +0700
+
+    Merge pull request #20 from PatchanonThana/ingredient2
+
+[33mcommit 2ca092de33170f7a5f4ca063b2f5b52f8a825e46[m
+Author: Nat <karn1122549@gmail.com>
+Date:   Sun Apr 5 21:39:35 2026 +0700
+
+    delete outPut
+
+[33mcommit 563706ecadd2b692c879b981c28cca0283b29ef4[m
+Author: Nat <karn1122549@gmail.com>
+Date:   Sun Apr 5 21:30:49 2026 +0700
+
+    add cutBoard
+
+[33mcommit 015fe4a2bebcf980b29fd1a919030c3677fc6b6b[m
+Author: Nat <karn1122549@gmail.com>
+Date:   Sun Apr 5 21:20:26 2026 +0700
+
+    แก้ความยืดหยุ่นของวัตถุดิบ
+
+[33mcommit 1054e723c4803d19ad2f40834b20d1589e60310a[m[33m ([m[1;32mmain[m[33m)[m
+Merge: 24f2ab4 e7e5d53
+Author: flaxcolor <147905587+flaxcolor@users.noreply.github.com>
+Date:   Sat Apr 4 16:00:57 202

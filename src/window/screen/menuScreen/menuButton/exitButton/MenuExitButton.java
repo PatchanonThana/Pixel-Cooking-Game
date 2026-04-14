@@ -12,35 +12,51 @@ import static java.awt.Cursor.HAND_CURSOR;
 
 public class MenuExitButton extends JButton implements MenuListener {
 
+    private final Dimension thisSize = new Dimension(600, 150);
     private final List<ExitButtonListener> exitButtonListeners;
-
-    private final Image rawExitImage;
-    private final Image rawHoverExitImage;
 
     public MenuExitButton(List<ExitButtonListener> exitButtonSoundListener) {
         this.exitButtonListeners = exitButtonSoundListener;
 
         setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
 
-        rawExitImage = new ImageIcon(Objects.requireNonNull(getClass().getResource(
+        // --------- ปุ่มปกติ ---------
+        ImageIcon rawExit = new ImageIcon(Objects.requireNonNull(getClass().getResource(
                 "/window/screen/menuScreen/menuButton/exitButton/exitImage/quitbutton.png"
-        ))).getImage();
+        )));
+        Image scaledExit = rawExit.getImage().getScaledInstance(
+                thisSize.width, thisSize.height, Image.SCALE_SMOOTH
+        );
+        setIcon(new ImageIcon(scaledExit));
 
-        rawHoverExitImage = new ImageIcon(Objects.requireNonNull(getClass().getResource(
+        // --------- ปุ่ม Hover ---------
+        ImageIcon rawHoverExit = new ImageIcon(Objects.requireNonNull(getClass().getResource(
                 "/window/screen/menuScreen/menuButton/exitButton/exitImage/quitbutton-Hover.png"
-        ))).getImage();
+        )));
+        Image scaledHoverExit = rawHoverExit.getImage().getScaledInstance(
+                thisSize.width, thisSize.height, Image.SCALE_SMOOTH
+        );
+        setRolloverIcon(new ImageIcon(scaledHoverExit));
 
-        setMargin(new Insets(0, 0, 0, 0));
-        setBorder(null);
+        // --------- FIX HOVER ขยับ ---------
+        setMargin(new Insets(0, 0, 0, 0));   // กัน margin เปลี่ยน
+        setBorder(null);                     // กัน border กระโดด
         setRolloverEnabled(true);
+
+        setSize(thisSize);
+        setPreferredSize(thisSize);
+        setMinimumSize(thisSize);
+        setMaximumSize(thisSize);
 
         setHorizontalAlignment(SwingConstants.CENTER);
         setVerticalAlignment(SwingConstants.CENTER);
 
+        // --------- UI ---------
         setContentAreaFilled(false);
         setOpaque(false);
         setFocusPainted(false);
 
+        // --------- Sound + Event ---------
         ButtonSoundPlayer buttonSoundPlayer = new ButtonSoundPlayer();
 
         addActionListener(e -> {
@@ -53,22 +69,11 @@ public class MenuExitButton extends JButton implements MenuListener {
 
     @Override
     public void menuResized(Dimension size) {
-
-        int width = (int)(size.getWidth() * 0.25);
-        int height = (int)(width * 0.25);
-
-        int spacing = (int)(size.getHeight() * 0.12);
-        int centerY = (int)(size.getHeight() / 2 - height / 2);
-
-        int x = (int)(size.getWidth() / 2 - width / 2);
-        int y = centerY + spacing;
-
-        setBounds(x, y, width, height);
-
-        Image scaledExit = rawExitImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        setIcon(new ImageIcon(scaledExit));
-
-        Image scaledHover = rawHoverExitImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        setRolloverIcon(new ImageIcon(scaledHover));
+        setBounds(
+                (int)(size.getWidth()/2 - thisSize.width/2.0),
+                (int)(size.getHeight()/2 - thisSize.height/2.0) + 150, // ขยับลง
+                thisSize.width,
+                thisSize.height
+        );
     }
 }

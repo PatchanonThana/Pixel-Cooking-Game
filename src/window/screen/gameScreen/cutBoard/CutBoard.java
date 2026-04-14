@@ -1,12 +1,18 @@
 package window.screen.gameScreen.cutBoard;
 
 import window.screen.gameScreen.GameScreenListener;
+import window.screen.gameScreen.ingredient.Dough;
+import window.screen.gameScreen.pot.Pot;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class CutBoard extends JComponent implements GameScreenListener {
     Rectangle boardZone;
+    Pot pot;
+    CutBoard cutBoard;
+    private ArrayList<Ingredient> ingredients = new ArrayList<>();
+
     public CutBoard(){
         boardZone = new Rectangle();
     }
@@ -15,6 +21,77 @@ public class CutBoard extends JComponent implements GameScreenListener {
         return boardZone;
     }
 
+    public void addIngredient(Ingredient ingredient){
+        ingredients.add(ingredient);
+        checkRecipe();
+    }
+
+    public void checkRecipe(){
+        boolean hasDough = ingredients.stream().anyMatch(i-> i instanceof Dough);
+        boolean hasFilling = ingredients.stream().anyMatch(i-> i.getFilename().contains("/equipment/filling.png"));
+        boolean hasLeaf = ingredients.stream().anyMatch(i->i.getFilename().contains("/equipment/leaf.png"));
+        boolean hasSesame = ingredients.stream().anyMatch(i-> i.getFilename().contains("/equipment/sesame.png"));
+        boolean hasDoughandFilling = ingredients.stream().anyMatch(i-> i.getFilename().contains("/dessert/ขนมเทียน1.png"));
+
+        JLayeredPane gameLayer = (JLayeredPane) getParent();
+        for(Component c : gameLayer.getComponents()) {
+            if(c instanceof Pot p) {
+                pot = p;
+                break;
+            }
+        }
+
+        //สูตรขนมเทียนห่อใบตอง
+        if(hasDough&&hasFilling){
+            for(Ingredient i : ingredients){
+                i.returnToStart();
+            }
+            ingredients.clear();
+
+            Ingredient DoughandFiling = new Ingredient("/dessert/ขนมเทียน1.png",0.77,0.79,0.009,0.010,pot,cutBoard);
+            ingredients.add(DoughandFiling);
+            DoughandFiling.gameScreenResized(gameLayer.getSize());
+            gameLayer.add(DoughandFiling,JLayeredPane.DRAG_LAYER);
+            gameLayer.revalidate();
+            gameLayer.repaint();
+        }
+
+        if(hasDoughandFilling&&hasLeaf){
+            for(Ingredient i : ingredients){
+                if(i.getFilename().contains("/dessert/ขนมเทียน1.png")){
+
+                    gameLayer.remove(i);
+                } else{
+                    i.returnToStart();
+                }
+            }
+            ingredients.clear();
+
+
+            Ingredient DoughandLeaf = new Ingredient("/dessert/ขนมเทียน2.png",0.77,0.79,0.009,0.010,pot,cutBoard);
+            DoughandLeaf.gameScreenResized(gameLayer.getSize());
+            gameLayer.add(DoughandLeaf,JLayeredPane.DRAG_LAYER);
+            gameLayer.revalidate();
+            gameLayer.repaint();
+        }
+
+        //สูตรข้าวแคบดิบ
+        if(hasDough&&hasSesame){
+            for(Ingredient i : ingredients){
+                i.returnToStart();
+            }
+            ingredients.clear();
+
+
+            Ingredient DoughandSesame = new Ingredient("/dessert/ข้าวแคบ1.png",0.77,0.79,0.009,0.010,pot,cutBoard);
+            DoughandSesame.gameScreenResized(gameLayer.getSize());
+            gameLayer.add(DoughandSesame,JLayeredPane.DRAG_LAYER);
+            gameLayer.revalidate();
+            gameLayer.repaint();
+        }
+
+
+    }
     @Override
     public void gameScreenResized(Dimension size){
         int x = (int)(size.width * 0.77);
