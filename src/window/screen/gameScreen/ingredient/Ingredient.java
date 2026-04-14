@@ -75,12 +75,30 @@ public class Ingredient extends JComponent implements GameScreenListener {
     }
 
     //constructor สำหรับวัตถุดิบที่ต้องใช้เขียง --> วัตถุดิบนี้ใช้กับเขียงได้
+    public Ingredient(String filename, double relX,double relY, double relWidth, double relHeight, Pot pot , CutBoard cutBoard,Type type) {
+        this(filename , relX , relY , relWidth , relHeight , pot);
+        this.cutBoard = cutBoard;
+        this.isVisible = true;
+        setOpaque(false);
+        this.type = type;
+
+    }
+
     public Ingredient(String filename, double relX,double relY, double relWidth, double relHeight, Pot pot , CutBoard cutBoard) {
         this(filename , relX , relY , relWidth , relHeight , pot);
         this.cutBoard = cutBoard;
         this.isVisible = true;
         setOpaque(false);
 
+
+    }
+
+    public String getFilename(){
+        return filename;
+    }
+
+    public void returnToStart(){
+        setLocation(startX,startY);
     }
 
 
@@ -103,6 +121,9 @@ public class Ingredient extends JComponent implements GameScreenListener {
             //add --> ส่งวัตถุดิบนี้เข้าไปในหม้อ ใน Pot เช็ค เป็น WATER → เปลี่ยนเป็นหม้อน้ำ, เป็น OIL → เปลี่ยนเป็นหม้อน้ำมัน
             if (onPot) {
                 pot.addIngredient(Ingredient.this);
+            }
+            if(onBoard){
+                cutBoard.addIngredient(Ingredient.this);
             }
             if (!onPot && !onBoard){
                 setLocation(startX,startY);
@@ -134,7 +155,7 @@ public class Ingredient extends JComponent implements GameScreenListener {
     }
 
 
-    //เพิ่มวัตถุบน gamescreen
+    //เพิ่มวัตถุบน gamescreen 2
     @Override
     public void gameScreenResized(Dimension size){
         startX = (int)(size.width * relX);
@@ -144,7 +165,7 @@ public class Ingredient extends JComponent implements GameScreenListener {
         setBounds(startX , startY , width,height);
     }
 
-    //วาดวัตถุเริ่มต้น
+    //วาดวัตถุเริ่มต้น 1
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -155,4 +176,3 @@ public class Ingredient extends JComponent implements GameScreenListener {
     }
 
 }
-

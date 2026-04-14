@@ -38,38 +38,35 @@ public class GameScreen extends JPanel{
         currentCustomer = new Customer();
         gameLayer.add(currentCustomer, JLayeredPane.PALETTE_LAYER);
 
-        //สร้างวัตถุบนเกมซีนคร้าบ บ บ
         gameLayer.add(cutBoard,JLayeredPane.POPUP_LAYER);
         gameLayer.add(pot,JLayeredPane.POPUP_LAYER);
-
-        Ingredient Oil = new Ingredient("/equipment/oil.png", 0.83,0.57,0.011,0.04,pot);
+        //add Ingredient.Type.OIL
+        Ingredient Oil = new Ingredient("/equipment/oil.png",0.83,0.57,0.011,0.04,pot,Ingredient.Type.OIL);
         gameLayer.add(Oil , JLayeredPane.DRAG_LAYER);
-
-        Ingredient Pitcher = new Ingredient("/equipment/pitcher.png", 0.89,0.54,0.018,0.047,pot);
+        //add Ingredient.Type.WATER
+        Ingredient Pitcher = new Ingredient("/equipment/pitcher.png", 0.89,0.54,0.018,0.047,pot,Ingredient.Type.WATER);
         gameLayer.add(Pitcher, JLayeredPane.DRAG_LAYER);
-
-        Ingredient SteamerTop = new Ingredient("/equipment/steamertop.png", 0.82,0.78, 0.032,0.025,pot);
+        //add Ingredient.Type.OTHER
+        Ingredient SteamerTop = new Ingredient("/equipment/steamertop.png", 0.82,0.78, 0.032,0.025,pot,Ingredient.Type.OTHER);
         gameLayer.add(SteamerTop, JLayeredPane.DRAG_LAYER);
-
-        Ingredient SteamerMid = new Ingredient("/equipment/steamermid.png", 0.83,0.91,0.029,0.012,pot);
+        //add Ingredient.Type.OTHER
+        Ingredient SteamerMid = new Ingredient("/equipment/steamermid.png", 0.83,0.91,0.029,0.012,pot,Ingredient.Type.OTHER);
         gameLayer.add(SteamerMid , JLayeredPane.DRAG_LAYER);
-
-        Ingredient Filling = new Ingredient("/equipment/filling.png", 0.15,0.81,0.006,0.009,pot);
+        //add ,Ingredient.Type.FOOD
+        Ingredient Filling = new Ingredient("/equipment/filling.png", 0.15,0.81,0.006,0.009,pot,cutBoard,Ingredient.Type.FOOD);
         gameLayer.add(Filling,JLayeredPane.DRAG_LAYER);
-
-        Ingredient Leaf = new Ingredient("/equipment/leaf.png", 0.21,0.79,0.005,0.020,pot);
+        //add ,Ingredient.Type.FOOD
+        Ingredient Leaf = new Ingredient("/equipment/leaf.png",0.21,0.79,0.005,0.020,pot,cutBoard,Ingredient.Type.FOOD);
         gameLayer.add(Leaf, JLayeredPane.DRAG_LAYER);
-
-        Ingredient Sesame = new Ingredient("/equipment/sesame.png", 0.30,0.78,0.007,0.010,pot);
+        //add ,Ingredient.Type.FOOD
+        Ingredient Sesame = new Ingredient("/equipment/sesame.png", 0.30,0.78,0.007,0.010,pot,cutBoard,Ingredient.Type.FOOD);
         gameLayer.add(Sesame, JLayeredPane.DRAG_LAYER);
-
-        Ingredient PalmSugar = new Ingredient("/equipment/palmsugar.png", 0.35,0.78,0.007,0.010,pot);
+        //add ,Ingredient.Type.FOOD
+        Ingredient PalmSugar = new Ingredient("/equipment/palmsugar.png", 0.35,0.78,0.007,0.010,pot,Ingredient.Type.FOOD);
         gameLayer.add(PalmSugar , JLayeredPane.DRAG_LAYER);
 
         Dough dough = new Dough(pot,cutBoard);
         gameLayer.add(dough, JLayeredPane.DRAG_LAYER);
-
-
 
         addComponentListener(new ComponentAdapter() {
             @Override
@@ -82,9 +79,5 @@ public class GameScreen extends JPanel{
                 }
             }
         });
-
-
-
-
     }
 }
