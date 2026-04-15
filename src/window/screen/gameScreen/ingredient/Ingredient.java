@@ -121,12 +121,11 @@ public class Ingredient extends JComponent implements GameScreenListener {
             //add --> ส่งวัตถุดิบนี้เข้าไปในหม้อ ใน Pot เช็ค เป็น WATER → เปลี่ยนเป็นหม้อน้ำ, เป็น OIL → เปลี่ยนเป็นหม้อน้ำมัน
             if (onPot) {
                 pot.addIngredient(Ingredient.this);
-            }
-            if(onBoard){
+            } else if(onBoard){
                 cutBoard.addIngredient(Ingredient.this);
-            }
-            if (!onPot && !onBoard){
+            } else{
                 setLocation(startX,startY);
+                cutBoard.removeIngredient(Ingredient.this);
             }
 
 

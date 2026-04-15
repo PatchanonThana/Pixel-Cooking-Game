@@ -34,6 +34,7 @@ public class CutBoard extends JComponent implements GameScreenListener {
         boolean hasSesame = ingredients.stream().anyMatch(i-> i.getFilename().contains("/equipment/sesame.png"));
         boolean hasDoughandFilling = ingredients.stream().anyMatch(i-> i.getFilename().contains("/dessert/ขนมเทียน1.png"));
 
+        //ทำให้เข้าถึงpot บนgamelayer
         JLayeredPane gameLayer = (JLayeredPane) getParent();
         for(Component c : gameLayer.getComponents()) {
             if(c instanceof Pot p) {
@@ -60,7 +61,6 @@ public class CutBoard extends JComponent implements GameScreenListener {
         if(hasDoughandFilling&&hasLeaf){
             for(Ingredient i : ingredients){
                 if(i.getFilename().contains("/dessert/ขนมเทียน1.png")){
-
                     gameLayer.remove(i);
                 } else{
                     i.returnToStart();
@@ -92,6 +92,10 @@ public class CutBoard extends JComponent implements GameScreenListener {
         }
 
 
+    }
+
+    public void removeIngredient(Ingredient ingredient){
+        ingredients.remove(ingredient);
     }
     @Override
     public void gameScreenResized(Dimension size){
