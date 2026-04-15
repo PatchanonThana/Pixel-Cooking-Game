@@ -54,10 +54,12 @@ public class Pot extends JComponent implements GameScreenListener {
         System.out.println("INTERSECT OK");
 
         if (ing.getType() == Ingredient.Type.WATER) {
+            ing.returnToStart();
             System.out.println("WATER");
             currentImage = waterImage;
         }
         else if (ing.getType() == Ingredient.Type.OIL) {
+            ing.returnToStart();
             System.out.println("OIL");
             currentImage = oilImage;
         }
