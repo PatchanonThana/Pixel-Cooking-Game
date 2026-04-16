@@ -1,7 +1,12 @@
 package window.screen.gameScreen.cutBoard;
+
 import window.screen.gameScreen.ingredient.Ingredient;
+import window.screen.gameScreen.ingredient.Ingredient.PrepState;
+import window.screen.gameScreen.ingredient.Ingredient.FoodKind;
+import window.screen.gameScreen.ingredient.Ingredient.Type;
 import window.screen.gameScreen.GameScreenListener;
 import window.screen.gameScreen.ingredient.Dough;
+import window.screen.gameScreen.ingredient.circleDough;
 import window.screen.gameScreen.pot.Pot;
 
 import javax.swing.*;
@@ -22,17 +27,32 @@ public class CutBoard extends JComponent implements GameScreenListener {
         return boardZone;
     }
 
+    private void findPot() {
+        if (pot != null) return;
+        JLayeredPane gameLayer = (JLayeredPane) getParent();
+        if (gameLayer == null) return;
+
+        for (Component c : gameLayer.getComponents()) {
+            if (c instanceof Pot p) {
+                pot = p;
+                break;
+            }
+        }
+    }
+
     public void addIngredient(Ingredient ingredient){
         ingredients.add(ingredient);
         checkRecipe();
     }
 
     public void checkRecipe(){
+        findPot();
+
         boolean hasDough = ingredients.stream().anyMatch(i-> i instanceof Dough);
         boolean hasFilling = ingredients.stream().anyMatch(i-> i.getFilename().contains("/equipment/filling.png"));
         boolean hasLeaf = ingredients.stream().anyMatch(i->i.getFilename().contains("/equipment/leaf.png"));
         boolean hasSesame = ingredients.stream().anyMatch(i-> i.getFilename().contains("/equipment/sesame.png"));
-        boolean hasDoughandFilling = ingredients.stream().anyMatch(i-> i.getFilename().contains("/dessert/ขนมเทียน1.png"));
+        boolean hasDoughandFilling = ingredients.stream().anyMatch(i-> i.getFilename().contains("/dessert/tian1.png"));
 
         //ทำให้เข้าถึงpot บนgamelayer
         JLayeredPane gameLayer = (JLayeredPane) getParent();
@@ -50,17 +70,20 @@ public class CutBoard extends JComponent implements GameScreenListener {
             }
             ingredients.clear();
 
-            Ingredient DoughandFiling = new Ingredient("/dessert/ขนมเทียน1.png",0.77,0.79,0.009,0.010,pot,cutBoard);
-            ingredients.add(DoughandFiling);
-            DoughandFiling.gameScreenResized(gameLayer.getSize());
-            gameLayer.add(DoughandFiling,JLayeredPane.DRAG_LAYER);
+            Ingredient thian1 = new Ingredient("/dessert/tian1.png", 0.77, 0.79, 0.009, 0.010, pot, this, Type.FOOD);
+            thian1.setPrepState(PrepState.WITH_FILLING);
+            thian1.setFoodKind(FoodKind.THIAN);
+
+            thian1.gameScreenResized(gameLayer.getSize());
+            gameLayer.add(thian1, JLayeredPane.DRAG_LAYER);
             gameLayer.revalidate();
             gameLayer.repaint();
+            return;
         }
 
         if(hasDoughandFilling&&hasLeaf){
             for(Ingredient i : ingredients){
-                if(i.getFilename().contains("/dessert/ขนมเทียน1.png")){
+                if(i.getFilename().contains("/dessert/tian1.png")){
                     gameLayer.remove(i);
                 } else{
                     i.returnToStart();
@@ -69,11 +92,15 @@ public class CutBoard extends JComponent implements GameScreenListener {
             ingredients.clear();
 
 
-            Ingredient DoughandLeaf = new Ingredient("/dessert/ขนมเทียน2.png",0.77,0.79,0.009,0.010,pot,cutBoard);
-            DoughandLeaf.gameScreenResized(gameLayer.getSize());
-            gameLayer.add(DoughandLeaf,JLayeredPane.DRAG_LAYER);
+            Ingredient thian2 = new Ingredient("/dessert/tian2.png", 0.77, 0.79, 0.009, 0.010, pot, this, Type.FOOD);
+            thian2.setPrepState(PrepState.WRAPPED);
+            thian2.setFoodKind(FoodKind.THIAN);
+
+            thian2.gameScreenResized(gameLayer.getSize());
+            gameLayer.add(thian2, JLayeredPane.DRAG_LAYER);
             gameLayer.revalidate();
             gameLayer.repaint();
+            return;
         }
 
         //สูตรข้าวแคบดิบ
@@ -84,11 +111,15 @@ public class CutBoard extends JComponent implements GameScreenListener {
             ingredients.clear();
 
 
-            Ingredient DoughandSesame = new Ingredient("/dessert/ข้าวแคบ1.png",0.77,0.79,0.009,0.010,pot,cutBoard);
-            DoughandSesame.gameScreenResized(gameLayer.getSize());
-            gameLayer.add(DoughandSesame,JLayeredPane.DRAG_LAYER);
+            Ingredient khaeb1 = new Ingredient("/dessert/khaeb1.png", 0.77, 0.79, 0.009, 0.010, pot, this, Type.FOOD);
+            khaeb1.setPrepState(PrepState.WITH_SESAME);
+            khaeb1.setFoodKind(FoodKind.KHAEB);
+
+            khaeb1.gameScreenResized(gameLayer.getSize());
+            gameLayer.add(khaeb1, JLayeredPane.DRAG_LAYER);
             gameLayer.revalidate();
             gameLayer.repaint();
+            return;
         }
 
 

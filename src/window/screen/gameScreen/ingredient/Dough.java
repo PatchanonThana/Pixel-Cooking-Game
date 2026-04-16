@@ -1,36 +1,41 @@
 package window.screen.gameScreen.ingredient;
+
 import window.screen.gameScreen.cutBoard.CutBoard;
-import window.screen.gameScreen.ingredient.Ingredient;
 import window.screen.gameScreen.pot.Pot;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-public class Dough extends Ingredient{
-    public Dough(Pot pot, CutBoard cutBoard){
-        super("/dessert/dough.png", 0.61 , 0.79,0.009,0.010,pot,cutBoard);
-        }
+public class Dough extends Ingredient {
 
-        //ฟังก์ชันคลิกขวาได้ขนมวงที่เขียนoverride
+    public Dough(Pot pot, CutBoard cutBoard) {
+        super("/dessert/dough.png",
+                0.61, 0.79,
+                0.009, 0.010,
+                pot, cutBoard,
+                Type.FOOD);
+        setPrepState(PrepState.RAW_DOUGH);
+    }
+
     @Override
-    protected void OnRightClick(){
+    protected void OnRightClick() {
         Container parent = getParent();
+        if (parent == null) return;
+
         Point currentLocation = getLocation();
+        Dimension parentSize = parent.getSize();
+        double relX = (double) currentLocation.x / parentSize.width;
+        double relY = (double) currentLocation.y / parentSize.height;
 
-        double relX = (double) currentLocation.x / parent.getWidth();
-        double relY = (double) currentLocation.y / parent.getHeight();
+        this.setVisible(false);
+        parent.remove(this);
 
-        parent.remove(Dough.this);
+        circleDough circleDough = new circleDough(relX, relY, pot, cutBoard);
 
-        circleDough circledough = new circleDough(relX , relY,pot,cutBoard);
-        parent.add(circledough, JLayeredPane.DRAG_LAYER);
-
+        parent.add(circleDough, JLayeredPane.DRAG_LAYER);
+        circleDough.gameScreenResized(parentSize);
 
         parent.revalidate();
         parent.repaint();
-        circledough.gameScreenResized(parent.getSize());
-
     }
 }

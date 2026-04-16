@@ -10,21 +10,37 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
-
-
 import java.io.IOException;
+
 
 public class Ingredient extends JComponent implements GameScreenListener {
     //add
     public enum Type {
-        WATER,
-        OIL,
-        FOOD,
-        OTHER
-    }protected Type type = Type.OTHER;
-    public Type getType() {
-        return type;
+        WATER, OIL, SUGAR,
+        FOOD, FILLING, LEAF, SESAME,
+        STEAMERMID, STEAMERTOP
     }
+
+    public enum PrepState {
+        RAW_DOUGH,
+        RING,
+        WITH_SESAME,
+        WITH_FILLING,
+        WRAPPED,
+        FRIED,
+        STEAMED,
+        SYRUP_READY,
+        COATED,
+        FINISHED
+    }
+
+    public enum FoodKind {
+        RING, THIAN, KHAEB
+    }
+
+    private FoodKind foodKind = null;
+    private PrepState prepState = PrepState.RAW_DOUGH;
+    protected Type type = Type.FOOD;
 
 
     private String filename;
@@ -33,76 +49,77 @@ public class Ingredient extends JComponent implements GameScreenListener {
     private  int width , height; //พิกัดเริ่ม
     private double relWidth , relHeight;
     BufferedImage IngredientImage;
-    private boolean isVisible;
-    Point imageCorner;
     Point pressedPoint;
     int scale = 5;
     protected Pot pot;
     protected   CutBoard cutBoard;
 
-    public Ingredient(String filename, double relX, double relY, double relWidth, double relHeight, Pot pot) {
+    public Ingredient(String filename, double relX, double relY, double relWidth, double relHeight, Pot pot, CutBoard cutBoard, Type type) {
         this.filename = filename;
         this.relX = relX;
         this.relY = relY;
-        this.isVisible = true;
-        setOpaque(false);
         this.relWidth = relWidth * scale;
         this.relHeight = relHeight * scale;
         this.pot = pot;
+        this.cutBoard = cutBoard;
+        this.type = type;
 
-        //รับไฟล์รูป
+        setOpaque(false);
+        loadImage(filename);
+        setBounds(0, 0, 0, 0);
+
+        addMouseListener(new ClickListener());
+        addMouseMotionListener(new DragListener());
+    }
+
+    private void loadImage(String path) {
         try {
-            java.net.URL imgUrl = getClass().getResource(filename);
-            IngredientImage = ImageIO.read(imgUrl);
+            java.net.URL imgUrl = getClass().getResource(path);
+            if (imgUrl != null) {
+                IngredientImage = ImageIO.read(imgUrl);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //ตั้งค่าตำแหน่งรุปบนจอหลัก
-        setBounds(0,0,0,0);
-
-        //เพิ่มระบบเมาส์และตำแหน่งแรกสำหรับคำนวณ
-        imageCorner = new Point(0,0);
-        ClickListener clickListener = new ClickListener();
-        DragListener dragListener = new DragListener();
-        this.addMouseListener(clickListener);
-        this.addMouseMotionListener(dragListener);
-    }
-    //add บอกว่ามันคืออะไร --> ตั้งว่า ingredient นี้เป็น WATER,OIL,FOOD
-    public Ingredient(String filename, double relX, double relY, double relWidth, double relHeight, Pot pot, Type type) {
-
-        this(filename, relX, relY, relWidth, relHeight, pot);
-        this.type = type;
     }
 
-    //constructor สำหรับวัตถุดิบที่ต้องใช้เขียง --> วัตถุดิบนี้ใช้กับเขียงได้
-    public Ingredient(String filename, double relX,double relY, double relWidth, double relHeight, Pot pot , CutBoard cutBoard,Type type) {
-        this(filename , relX , relY , relWidth , relHeight , pot);
-        this.cutBoard = cutBoard;
-        this.isVisible = true;
-        setOpaque(false);
-        this.type = type;
-
+    public FoodKind getFoodKind() {
+        return foodKind;
     }
 
-    public Ingredient(String filename, double relX,double relY, double relWidth, double relHeight, Pot pot , CutBoard cutBoard) {
-        this(filename , relX , relY , relWidth , relHeight , pot);
-        this.cutBoard = cutBoard;
-        this.isVisible = true;
-        setOpaque(false);
-
-
+    public void setFoodKind(FoodKind kind) {
+        this.foodKind = kind;
     }
 
-    public String getFilename(){
+    public Type getType() {
+        return type;
+    }
+
+    public PrepState getPrepState() {
+        return prepState;
+    }
+
+    public void setPrepState(PrepState state) {
+        this.prepState = state;
+    }
+
+    public String getFilename() {
         return filename;
     }
 
-    public void returnToStart(){
-        setLocation(startX,startY);
+    public Image getFoodImage() {
+        return IngredientImage;
     }
 
+    public void setImage(String newFilename) {
+        this.filename = newFilename;
+        loadImage(newFilename);
+        repaint();
+    }
 
-
+    public void returnToStart() {
+        setLocation(startX, startY);
+    }
 
     private class ClickListener extends MouseAdapter{
         public void mousePressed(MouseEvent e){
@@ -118,7 +135,6 @@ public class Ingredient extends JComponent implements GameScreenListener {
 
             boolean onPot = (pot != null) && pot.getPotZone().intersects(ingredientRect);
             boolean onBoard = (cutBoard != null) && cutBoard.getBoardZone().intersects(ingredientRect);
-            //add --> ส่งวัตถุดิบนี้เข้าไปในหม้อ ใน Pot เช็ค เป็น WATER → เปลี่ยนเป็นหม้อน้ำ, เป็น OIL → เปลี่ยนเป็นหม้อน้ำมัน
             if (onPot) {
                 pot.addIngredient(Ingredient.this);
             } else if(onBoard){
