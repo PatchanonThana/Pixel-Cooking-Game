@@ -6,7 +6,7 @@ import window.screen.gameScreen.pot.Pot;
 //ขนมวงดิบ class แยก
 public class circleDough extends Ingredient {
     public circleDough(double relX, double relY, Pot pot, CutBoard cutBoard){
-        super("/dessert/ring1.png", relX , relY,0.010,0.012,pot, cutBoard, Type.FOOD);
+        super("/dessert/ring1.png", relX , relY,0.018,0.024,pot, cutBoard, Type.FOOD);
 
         // set สถานะและชนิดขนม
         setPrepState(PrepState.RING);
