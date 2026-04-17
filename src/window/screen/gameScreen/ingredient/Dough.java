@@ -10,8 +10,8 @@ public class Dough extends Ingredient {
 
     public Dough(Pot pot, CutBoard cutBoard) {
         super("/dessert/dough.png",
-                0.61, 0.79,
-                0.009, 0.010,
+                0.61, 0.77,
+                0.018, 0.024,
                 pot, cutBoard,
                 Type.FOOD);
         setPrepState(PrepState.RAW_DOUGH);
