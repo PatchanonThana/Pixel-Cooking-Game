@@ -105,7 +105,7 @@ public class Pot extends JComponent implements GameScreenListener {
     }
 
     public boolean addIngredient(Ingredient ing) {
-        if (!getBounds().intersects(ing.getBounds())) return false;
+        if (!potZone.intersects(ing.getBounds())) return false;
 
         Type type = ing.getType();
 
@@ -304,12 +304,19 @@ public class Pot extends JComponent implements GameScreenListener {
 
     @Override
     public void gameScreenResized(Dimension size) {
+        // ขนาดรูปหม้อ
         int w = (int) (size.width * 0.15);
         int h = (int) (size.height * 0.15);
         int x = (size.width - w) / 2;
         int y = (int) (size.height * 0.75);
-        potZone = new Rectangle(x, y, w, h);
         setBounds(x, y, w, h);
+
+        // ขนาด zone รัะบขนม
+        int zoneW = (int) (w * 0.4);
+        int zoneH = (int) (h * 0.05);
+        int zoneX = x + (w - zoneW) / 2;
+        int zoneY = y + (int) (h * 0.45);
+        potZone = new Rectangle(zoneX, zoneY, zoneW, zoneH);
     }
 
     @Override

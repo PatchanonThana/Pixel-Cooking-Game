@@ -141,7 +141,9 @@ public class Ingredient extends JComponent implements GameScreenListener {
                 cutBoard.addIngredient(Ingredient.this);
             } else{
                 setLocation(startX,startY);
-                cutBoard.removeIngredient(Ingredient.this);
+                if (cutBoard != null) {
+                    cutBoard.removeIngredient(Ingredient.this);
+                }
             }
 
 
