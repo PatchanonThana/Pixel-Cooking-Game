@@ -35,8 +35,9 @@ public class GameScreen extends JPanel{
         ToMenuButton toMenuButton = new ToMenuButton(mainScreen);
         gameLayer.add(toMenuButton, JLayeredPane.PALETTE_LAYER);
 
-        currentCustomer = new Customer();
-        gameLayer.add(currentCustomer, JLayeredPane.PALETTE_LAYER);
+        //currentCustomer = new Customer();
+        //gameLayer.add(currentCustomer, JLayeredPane.PALETTE_LAYER);
+        spawnNewCustomer();
 
         gameLayer.add(cutBoard,JLayeredPane.POPUP_LAYER);
         gameLayer.add(pot,JLayeredPane.POPUP_LAYER);
@@ -116,6 +117,9 @@ public class GameScreen extends JPanel{
         Dough dough = new Dough(pot, cutBoard);
         gameLayer.add(dough, JLayeredPane.DRAG_LAYER);
 
+        Ingredient.setCustomerTarget(currentCustomer);
+
+
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -128,4 +132,21 @@ public class GameScreen extends JPanel{
             }
         });
     }
+
+    //เรียกลูกค้าใหม่หลังจากลูกค้ารับออเดอร์
+    public void spawnNewCustomer() {
+        if (currentCustomer != null) {
+            gameLayer.remove(currentCustomer);
+        }
+        currentCustomer = new Customer();
+        currentCustomer.setOnExitCallback(() -> { spawnNewCustomer(); });
+        gameLayer.add(currentCustomer, JLayeredPane.PALETTE_LAYER);
+        currentCustomer.gameScreenResized(gameLayer.getSize());
+
+        Ingredient.setCustomerTarget(currentCustomer);
+
+        gameLayer.revalidate();
+        gameLayer.repaint();
+    }
+
 }
