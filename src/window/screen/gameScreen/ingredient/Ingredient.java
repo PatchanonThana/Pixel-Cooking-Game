@@ -2,6 +2,7 @@ package window.screen.gameScreen.ingredient;
 import window.screen.gameScreen.cutBoard.CutBoard;
 import window.screen.gameScreen.GameScreenListener;
 import window.screen.gameScreen.pot.Pot;
+import window.screen.gameScreen.customer.Customer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -53,6 +54,14 @@ public class Ingredient extends JComponent implements GameScreenListener {
     int scale = 5;
     protected Pot pot;
     protected   CutBoard cutBoard;
+
+    private static Customer customer;
+
+    // เปลี่ยนชื่อฟังก์ชันและใส่ static
+    public static void setCustomerTarget(Customer c) {
+        Ingredient.customer = c;
+    }
+
 
     public Ingredient(String filename, double relX, double relY, double relWidth, double relHeight, Pot pot, CutBoard cutBoard, Type type) {
         this.filename = filename;
@@ -135,17 +144,40 @@ public class Ingredient extends JComponent implements GameScreenListener {
 
             boolean onPot = (pot != null) && pot.getPotZone().intersects(ingredientRect);
             boolean onBoard = (cutBoard != null) && cutBoard.getBoardZone().intersects(ingredientRect);
-            if (onPot) {
+
+            boolean onCustomer = (customer != null) && customer.getBounds().intersects(ingredientRect);
+
+            PrepState currentState = getPrepState();
+            boolean isCooked = (currentState == PrepState.COATED ||
+                    currentState == PrepState.FRIED ||
+                    currentState == PrepState.STEAMED);
+
+            if (onCustomer  && isCooked) {
+                boolean isCorrect = customer.checkOrder(Ingredient.this);
+                setVisible(false);
+
+                if (isCorrect) {
+                    System.out.println("เสิร์ฟถูกต้อง");
+                    // สามารถเพิ่ม Code บวกคะแนนตรงนี้ได้
+                } else {
+                    System.out.println("เสิร์ฟผิด!");
+                    // สามารถเพิ่ม Code ลบคะแนนตรงนี้ได้
+                }
+                customer.startLeaveAnimation();
+            }
+            else if (onPot) {
                 pot.addIngredient(Ingredient.this);
-            } else if(onBoard){
+            }
+            else if (onBoard) {
                 cutBoard.addIngredient(Ingredient.this);
-            } else{
-                setLocation(startX,startY);
+            }
+            else {
+                // ถ้าไม่โดนอะไรเลย ให้เด้งกลับที่เดิม
+                setLocation(startX, startY);
                 if (cutBoard != null) {
                     cutBoard.removeIngredient(Ingredient.this);
                 }
             }
-
 
         }
 
