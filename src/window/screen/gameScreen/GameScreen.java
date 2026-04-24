@@ -8,6 +8,7 @@ import window.screen.gameScreen.pot.Pot;
 import window.screen.gameScreen.toMenuButton.ToMenuButton;
 import window.screen.mainScreen.MainScreen;
 import window.screen.gameScreen.customer.Customer;
+import window.screen.gameScreen.point.Point;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +22,7 @@ public class GameScreen extends JPanel{
     Pot pot = new Pot();
     CutBoard cutBoard = new CutBoard();
     Customer currentCustomer;
+    Point pointSystem = new Point();
 
     public GameScreen(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
@@ -116,6 +118,7 @@ public class GameScreen extends JPanel{
         Dough dough = new Dough(pot, cutBoard);
         gameLayer.add(dough, JLayeredPane.DRAG_LAYER);
 
+
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -127,5 +130,14 @@ public class GameScreen extends JPanel{
                 }
             }
         });
+    }
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g); // วาด JPanel และ Background ปกติ
+        Graphics2D g2 = (Graphics2D) g;
+        // วาดคะแนนที่มุมบนขวา
+        if (pointSystem != null) {
+            pointSystem.draw(g2, getWidth());
+        }
     }
 }
