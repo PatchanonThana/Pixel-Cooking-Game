@@ -27,7 +27,7 @@ public class CutBoard extends JComponent implements GameScreenListener {
         return boardZone;
     }
 
-    private void findPot() {
+    /*private void findPot() {
         if (pot != null) return;
         JLayeredPane gameLayer = (JLayeredPane) getParent();
         if (gameLayer == null) return;
@@ -38,7 +38,7 @@ public class CutBoard extends JComponent implements GameScreenListener {
                 break;
             }
         }
-    }
+    }*/
 
     public void addIngredient(Ingredient ingredient){
         ingredients.add(ingredient);
@@ -46,7 +46,7 @@ public class CutBoard extends JComponent implements GameScreenListener {
     }
 
     public void checkRecipe(){
-        findPot();
+        //findPot();
 
         boolean hasDough = ingredients.stream().anyMatch(i-> i instanceof Dough);
         boolean hasFilling = ingredients.stream().anyMatch(i-> i.getFilename().contains("/equipment/filling.png"));
@@ -70,7 +70,7 @@ public class CutBoard extends JComponent implements GameScreenListener {
             }
             ingredients.clear();
 
-            Ingredient thian1 = new Ingredient("/dessert/tian1.png", 0.77, 0.79, 0.009, 0.010, pot, this, Type.FOOD);
+            Ingredient thian1 = new Ingredient("/dessert/tian1.png", 0.74, 0.79, 0.018, 0.024, pot, this, Type.FOOD);
             thian1.setPrepState(PrepState.WITH_FILLING);
             thian1.setFoodKind(FoodKind.THIAN);
 
@@ -92,7 +92,7 @@ public class CutBoard extends JComponent implements GameScreenListener {
             ingredients.clear();
 
 
-            Ingredient thian2 = new Ingredient("/dessert/tian2.png", 0.77, 0.79, 0.009, 0.010, pot, this, Type.FOOD);
+            Ingredient thian2 = new Ingredient("/dessert/tian2.png", 0.74, 0.79, 0.018, 0.024, pot, this, Type.FOOD);
             thian2.setPrepState(PrepState.WRAPPED);
             thian2.setFoodKind(FoodKind.THIAN);
 
@@ -111,7 +111,7 @@ public class CutBoard extends JComponent implements GameScreenListener {
             ingredients.clear();
 
 
-            Ingredient khaeb1 = new Ingredient("/dessert/khaeb1.png", 0.77, 0.79, 0.009, 0.010, pot, this, Type.FOOD);
+            Ingredient khaeb1 = new Ingredient("/dessert/khaeb1.png", 0.75, 0.79, 0.018, 0.024, pot, this, Type.FOOD);
             khaeb1.setPrepState(PrepState.WITH_SESAME);
             khaeb1.setFoodKind(FoodKind.KHAEB);
 
@@ -132,8 +132,8 @@ public class CutBoard extends JComponent implements GameScreenListener {
     public void gameScreenResized(Dimension size){
         int x = (int)(size.width * 0.77);
         int y = (int)(size.height * 0.79);
-        int w = (int)(size.width * 0.04);
-        int h = (int)(size.height * 0.11);
+        int w = (int)(size.width * 0.02);
+        int h = (int)(size.height * 0.09);
         boardZone = new Rectangle(x,y,w,h);
         setBounds(x,y,w,h);
     }

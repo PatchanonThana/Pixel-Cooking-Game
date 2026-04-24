@@ -1,5 +1,5 @@
 package window.screen.gameScreen.customer;
-
+import window.screen.gameScreen.ingredient.Ingredient;
 import window.screen.gameScreen.GameScreenListener;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -13,17 +13,24 @@ public class Customer extends JComponent implements GameScreenListener {
     private Image customerImage;
     private Image chatImage;
     private String currentOrder;
+    private String displayMessage;
+    private Timer messageTimer;
 
     private final String[] menuItems = {"ขนมวง", "ขนมเทียน", "ขนมแคบ"};
 
     private int charW = 450;
     private int charH = 550;
 
+    private Timer moveTimer;
+    private Runnable onExitCallback;
+
     public Customer() {
         Random random = new Random();
         int menuIndex = random.nextInt(menuItems.length);
         this.currentOrder = menuItems[menuIndex];
         int spriteNumber = random.nextInt(4) + 1;
+        this.displayMessage = "ขอสั่งเมนู(" + currentOrder + ")";
+        setOpaque(false);
 
         String filename = "/window/screen/gameScreen/customer/pixelcustomer/sprite" + spriteNumber + ".png";
         String chatFilename = "/window/screen/gameScreen/customer/pixelcustomer/chat.png";
@@ -53,6 +60,64 @@ public class Customer extends JComponent implements GameScreenListener {
     public String getCurrentOrder() {
         return currentOrder;
     }
+
+    public boolean checkOrder(Ingredient food) {
+        //ดึงข้อมูลชนิดอาหารและสถานะจากที่ลากมา
+        Ingredient.FoodKind kind = food.getFoodKind();
+        Ingredient.PrepState prep = food.getPrepState();
+
+        boolean isCorrect = false;
+
+        //เช็คว่าตรงกับเมนูที่สั่ง และ ทำสุกตามขั้นตอนหรือยัง
+        if (currentOrder.equals("ขนมวง") && kind == Ingredient.FoodKind.RING && prep == Ingredient.PrepState.COATED) {
+            isCorrect = true;
+        } else if (currentOrder.equals("ขนมแคบ") && kind == Ingredient.FoodKind.KHAEB && prep == Ingredient.PrepState.FRIED) {
+            isCorrect = true;
+        } else if (currentOrder.equals("ขนมเทียน") && kind == Ingredient.FoodKind.THIAN && prep == Ingredient.PrepState.STEAMED) {
+            isCorrect = true;
+        }
+
+        if (isCorrect) {
+            this.displayMessage = "อาหารอร่อยมากเลย";
+        } else {
+            this.displayMessage = "ร้านนี้ไม่ดีเลยทำอาหารก็ผิด";
+        }
+
+        repaint();
+        return isCorrect;
+    }
+
+    public void setOnExitCallback(Runnable callback) {
+        this.onExitCallback = callback;
+    }
+
+    public void startLeaveAnimation() {
+        // หน่วงเวลา2.0วินาที และลบข้อความ
+        Timer delayTimer = new Timer(2000, e -> {
+            this.chatImage = null;
+            this.displayMessage = "";
+            repaint();
+
+            // ลูกค้าเดินไปทางซ้ายออกจากร้าน
+            moveTimer = new Timer(10, e2 -> {
+                setLocation(getX() - 5, getY()); // ขยับทีละ 5 พิกเซล
+
+                // เช็คว่าเดินทะลุขอบจอซ้ายไปหรือยัง
+                if (getX() + getWidth() < 0) {
+                    moveTimer.stop();
+
+                    if (onExitCallback != null) {
+                        onExitCallback.run();
+                    }
+                }
+            });
+            moveTimer.start();
+        });
+
+        delayTimer.setRepeats(false);
+        delayTimer.start();
+    }
+
 
     @Override
     public void gameScreenResized(Dimension size) {
@@ -90,7 +155,7 @@ public class Customer extends JComponent implements GameScreenListener {
             g.setColor(Color.BLACK);
             g.setFont(new Font("Tahoma", Font.BOLD, 24));
 
-            String fullText = "ขอสั่งเมนู(" + currentOrder + ")";
+            String fullText = displayMessage;
             FontMetrics metrics = g.getFontMetrics(g.getFont());
             int textWidth = metrics.stringWidth(fullText);
 

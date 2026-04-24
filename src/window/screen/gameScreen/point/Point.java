@@ -27,7 +27,7 @@ public class Point {
         }
     }
 
-    // ระบบคำนวณคะแนนตามความยากของเมนู (อิงชื่อตามที่เพื่อนเขียน)
+    // ระบบคำนวณคะแนนตามความยากของเมนู
     private void calculateAddScore(String foodName) {
         switch (foodName) {
             case "ขนมวง":
@@ -60,7 +60,7 @@ public class Point {
         g2.drawString(scoreText, x + 2, y + 2);
 
         // วาดตัวเลขจริง
-        g2.setColor(Color.BLACK);
+        g2.setColor(Color.WHITE);
         g2.drawString(scoreText, x, y);
     }
 

@@ -37,8 +37,9 @@ public class GameScreen extends JPanel{
         ToMenuButton toMenuButton = new ToMenuButton(mainScreen);
         gameLayer.add(toMenuButton, JLayeredPane.PALETTE_LAYER);
 
-        currentCustomer = new Customer();
-        gameLayer.add(currentCustomer, JLayeredPane.PALETTE_LAYER);
+        //currentCustomer = new Customer();
+        //gameLayer.add(currentCustomer, JLayeredPane.PALETTE_LAYER);
+        spawnNewCustomer();
 
         gameLayer.add(cutBoard,JLayeredPane.POPUP_LAYER);
         gameLayer.add(pot,JLayeredPane.POPUP_LAYER);
@@ -119,6 +120,9 @@ public class GameScreen extends JPanel{
         gameLayer.add(dough, JLayeredPane.DRAG_LAYER);
 
 
+        Ingredient.setCustomerTarget(currentCustomer);
+
+
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -131,11 +135,28 @@ public class GameScreen extends JPanel{
             }
         });
     }
+
+    //เรียกลูกค้าใหม่หลังจากลูกค้ารับออเดอร์
+    public void spawnNewCustomer() {
+        if (currentCustomer != null) {
+            gameLayer.remove(currentCustomer);
+        }
+        currentCustomer = new Customer();
+        currentCustomer.setOnExitCallback(() -> { spawnNewCustomer(); });
+        gameLayer.add(currentCustomer, JLayeredPane.PALETTE_LAYER);
+        currentCustomer.gameScreenResized(gameLayer.getSize());
+
+        Ingredient.setCustomerTarget(currentCustomer);
+
+        gameLayer.revalidate();
+        gameLayer.repaint();
+    }
+
+    //เขียนคะแนน
     @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g); // วาด JPanel และ Background ปกติ
+    public void paint(Graphics g) {
+        super.paint(g); // วาดเลเยอร์และส่วนประกอบทั้งหมดก่อน
         Graphics2D g2 = (Graphics2D) g;
-        // วาดคะแนนที่มุมบนขวา
         if (pointSystem != null) {
             pointSystem.draw(g2, getWidth());
         }
