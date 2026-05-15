@@ -11,7 +11,12 @@ import window.soundPlayer.bgmPlayer.BGMPlayer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.classfile.ClassFile;
 import java.util.Objects;
+import java.util.Properties;
 
 public class MainScreen extends JPanel implements
         MenuStartButtonListener,
@@ -23,8 +28,10 @@ public class MainScreen extends JPanel implements
     MainWindow mainWindow;
     BGMPlayer bgm;
     public String playerName = "Player";
+    public int playerScore;
     boolean startButtonClicked = false;
-    private Icon inputIcon;
+    boolean haveName;
+    private final Icon inputIcon;
 
     GameScreen gameScreen;
 
@@ -82,8 +89,19 @@ public class MainScreen extends JPanel implements
     @Override
     public void menuStartButtonClicked() {
         if (!startButtonClicked) {
-            boolean haveName = false; //just placeholder
-            int changeName = JOptionPane.NO_OPTION;
+            //Load player data from player/data.properties
+            Properties prop = new Properties();
+            try (FileInputStream input = new FileInputStream("src/player/data.properties")) {
+                prop.load(input);
+                playerName = prop.getProperty("PlayerName", "NONAME");
+                haveName = !playerName.equals("NONAME");
+                playerScore = Integer.parseInt(prop.getProperty("PlayerHighestScore","0"));
+            }
+            catch (IOException err) {
+                System.out.println(err.getMessage());
+            }
+
+            int changeName;
             if (haveName) {
                 changeName = JOptionPane.showConfirmDialog(
                         null,
@@ -98,6 +116,7 @@ public class MainScreen extends JPanel implements
             } else {
                 askForName();
             }
+            //tell gameScreen to tell customer to change player name
             gameScreen.changeCustomerPlayerName(playerName);
         }
         showCard(Screen.GAME.name());
@@ -122,6 +141,19 @@ public class MainScreen extends JPanel implements
     @Override
     public void exitButtonClicked() {
         bgm.stop();
+
+        //Save player data at  player/data.properties
+        Properties prop = new Properties();
+        prop.setProperty("PlayerName",this.playerName);
+        prop.setProperty("PlayerHighestScore","10");
+
+        try (FileOutputStream out = new FileOutputStream("src/player/data.properties")) {
+            prop.store(out, "Player Data");
+        }
+        catch (IOException err) {
+            System.out.println(err.getMessage());
+        }
+
         System.exit(0);
     }
 }
