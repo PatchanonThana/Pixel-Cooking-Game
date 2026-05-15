@@ -62,13 +62,14 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
 
     public void setNewPlayerName(String playerName) {
         this.playerName = playerName;
-        this.displayMessage = "เชฟ " + playerName + " ผมขอสั่งเมนู(" + currentOrder + ")";
+        this.displayMessage = "เชฟ " + playerName + " ขอสั่งเมนู " + currentOrder + "หน่อย";
     }
 
     @Override
     public void menuStartButtonClicked() {
-        this.displayMessage = "เชฟ " + playerName + " ผมขอสั่งเมนู(" + currentOrder + ")";
+        this.displayMessage = "เชฟ " + playerName + " ขอสั่งเมนู " + currentOrder + "หน่อย";
     }
+
 
     public String getCurrentOrder() {
         return currentOrder;
