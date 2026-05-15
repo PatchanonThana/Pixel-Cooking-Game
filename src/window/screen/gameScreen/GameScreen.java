@@ -149,4 +149,9 @@ public class GameScreen extends JPanel{
         gameLayer.repaint();
     }
 
+    public void changeCustomerPlayerName(String playerName) {
+        currentCustomer.setNewPlayerName(playerName);
+    }
+
+
 }
