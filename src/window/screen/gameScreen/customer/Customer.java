@@ -62,12 +62,12 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
 
     public void setNewPlayerName(String playerName) {
         this.playerName = playerName;
-        this.displayMessage = "เชฟ " + playerName + " ขอสั่งเมนู " + currentOrder + "หน่อย";
+        this.displayMessage = "เชฟ " + playerName + " ขอสั่งเมนู " + currentOrder + " หน่อย";
     }
 
     @Override
     public void menuStartButtonClicked() {
-        this.displayMessage = "เชฟ " + playerName + " ขอสั่งเมนู " + currentOrder + "หน่อย";
+        this.displayMessage = "เชฟ " + playerName + " ขอสั่งเมนู " + currentOrder + " หน่อย";
     }
 
 
@@ -144,7 +144,7 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
         int responsiveY = (int) (size.height * 0.766) - charH;
 
         //กรอบใสที่ใส่ตัวละครและกล่องข้อความ
-        setBounds(responsiveX, responsiveY, (int) (charW * 1.8), (int) (charH * 0.88));
+        setBounds(responsiveX, responsiveY, (int) (charW * 3), (int) (charH * 0.88));
     }
 
     @Override
@@ -158,7 +158,13 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
 
         // วาดกล่องข้อความ
         if (chatImage != null) {
-            int chatWidth = 400;
+            g.setFont(new Font("Leelawadee UI", Font.BOLD, 24));
+
+            String fullText = displayMessage;
+            FontMetrics metrics = g.getFontMetrics(g.getFont());
+            int textWidth = metrics.stringWidth(fullText);
+
+            int chatWidth = Math.max(400, textWidth + 200);
             int chatHeight = 280;
 
             int chatX = charW - 80;
@@ -166,17 +172,33 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
 
             g.drawImage(chatImage, chatX, chatY, chatWidth, chatHeight, this);
 
-            g.setColor(Color.BLACK);
-            g.setFont(new Font("Tahoma", Font.BOLD, 24));
-
-            String fullText = displayMessage;
-            FontMetrics metrics = g.getFontMetrics(g.getFont());
-            int textWidth = metrics.stringWidth(fullText);
 
             int textX = chatX + ((chatWidth - textWidth) / 2) + 15;
             int textY = chatY + ((chatHeight - metrics.getHeight()) / 2) + metrics.getAscent() - 20;
 
-            g.drawString(fullText, textX, textY);
+            if (fullText.contains(currentOrder) && fullText.contains("ขอสั่งเมนู")) {
+
+                // หั่นข้อความเป็น 3 ท่อน
+                int orderIndex = fullText.indexOf(currentOrder);
+                String part1 = fullText.substring(0, orderIndex);
+                String part2 = currentOrder;
+                String part3 = fullText.substring(orderIndex + currentOrder.length());
+
+                g.setColor(Color.BLACK);
+                g.drawString(part1, textX, textY);
+
+                int part1Width = metrics.stringWidth(part1);
+                g.setColor(Color.RED);
+                g.drawString(part2, textX + part1Width, textY);
+
+                int part2Width = metrics.stringWidth(part2);
+                g.setColor(Color.BLACK);
+                g.drawString(part3, textX + part1Width + part2Width, textY);
+
+            } else {
+                g.setColor(Color.BLACK);
+                g.drawString(fullText, textX, textY);
+            }
         }
     }
 }
