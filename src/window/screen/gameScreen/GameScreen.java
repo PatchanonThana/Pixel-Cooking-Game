@@ -172,6 +172,7 @@ public class GameScreen extends JPanel{
         }
     }
 
+    //tell customer to change plaeyr name
     public void changeCustomerPlayerName(String playerName) {
         currentCustomer.setNewPlayerName(playerName);
     }

@@ -60,9 +60,9 @@ public class trashcan extends JComponent implements GameScreenListener {
 
     //จัดการการทิ้งขยะ
     private void performTrashLogic() {
-        if (gameLayer == null || mainDough == null) return;
-
-        // ล้างแป้งร่างแปลงในเลเยอร์ DRAG_LAYER
+        if (gameLayer == null || mainDough == null)
+            return;
+        // ลบแป้งร่างแปลงในเลเยอร์ DRAG_LAYER
         Component[] comps = gameLayer.getComponentsInLayer(JLayeredPane.DRAG_LAYER);
         for (Component c : comps) {
             if (c instanceof Ingredient ing && ing.getType() == Ingredient.Type.FOOD) {
