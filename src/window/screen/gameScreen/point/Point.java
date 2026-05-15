@@ -5,17 +5,18 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 public class Point {
+    private static Point instance;
     private int totalScore;
 
     public Point() {
+        instance = this;
         this.totalScore = 0; // เริ่มต้นที่ 0000
     }
 
-    /**
-     * เมทอดสำหรับตัดสินคะแนน
-     * @param customerOrder ดึงมาจาก customer.getCurrentOrder()
-     * @param playerFood ชื่ออาหารที่ผู้เล่นลากไปส่ง
-     */
+    public static Point getInstance() {
+        return instance;
+    }
+
     public void processService(String customerOrder, String playerFood) {
         // ตรวจสอบว่าสิ่งที่ส่ง ตรงกับที่ลูกค้าสั่งไหม
         if (customerOrder.equals(playerFood)) {
@@ -27,7 +28,7 @@ public class Point {
         }
     }
 
-    // ระบบคำนวณคะแนนตามความยากของเมนู
+    // ระบบคำนวณคะแนนแต่ละเมนู
     private void calculateAddScore(String foodName) {
         switch (foodName) {
             case "ขนมวง":
@@ -40,6 +41,7 @@ public class Point {
                 this.totalScore += 80;
                 break;
         }
+        System.out.println("คะแนนปัจจุบันคือ: " + this.totalScore);
     }
 
     public void draw(Graphics2D g2, int screenWidth) {
@@ -50,13 +52,12 @@ public class Point {
         // 2. จัดรูปแบบข้อความ 0000
         String scoreText = "SCORE:" + String.format("%04d", totalScore);
 
-        // 3. คำนวณตำแหน่ง (screenWidth คือความกว้างหน้าจอ)
-        // ลบออกซัก 250 pixels เพื่อให้ข้อความไม่หลุดขอบขวา
+        // 3. คำนวณตำแหน่ง
         int x = screenWidth - 250;
         int y = 50;
 
-        // วาดเงาสักนิดเพื่อให้เห็นชัด (Optional)
-        g2.setColor(new Color(0, 0, 0, 150)); // สีดำโปร่งแสง
+        // วาดเงาให้เห็นชัด
+        g2.setColor(new Color(0, 0, 0, 150));
         g2.drawString(scoreText, x + 2, y + 2);
 
         // วาดตัวเลขจริง

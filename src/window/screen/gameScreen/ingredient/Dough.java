@@ -17,6 +17,14 @@ public class Dough extends Ingredient {
         setPrepState(PrepState.RAW_DOUGH);
     }
 
+    public void resetDough() {
+        // คืนค่าให้เป็นแป้งดิบ
+        setPrepState(PrepState.RAW_DOUGH);
+        this.setVisible(true);
+        repaint();
+        System.out.println("แป้งถูกรีเซ็ตเรียบร้อย!");
+    }
+
     @Override
     protected void OnRightClick() {
         Container parent = getParent();
