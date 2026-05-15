@@ -171,4 +171,9 @@ public class GameScreen extends JPanel{
             Point.getInstance().draw(g2, getWidth());
         }
     }
+
+    public void changeCustomerPlayerName(String playerName) {
+        currentCustomer.setNewPlayerName(playerName);
+    }
+
 }

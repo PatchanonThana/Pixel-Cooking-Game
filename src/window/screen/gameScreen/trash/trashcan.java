@@ -91,10 +91,10 @@ public class trashcan extends JComponent implements GameScreenListener {
 
     @Override
     public void gameScreenResized(Dimension size) {
-        this.height = (int) (size.height * 0.12);
+        this.height = (int) (size.height * 0.10);
         this.width = (int) (this.height * 1.0);
-        int x = (int) (size.width * 0.02);
-        int y = (int) (size.height * 0.85);
+        int x = (int) (size.width * 0.03);
+        int y = (int) (size.height * 0.60);
         setBounds(x, y, width, height);
     }
 

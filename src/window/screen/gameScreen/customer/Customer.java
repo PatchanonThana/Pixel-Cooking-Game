@@ -1,6 +1,8 @@
 package window.screen.gameScreen.customer;
 import window.screen.gameScreen.ingredient.Ingredient;
 import window.screen.gameScreen.GameScreenListener;
+import window.screen.menuScreen.menuButton.startButton.MenuStartButtonListener;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +11,7 @@ import java.net.URL;
 import java.util.Random;
 import window.screen.gameScreen.point.Point;
 
-public class Customer extends JComponent implements GameScreenListener {
+public class Customer extends JComponent implements GameScreenListener, MenuStartButtonListener {
 
     private Image customerImage;
     private Image chatImage;
@@ -24,13 +26,14 @@ public class Customer extends JComponent implements GameScreenListener {
 
     private Timer moveTimer;
     private Runnable onExitCallback;
+    String playerName;
 
     public Customer() {
         Random random = new Random();
         int menuIndex = random.nextInt(menuItems.length);
         this.currentOrder = menuItems[menuIndex];
         int spriteNumber = random.nextInt(4) + 1;
-        this.displayMessage = "ขอสั่งเมนู(" + currentOrder + ")";
+        this.displayMessage = "เชฟผมขอสั่งเมนู(" + currentOrder + ")";
         setOpaque(false);
 
         String filename = "/window/screen/gameScreen/customer/pixelcustomer/sprite" + spriteNumber + ".png";
@@ -56,6 +59,16 @@ public class Customer extends JComponent implements GameScreenListener {
         }
 
         setOpaque(false);
+    }
+
+    public void setNewPlayerName(String playerName) {
+        this.playerName = playerName;
+        this.displayMessage = "เชฟ " + playerName + " ผมขอสั่งเมนู(" + currentOrder + ")";
+    }
+
+    @Override
+    public void menuStartButtonClicked() {
+        this.displayMessage = "เชฟ " + playerName + " ผมขอสั่งเมนู(" + currentOrder + ")";
     }
 
     public String getCurrentOrder() {
