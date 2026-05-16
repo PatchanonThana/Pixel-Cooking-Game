@@ -7,6 +7,7 @@ import window.screen.gameScreen.ingredient.Ingredient.PrepState;
 import window.screen.gameScreen.ingredient.Ingredient.FoodKind;
 import window.screen.gameScreen.ingredient.Ingredient.Type;
 import window.soundPlayer.frySoundPlayer.FrySoundPlayer;
+import window.soundPlayer.streamSoundPlayer.StreamSoundPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,6 +45,7 @@ public class Pot extends JComponent implements GameScreenListener {
     private CutBoard cutBoard;
 
     private FrySoundPlayer frySoundPlayer;
+    private StreamSoundPlayer streamSoundPlayer;
 
     public Pot() {
         potZone = new Rectangle();
@@ -60,6 +62,7 @@ public class Pot extends JComponent implements GameScreenListener {
         currentImage = emptyImage;
 
         frySoundPlayer = new FrySoundPlayer();
+        streamSoundPlayer = new StreamSoundPlayer();
     }
 
     private Image loadImage(String path) {
@@ -154,6 +157,7 @@ public class Pot extends JComponent implements GameScreenListener {
             ing.returnToStart();
             updatePotImage();
             startSteaming();
+            streamSoundPlayer.playSound();
             return true;
         }
 

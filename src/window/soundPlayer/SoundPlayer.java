@@ -3,23 +3,37 @@ package window.soundPlayer;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.util.Objects;
 
 public class SoundPlayer {
-    Clip clip;
-    public SoundPlayer() {
 
+    protected   Clip clipDing =
+            getAudioStream(
+                    "/window/soundPlayer/freesound_community-microwave-ding-104123.wav"
+            );
+
+
+    public SoundPlayer() {
+        FloatControl soundControl = (FloatControl) clipDing.getControl(FloatControl.Type.MASTER_GAIN);
+        soundControl.setValue(-10f);
     }
 
-    public void playSound() {
+    public void playSoundWithDing(Clip clip, int time) {
         if (clip.isRunning()) clip.stop();
         clip.setFramePosition(0);
         clip.start();
 
+        if (clipDing.isRunning()) clipDing.stop();
+        clipDing.setFramePosition(0);
+
         new Thread(() -> {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(time);
                 if (clip.isRunning()) clip.stop();
+                clipDing.start();
+                Thread.sleep(1000);
+                if (clipDing.isRunning()) clipDing.stop();
             }
             catch (InterruptedException e) {
                 System.out.println(e.getMessage());
@@ -28,18 +42,36 @@ public class SoundPlayer {
 
     }
 
-    public void getAudioStream(String path) {
+    public void playSound(Clip clip, int time) {
+        if (clip.isRunning()) clip.stop();
+        clip.setFramePosition(0);
+        clip.start();
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(time);
+                if (clip.isRunning()) clip.stop();
+            }
+            catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+        }).start();
+    }
+
+    public Clip getAudioStream(String path) {
         try {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(
                     Objects.requireNonNull(
                             getClass().getResource(path))
             );
-            clip = AudioSystem.getClip();
-            clip.open(audioStream);
+            Clip clipIn = AudioSystem.getClip();
+            clipIn.open(audioStream);
+            return clipIn;
 
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return null;
     }
 }
