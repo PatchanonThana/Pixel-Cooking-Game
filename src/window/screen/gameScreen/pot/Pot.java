@@ -6,6 +6,7 @@ import window.screen.gameScreen.ingredient.Ingredient;
 import window.screen.gameScreen.ingredient.Ingredient.PrepState;
 import window.screen.gameScreen.ingredient.Ingredient.FoodKind;
 import window.screen.gameScreen.ingredient.Ingredient.Type;
+import window.soundPlayer.frySoundPlayer.FrySoundPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,6 +43,8 @@ public class Pot extends JComponent implements GameScreenListener {
 
     private CutBoard cutBoard;
 
+    private FrySoundPlayer frySoundPlayer;
+
     public Pot() {
         potZone = new Rectangle();
 
@@ -55,6 +58,8 @@ public class Pot extends JComponent implements GameScreenListener {
         steamerTopImage = loadImage("/equipment/steamertoppot.png");
 
         currentImage = emptyImage;
+
+        frySoundPlayer = new FrySoundPlayer();
     }
 
     private Image loadImage(String path) {
@@ -170,11 +175,14 @@ public class Pot extends JComponent implements GameScreenListener {
             if (kind == FoodKind.RING && prep == PrepState.RING) {
                 putFoodInPot(ing, false);
                 startCooking(PrepState.FRIED, "/dessert/ring2.png", 2000);
+                frySoundPlayer.playSound();
+
                 return true;
             }
             if (kind == FoodKind.KHAEB && prep == PrepState.WITH_SESAME) {
                 putFoodInPot(ing, false);
                 startCooking(PrepState.FRIED, "/dessert/khaeb2.png", 2000);
+                frySoundPlayer.playSound();
                 return true;
             }
             return false;
