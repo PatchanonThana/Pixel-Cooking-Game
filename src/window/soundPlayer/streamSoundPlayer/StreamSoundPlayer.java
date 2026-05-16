@@ -14,7 +14,7 @@ public class StreamSoundPlayer extends SoundPlayer {
     }
 
     public void playSound() {
-        playSoundWithDing(clipClock,3000);
+        playSoundWithDing(clipClock,3000,0);
     }
 
 }

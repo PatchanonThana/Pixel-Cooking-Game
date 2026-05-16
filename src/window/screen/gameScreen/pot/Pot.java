@@ -6,6 +6,7 @@ import window.screen.gameScreen.ingredient.Ingredient;
 import window.screen.gameScreen.ingredient.Ingredient.PrepState;
 import window.screen.gameScreen.ingredient.Ingredient.FoodKind;
 import window.screen.gameScreen.ingredient.Ingredient.Type;
+import window.soundPlayer.boilSoundPlayer.BoilSoundPlayer;
 import window.soundPlayer.frySoundPlayer.FrySoundPlayer;
 import window.soundPlayer.streamSoundPlayer.StreamSoundPlayer;
 
@@ -46,6 +47,7 @@ public class Pot extends JComponent implements GameScreenListener {
 
     private FrySoundPlayer frySoundPlayer;
     private StreamSoundPlayer streamSoundPlayer;
+    private BoilSoundPlayer boilSoundPlayer;
 
     public Pot() {
         potZone = new Rectangle();
@@ -63,6 +65,7 @@ public class Pot extends JComponent implements GameScreenListener {
 
         frySoundPlayer = new FrySoundPlayer();
         streamSoundPlayer = new StreamSoundPlayer();
+        boilSoundPlayer = new BoilSoundPlayer();
     }
 
     private Image loadImage(String path) {
@@ -208,6 +211,7 @@ public class Pot extends JComponent implements GameScreenListener {
             if (kind == FoodKind.RING && prep == PrepState.FRIED) {
                 putFoodInPot(ing, false);
                 startCooking(PrepState.COATED, "/dessert/ring3.png", 1500);
+                boilSoundPlayer.playSound();
                 return true;
             }
             return false;

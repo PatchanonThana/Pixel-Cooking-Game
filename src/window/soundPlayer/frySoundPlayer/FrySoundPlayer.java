@@ -17,7 +17,7 @@ public class FrySoundPlayer extends SoundPlayer {
     }
 
     public void playSound() {
-        playSound(clip,2000);
+        playSound(clip,2000,0);
     }
 }
 

@@ -19,9 +19,9 @@ public class SoundPlayer {
         soundControl.setValue(-10f);
     }
 
-    public void playSoundWithDing(Clip clip, int time) {
+    public void playSoundWithDing(Clip clip, int time, int startPosition) {
         if (clip.isRunning()) clip.stop();
-        clip.setFramePosition(0);
+        clip.setMicrosecondPosition(startPosition);
         clip.start();
 
         if (clipDing.isRunning()) clipDing.stop();
@@ -42,9 +42,9 @@ public class SoundPlayer {
 
     }
 
-    public void playSound(Clip clip, int time) {
+    public void playSound(Clip clip, int time, int startPosition) {
         if (clip.isRunning()) clip.stop();
-        clip.setFramePosition(0);
+        clip.setMicrosecondPosition(startPosition);
         clip.start();
 
         new Thread(() -> {
