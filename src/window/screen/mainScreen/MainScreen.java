@@ -145,7 +145,9 @@ public class MainScreen extends JPanel implements
         //Save player data at  player/data.properties
         Properties prop = new Properties();
         prop.setProperty("PlayerName",this.playerName);
-        prop.setProperty("PlayerHighestScore","10");
+        // ดึงคะแนนล่าสุดจากคลาส Point มาใส่
+        int currentHighScore = window.screen.gameScreen.point.Point.getInstance().getTotalScore();
+        prop.setProperty("PlayerHighestScore", String.valueOf(currentHighScore));
 
         try (FileOutputStream out = new FileOutputStream("src/player/data.properties")) {
             prop.store(out, "Player Data");

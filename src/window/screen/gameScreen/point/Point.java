@@ -3,19 +3,26 @@ package window.screen.gameScreen.point;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.io.*;
+import java.util.Properties;
 
 public class Point {
     private static Point instance;
     private int totalScore;
+    private int highScore;
+
+    private final String filePath = "player/data.properties";
 
     public Point() {
         instance = this;
-        this.totalScore = 0; // เริ่มต้นที่ 0000
+        this.totalScore = 0;
+        loadHighScore();
     }
 
     public static Point getInstance() {
         return instance;
     }
+
 
     public void processService(String customerOrder, String playerFood) {
         // ตรวจสอบว่าสิ่งที่ส่ง ตรงกับที่ลูกค้าสั่งไหม
@@ -26,6 +33,7 @@ public class Point {
             this.totalScore -= 50;
             if (this.totalScore < 0) this.totalScore = 0; // ไม่ให้คะแนนติดลบ
         }
+        if (this.totalScore > this.highScore) { this.highScore = this.totalScore; saveHighScore(); }
     }
 
     // ระบบคำนวณคะแนนแต่ละเมนู
@@ -41,7 +49,45 @@ public class Point {
                 this.totalScore += 80;
                 break;
         }
+        if (this.totalScore > this.highScore) { this.highScore = this.totalScore; saveHighScore(); }
         System.out.println("คะแนนปัจจุบันคือ: " + this.totalScore);
+    }
+
+    //ระบบจัดการไฟล์
+    private void loadHighScore() {
+        Properties prop = new Properties();
+        try (FileInputStream in = new FileInputStream(filePath)) {
+            prop.load(in);
+            // ดึงค่า PlayerHighestScore มา ถ้าไม่มีให้เป็น 0
+            String savedScore = prop.getProperty("PlayerHighestScore", "0");
+            this.highScore = Integer.parseInt(savedScore);
+        } catch (IOException | NumberFormatException e) {
+            this.highScore = 0; // ถ้าไฟล์ไม่มี หรือ Error ให้เริ่มที่ 0
+        }
+    }
+
+    private void saveHighScore() {
+        Properties prop = new Properties();
+        File file = new File(filePath);
+
+        //โหลดข้อมูลเดิมก่อน
+        if (file.exists()) {
+            try (FileInputStream in = new FileInputStream(file)) {
+                prop.load(in);
+            } catch (IOException e) {
+                System.out.println("Error loading properties: " + e.getMessage());
+            }
+        }
+
+        // อัปเดตคะแนนสูงสุดใหม่ลงไป
+        prop.setProperty("PlayerHighestScore", String.valueOf(highScore));
+
+        // เขียนทับลงไฟล์เดิม
+        try (FileOutputStream out = new FileOutputStream(file)) {
+            prop.store(out, "Player Data Updated");
+        } catch (IOException e) {
+            System.out.println("Could not save high score: " + e.getMessage());
+        }
     }
 
     public void draw(Graphics2D g2, int screenWidth) {
