@@ -23,8 +23,12 @@ public class GameScreen extends JPanel{
     Pot pot = new Pot();
     CutBoard cutBoard = new CutBoard();
     Customer currentCustomer;
+
     Dough dough;
     trashcan trashBtn;
+
+    String playerName;
+
 
     public GameScreen(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
@@ -151,7 +155,13 @@ public class GameScreen extends JPanel{
         if (currentCustomer != null) {
             gameLayer.remove(currentCustomer);
         }
+
         currentCustomer = new Customer();
+
+        if (this.playerName != null) {
+            currentCustomer.setNewPlayerName(this.playerName);
+        }
+
         currentCustomer.setOnExitCallback(() -> { spawnNewCustomer(); });
         gameLayer.add(currentCustomer, JLayeredPane.PALETTE_LAYER);
         currentCustomer.gameScreenResized(gameLayer.getSize());
@@ -175,6 +185,7 @@ public class GameScreen extends JPanel{
     //tell customer to change plaeyr name
     public void changeCustomerPlayerName(String playerName) {
         currentCustomer.setNewPlayerName(playerName);
+        this.playerName =  playerName;
     }
 
 }

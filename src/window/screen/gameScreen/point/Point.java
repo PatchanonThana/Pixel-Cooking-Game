@@ -9,9 +9,9 @@ import java.util.Properties;
 public class Point {
     private static Point instance;
     private int totalScore;
-    private int highScore;
+    private int highestScore;
 
-    private final String filePath = "player/data.properties";
+    private final String filePath = "src/player/data.properties";
 
     public Point() {
         instance = this;
@@ -33,7 +33,7 @@ public class Point {
             this.totalScore -= 50;
             if (this.totalScore < 0) this.totalScore = 0; // ไม่ให้คะแนนติดลบ
         }
-        if (this.totalScore > this.highScore) { this.highScore = this.totalScore; saveHighScore(); }
+        if (this.totalScore > this.highestScore) { this.highestScore = this.totalScore; saveHighScore(); }
     }
 
     // ระบบคำนวณคะแนนแต่ละเมนู
@@ -49,7 +49,7 @@ public class Point {
                 this.totalScore += 80;
                 break;
         }
-        if (this.totalScore > this.highScore) { this.highScore = this.totalScore; saveHighScore(); }
+        if (this.totalScore > this.highestScore) { this.highestScore = this.totalScore; saveHighScore(); }
         System.out.println("คะแนนปัจจุบันคือ: " + this.totalScore);
     }
 
@@ -60,9 +60,9 @@ public class Point {
             prop.load(in);
             // ดึงค่า PlayerHighestScore มา ถ้าไม่มีให้เป็น 0
             String savedScore = prop.getProperty("PlayerHighestScore", "0");
-            this.highScore = Integer.parseInt(savedScore);
+            this.highestScore = Integer.parseInt(savedScore);
         } catch (IOException | NumberFormatException e) {
-            this.highScore = 0; // ถ้าไฟล์ไม่มี หรือ Error ให้เริ่มที่ 0
+            this.highestScore = 0; // ถ้าไฟล์ไม่มี หรือ Error ให้เริ่มที่ 0
         }
     }
 
@@ -79,39 +79,44 @@ public class Point {
             }
         }
 
-        // อัปเดตคะแนนสูงสุดใหม่ลงไป
-        prop.setProperty("PlayerHighestScore", String.valueOf(highScore));
+        //ดึงคะแนนเก่าในไฟล์มาดู (ถ้าไม่มีให้เป็น 0)
+        int oldHighScoreInFile = Integer.parseInt(prop.getProperty("PlayerHighestScore", "0"));
 
-        // เขียนทับลงไฟล์เดิม
-        try (FileOutputStream out = new FileOutputStream(file)) {
-            prop.store(out, "Player Data Updated");
-        } catch (IOException e) {
-            System.out.println("Could not save high score: " + e.getMessage());
+        // เช็คก่อนว่าคะแนนใหม่ > คะแนนเก่ามั้ย
+        if (this.highestScore > oldHighScoreInFile) {
+            // ถ้าจริง ถึงค่อยเซตค่าใหม่และเขียนทับ
+            prop.setProperty("PlayerHighestScore", String.valueOf(this.highestScore));
+            try (FileOutputStream out = new FileOutputStream(file)) {
+                prop.store(out, "New High Score Saved!");
+            } catch (IOException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
         }
+        //ถ้าคะแนนน้อยกว่าจะไม่ทำอะไรเลย
     }
 
     public void draw(Graphics2D g2, int screenWidth) {
-        // 1. ตั้งค่า Font และสี
+        //ตั้งค่า Font และสี
         g2.setFont(new Font("Monospaced", Font.BOLD, 35));
         g2.setColor(Color.WHITE);
 
-        // 2. จัดรูปแบบข้อความ 0000
+        //จัดรูปแบบข้อความ 0000
         String scoreText = "SCORE:" + String.format("%04d", totalScore);
 
-        // 3. คำนวณตำแหน่ง
+        //คำนวณตำแหน่ง
         int x = screenWidth - 250;
         int y = 50;
 
-        // วาดเงาให้เห็นชัด
+        //วาดเงาให้เห็นชัด
         g2.setColor(new Color(0, 0, 0, 150));
         g2.drawString(scoreText, x + 2, y + 2);
 
-        // วาดตัวเลขจริง
+        //วาดตัวเลขจริง
         g2.setColor(Color.WHITE);
         g2.drawString(scoreText, x, y);
     }
 
-    // เผื่อต้องใช้ค่าคะแนนไปทำหน้า GameOver
+    //เผื่อต้องใช้ค่าคะแนนไปทำหน้า GameOver
     public int getTotalScore() {
         return totalScore;
     }
