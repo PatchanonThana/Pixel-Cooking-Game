@@ -11,6 +11,7 @@ import window.soundPlayer.bgmPlayer.BGMPlayer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -144,10 +145,18 @@ public class MainScreen extends JPanel implements
 
         //Save player data at  player/data.properties
         Properties prop = new Properties();
+        File file = new File("src/player/data.properties");
+        // โหลดข้อมูลเดิม(highestscore) มาเก็บไว้ใน prop ก่อน
+        if (file.exists()) {
+            try (FileInputStream in = new FileInputStream(file)) {
+                prop.load(in);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         prop.setProperty("PlayerName",this.playerName);
-        prop.setProperty("PlayerHighestScore","10");
 
-        try (FileOutputStream out = new FileOutputStream("src/player/data.properties")) {
+        try (FileOutputStream out = new FileOutputStream(file)) {
             prop.store(out, "Player Data");
         }
         catch (IOException err) {

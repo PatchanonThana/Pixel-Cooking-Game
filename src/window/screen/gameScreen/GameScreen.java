@@ -8,6 +8,8 @@ import window.screen.gameScreen.pot.Pot;
 import window.screen.gameScreen.toMenuButton.ToMenuButton;
 import window.screen.mainScreen.MainScreen;
 import window.screen.gameScreen.customer.Customer;
+import window.screen.gameScreen.point.Point;
+import window.screen.gameScreen.trash.trashcan;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +23,12 @@ public class GameScreen extends JPanel{
     Pot pot = new Pot();
     CutBoard cutBoard = new CutBoard();
     Customer currentCustomer;
+
+    Dough dough;
+    trashcan trashBtn;
+
     String playerName;
+
 
     public GameScreen(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
@@ -43,6 +50,7 @@ public class GameScreen extends JPanel{
         gameLayer.add(cutBoard,JLayeredPane.POPUP_LAYER);
         gameLayer.add(pot,JLayeredPane.POPUP_LAYER);
 
+        new Point();
 
         Ingredient oil = new Ingredient(
                 "/equipment/oil.png",
@@ -115,8 +123,16 @@ public class GameScreen extends JPanel{
         );
         gameLayer.add(sugar, JLayeredPane.DRAG_LAYER);
 
-        Dough dough = new Dough(pot, cutBoard);
-        gameLayer.add(dough, JLayeredPane.DRAG_LAYER);
+        this.dough = new Dough(pot, cutBoard);
+        gameLayer.add(this.dough, JLayeredPane.DRAG_LAYER);
+
+        this.trashBtn = new trashcan();
+        this.trashBtn.setup(gameLayer, this.dough);
+        this.trashBtn.setOnTrashClicked(() -> {
+        });
+
+        gameLayer.add(this.trashBtn, JLayeredPane.POPUP_LAYER);
+        this.trashBtn.gameScreenResized(gameLayer.getSize());
 
         Ingredient.setCustomerTarget(currentCustomer);
 
@@ -156,9 +172,20 @@ public class GameScreen extends JPanel{
         gameLayer.repaint();
     }
 
+    //เขียนคะแนน
+    @Override
+    protected void paintChildren(Graphics g) {
+        super.paintChildren(g);
+        Graphics2D g2 = (Graphics2D) g;
+        if (Point.getInstance() != null) {
+            Point.getInstance().draw(g2, getWidth());
+        }
+    }
+
     //tell customer to change plaeyr name
     public void changeCustomerPlayerName(String playerName) {
         currentCustomer.setNewPlayerName(playerName);
         this.playerName =  playerName;
     }
+
 }
