@@ -8,6 +8,7 @@ import window.screen.gameScreen.ingredient.Ingredient.FoodKind;
 import window.screen.gameScreen.ingredient.Ingredient.Type;
 import window.soundPlayer.boilSoundPlayer.BoilSoundPlayer;
 import window.soundPlayer.frySoundPlayer.FrySoundPlayer;
+import window.soundPlayer.pourWaterSoundPlayer.PourWaterSoundPlayer;
 import window.soundPlayer.streamSoundPlayer.StreamSoundPlayer;
 
 import javax.swing.*;
@@ -48,6 +49,7 @@ public class Pot extends JComponent implements GameScreenListener {
     private FrySoundPlayer frySoundPlayer;
     private StreamSoundPlayer streamSoundPlayer;
     private BoilSoundPlayer boilSoundPlayer;
+    private PourWaterSoundPlayer pourWaterSoundPlayer;
 
     public Pot() {
         potZone = new Rectangle();
@@ -66,6 +68,7 @@ public class Pot extends JComponent implements GameScreenListener {
         frySoundPlayer = new FrySoundPlayer();
         streamSoundPlayer = new StreamSoundPlayer();
         boilSoundPlayer = new BoilSoundPlayer();
+        pourWaterSoundPlayer = new PourWaterSoundPlayer();
     }
 
     private Image loadImage(String path) {
@@ -110,6 +113,7 @@ public class Pot extends JComponent implements GameScreenListener {
                 currentImage = sugarImage;
             } else {
                 currentImage = waterImage;
+                pourWaterSoundPlayer.playSound();
             }
         }
         repaint();

@@ -10,7 +10,7 @@ public class SoundPlayer {
 
     protected   Clip clipDing =
             getAudioStream(
-                    "/window/soundPlayer/freesound_community-microwave-ding-104123.wav"
+                    "/window/soundPlayer/DingSound/freesound_community-microwave-ding-104123.wav"
             );
 
 
