@@ -6,6 +6,15 @@ import window.screen.gameScreen.ingredient.Ingredient;
 import window.screen.gameScreen.ingredient.Ingredient.PrepState;
 import window.screen.gameScreen.ingredient.Ingredient.FoodKind;
 import window.screen.gameScreen.ingredient.Ingredient.Type;
+import window.soundPlayer.boilSoundPlayer.BoilSoundPlayer;
+import window.soundPlayer.frySoundPlayer.FryCapSoundPlayer;
+import window.soundPlayer.frySoundPlayer.FrySoundPlayer;
+import window.soundPlayer.handSoundPlayer.HandSoundPlayer;
+import window.soundPlayer.oilSoundPlayer.OilSoundPlayer;
+import window.soundPlayer.potSoundPlayer.PotSoundPlayer;
+import window.soundPlayer.pourWaterSoundPlayer.PourWaterSoundPlayer;
+import window.soundPlayer.streamSoundPlayer.StreamSoundPlayer;
+import window.soundPlayer.sugarSoundPlayer.SugarSoundPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,6 +51,16 @@ public class Pot extends JComponent implements GameScreenListener {
 
     private CutBoard cutBoard;
 
+    final private FrySoundPlayer frySoundPlayer;
+    final private StreamSoundPlayer streamSoundPlayer;
+    final private BoilSoundPlayer boilSoundPlayer;
+    final private PourWaterSoundPlayer pourWaterSoundPlayer;
+    final private HandSoundPlayer handSoundPlayer;
+    final private PotSoundPlayer potSoundPlayer;
+    final private SugarSoundPlayer sugarSoundPlayer;
+    final private FryCapSoundPlayer fryCapSoundPlayer;
+    final private OilSoundPlayer oilSoundPlayer;
+
     public Pot() {
         potZone = new Rectangle();
 
@@ -55,6 +74,16 @@ public class Pot extends JComponent implements GameScreenListener {
         steamerTopImage = loadImage("/equipment/steamertoppot.png");
 
         currentImage = emptyImage;
+
+        frySoundPlayer = new FrySoundPlayer();
+        streamSoundPlayer = new StreamSoundPlayer();
+        boilSoundPlayer = new BoilSoundPlayer();
+        pourWaterSoundPlayer = new PourWaterSoundPlayer();
+        handSoundPlayer = new HandSoundPlayer();
+        potSoundPlayer = new PotSoundPlayer();
+        sugarSoundPlayer = new SugarSoundPlayer();
+        fryCapSoundPlayer = new FryCapSoundPlayer();
+        oilSoundPlayer = new OilSoundPlayer();
     }
 
     private Image loadImage(String path) {
@@ -113,6 +142,7 @@ public class Pot extends JComponent implements GameScreenListener {
             resetPot();
             state = State.WATER;
             ing.returnToStart();
+            pourWaterSoundPlayer.playSound();
             updatePotImage();
             return true;
         }
@@ -121,6 +151,7 @@ public class Pot extends JComponent implements GameScreenListener {
             resetPot();
             state = State.OIL;
             ing.returnToStart();
+            oilSoundPlayer.playSound();
             updatePotImage();
             return true;
         }
@@ -128,6 +159,7 @@ public class Pot extends JComponent implements GameScreenListener {
         if (type == Type.SUGAR) {
             if (state != State.WATER) return false;
             ing.returnToStart();
+            sugarSoundPlayer.playSound();
             startSyrupCooking();
             return true;
         }
@@ -136,6 +168,7 @@ public class Pot extends JComponent implements GameScreenListener {
             if (state != State.WATER) return false;
             hasSteamerMid = true;
             ing.returnToStart();
+            potSoundPlayer.playSound();
             updatePotImage();
             return true;
         }
@@ -147,8 +180,10 @@ public class Pot extends JComponent implements GameScreenListener {
 
             hasSteamerTop = true;
             ing.returnToStart();
+            potSoundPlayer.playSound();
             updatePotImage();
             startSteaming();
+            streamSoundPlayer.playSound();
             return true;
         }
 
@@ -170,11 +205,14 @@ public class Pot extends JComponent implements GameScreenListener {
             if (kind == FoodKind.RING && prep == PrepState.RING) {
                 putFoodInPot(ing, false);
                 startCooking(PrepState.FRIED, "/dessert/ring2.png", 2000);
+                frySoundPlayer.playSound();
+
                 return true;
             }
             if (kind == FoodKind.KHAEB && prep == PrepState.WITH_SESAME) {
                 putFoodInPot(ing, false);
                 startCooking(PrepState.FRIED, "/dessert/khaeb2.png", 2000);
+                fryCapSoundPlayer.playSound();
                 return true;
             }
             return false;
@@ -185,6 +223,7 @@ public class Pot extends JComponent implements GameScreenListener {
             if (kind == FoodKind.THIAN && prep == PrepState.WRAPPED) {
                 putFoodInPot(ing, true);
                 waitingForSteammerTop = true;
+                handSoundPlayer.playSound();
                 updatePotImage();
                 return true;
             }
@@ -196,6 +235,7 @@ public class Pot extends JComponent implements GameScreenListener {
             if (kind == FoodKind.RING && prep == PrepState.FRIED) {
                 putFoodInPot(ing, false);
                 startCooking(PrepState.COATED, "/dessert/ring3.png", 1500);
+                boilSoundPlayer.playSound();
                 return true;
             }
             return false;

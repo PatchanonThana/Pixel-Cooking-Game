@@ -4,11 +4,13 @@ import java.awt.*;
 import javax.swing.*;
 import window.screen.gameScreen.cutBoard.CutBoard;
 import window.screen.gameScreen.pot.Pot;
+import window.soundPlayer.smashSoundPlayer.SmashSoundPlayer;
 
 public class Dough extends Ingredient {
     // ตำแหน่งเริ่มต้น
     private final double startX = 0.61;
     private final double startY = 0.77;
+    private final SmashSoundPlayer smashSoundPlayer;
 
     public Dough(Pot pot, CutBoard cutBoard) {
         super("/dessert/dough.png",
@@ -17,6 +19,8 @@ public class Dough extends Ingredient {
                 pot, cutBoard,
                 Type.FOOD);
         setPrepState(PrepState.RAW_DOUGH);
+
+        smashSoundPlayer = new SmashSoundPlayer();
     }
 
     @Override
@@ -41,6 +45,8 @@ public class Dough extends Ingredient {
         int resetY = (int)(startY * parentSize.height);
 
         setBounds(resetX, resetY, getWidth(), getHeight());
+
+        smashSoundPlayer.playSound();
 
         parent.revalidate();
         parent.repaint();

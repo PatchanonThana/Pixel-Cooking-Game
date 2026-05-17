@@ -6,13 +6,18 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import java.util.Objects;
 
-public class BGMPlayer {
+public class InGameBGMPlayer {
 
     private Clip clip;
 
-    public BGMPlayer() {
+    public InGameBGMPlayer() {
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResource("BGM.wav")));
+            AudioInputStream audioInputStream =
+                    AudioSystem.getAudioInputStream(
+                    Objects.requireNonNull(
+                            getClass().getResource(
+                                    "/window/soundPlayer/bgmPlayer/openmindaudio-cartoon-classic-background-music-bright-journey-short-preview-497390.wav"
+                            )));
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
 
