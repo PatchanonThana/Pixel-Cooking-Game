@@ -9,8 +9,10 @@ import window.screen.gameScreen.ingredient.Ingredient.Type;
 import window.soundPlayer.boilSoundPlayer.BoilSoundPlayer;
 import window.soundPlayer.frySoundPlayer.FrySoundPlayer;
 import window.soundPlayer.handSoundPlayer.HandSoundPlayer;
+import window.soundPlayer.potSoundPlayer.PotSoundPlayer;
 import window.soundPlayer.pourWaterSoundPlayer.PourWaterSoundPlayer;
 import window.soundPlayer.streamSoundPlayer.StreamSoundPlayer;
+import window.soundPlayer.sugarSoundPlayer.SugarSoundPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,6 +53,9 @@ public class Pot extends JComponent implements GameScreenListener {
     final private StreamSoundPlayer streamSoundPlayer;
     final private BoilSoundPlayer boilSoundPlayer;
     final private PourWaterSoundPlayer pourWaterSoundPlayer;
+    final private HandSoundPlayer handSoundPlayer;
+    final private PotSoundPlayer potSoundPlayer;
+    final private SugarSoundPlayer sugarSoundPlayer;
 
     public Pot() {
         potZone = new Rectangle();
@@ -70,6 +75,9 @@ public class Pot extends JComponent implements GameScreenListener {
         streamSoundPlayer = new StreamSoundPlayer();
         boilSoundPlayer = new BoilSoundPlayer();
         pourWaterSoundPlayer = new PourWaterSoundPlayer();
+        handSoundPlayer = new HandSoundPlayer();
+        potSoundPlayer = new PotSoundPlayer();
+        sugarSoundPlayer = new SugarSoundPlayer();
     }
 
     private Image loadImage(String path) {
@@ -144,6 +152,7 @@ public class Pot extends JComponent implements GameScreenListener {
         if (type == Type.SUGAR) {
             if (state != State.WATER) return false;
             ing.returnToStart();
+            sugarSoundPlayer.playSound();
             startSyrupCooking();
             return true;
         }
@@ -152,6 +161,7 @@ public class Pot extends JComponent implements GameScreenListener {
             if (state != State.WATER) return false;
             hasSteamerMid = true;
             ing.returnToStart();
+            potSoundPlayer.playSound();
             updatePotImage();
             return true;
         }
@@ -163,6 +173,7 @@ public class Pot extends JComponent implements GameScreenListener {
 
             hasSteamerTop = true;
             ing.returnToStart();
+            potSoundPlayer.playSound();
             updatePotImage();
             startSteaming();
             streamSoundPlayer.playSound();
@@ -205,6 +216,7 @@ public class Pot extends JComponent implements GameScreenListener {
             if (kind == FoodKind.THIAN && prep == PrepState.WRAPPED) {
                 putFoodInPot(ing, true);
                 waitingForSteammerTop = true;
+                handSoundPlayer.playSound();
                 updatePotImage();
                 return true;
             }
