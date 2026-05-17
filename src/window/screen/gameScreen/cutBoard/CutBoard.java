@@ -8,6 +8,7 @@ import window.screen.gameScreen.GameScreenListener;
 import window.screen.gameScreen.ingredient.Dough;
 import window.screen.gameScreen.ingredient.circleDough;
 import window.screen.gameScreen.pot.Pot;
+import window.soundPlayer.handSoundPlayer.HandSoundPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,8 +20,11 @@ public class CutBoard extends JComponent implements GameScreenListener {
     CutBoard cutBoard;
     private ArrayList<Ingredient> ingredients = new ArrayList<>();
 
+    final private HandSoundPlayer handSoundPlayer;
+
     public CutBoard(){
         boardZone = new Rectangle();
+        handSoundPlayer = new HandSoundPlayer();
     }
 
     public Rectangle getBoardZone(){
@@ -68,6 +72,7 @@ public class CutBoard extends JComponent implements GameScreenListener {
             for(Ingredient i : ingredients){
                 i.returnToStart();
             }
+            handSoundPlayer.playSound();
             ingredients.clear();
 
             Ingredient thian1 = new Ingredient("/dessert/tian1.png", 0.74, 0.79, 0.018, 0.024, pot, this, Type.FOOD);
@@ -89,6 +94,7 @@ public class CutBoard extends JComponent implements GameScreenListener {
                     i.returnToStart();
                 }
             }
+            handSoundPlayer.playSound();
             ingredients.clear();
 
 
@@ -108,6 +114,7 @@ public class CutBoard extends JComponent implements GameScreenListener {
             for(Ingredient i : ingredients){
                 i.returnToStart();
             }
+            handSoundPlayer.playSound();
             ingredients.clear();
 
 
