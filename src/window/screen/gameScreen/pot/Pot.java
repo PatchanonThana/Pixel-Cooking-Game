@@ -7,6 +7,7 @@ import window.screen.gameScreen.ingredient.Ingredient.PrepState;
 import window.screen.gameScreen.ingredient.Ingredient.FoodKind;
 import window.screen.gameScreen.ingredient.Ingredient.Type;
 import window.soundPlayer.boilSoundPlayer.BoilSoundPlayer;
+import window.soundPlayer.frySoundPlayer.FryCapSoundPlayer;
 import window.soundPlayer.frySoundPlayer.FrySoundPlayer;
 import window.soundPlayer.handSoundPlayer.HandSoundPlayer;
 import window.soundPlayer.potSoundPlayer.PotSoundPlayer;
@@ -56,6 +57,7 @@ public class Pot extends JComponent implements GameScreenListener {
     final private HandSoundPlayer handSoundPlayer;
     final private PotSoundPlayer potSoundPlayer;
     final private SugarSoundPlayer sugarSoundPlayer;
+    final private FryCapSoundPlayer fryCapSoundPlayer;
 
     public Pot() {
         potZone = new Rectangle();
@@ -78,6 +80,7 @@ public class Pot extends JComponent implements GameScreenListener {
         handSoundPlayer = new HandSoundPlayer();
         potSoundPlayer = new PotSoundPlayer();
         sugarSoundPlayer = new SugarSoundPlayer();
+        fryCapSoundPlayer = new FryCapSoundPlayer();
     }
 
     private Image loadImage(String path) {
@@ -205,7 +208,7 @@ public class Pot extends JComponent implements GameScreenListener {
             if (kind == FoodKind.KHAEB && prep == PrepState.WITH_SESAME) {
                 putFoodInPot(ing, false);
                 startCooking(PrepState.FRIED, "/dessert/khaeb2.png", 2000);
-                frySoundPlayer.playSound();
+                fryCapSoundPlayer.playSound();
                 return true;
             }
             return false;
