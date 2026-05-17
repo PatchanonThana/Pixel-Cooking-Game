@@ -29,6 +29,8 @@ public class GameScreen extends JPanel{
 
     String playerName;
 
+    boolean firstCustomer = true;
+
 
     public GameScreen(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
@@ -154,6 +156,13 @@ public class GameScreen extends JPanel{
     public void spawnNewCustomer() {
         if (currentCustomer != null) {
             gameLayer.remove(currentCustomer);
+        }
+
+        if (!firstCustomer) {
+            currentCustomer.playEnterSound();
+        }
+        else {
+            firstCustomer = false;
         }
 
         currentCustomer = new Customer();

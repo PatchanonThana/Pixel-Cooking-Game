@@ -13,6 +13,6 @@ public class IncorrectSoundPlayer extends SoundPlayer {
     }
 
     public void playSound() {
-        playSound(clip,1000,0);
+        playSound(clip,1000,250000);
     }
 }

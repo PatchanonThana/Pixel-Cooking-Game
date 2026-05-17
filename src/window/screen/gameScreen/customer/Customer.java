@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import window.screen.gameScreen.point.Point;
+import window.soundPlayer.DoorBellSoundPlayer.DoorBellSoundPlayer;
 import window.soundPlayer.correctSoundPlayer.CorrectSoundPlayer;
 import window.soundPlayer.incorrectSoundPlayer.IncorrectSoundPlayer;
 import window.soundPlayer.walingSoundPlayer.WalkingSoundPlayer;
@@ -34,6 +35,8 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
     final private CorrectSoundPlayer correctSoundPlayer;
     final private IncorrectSoundPlayer incorrectSoundPlayer;
     final private WalkingSoundPlayer walkingSoundPlayer;
+    private boolean hasPlayedEnterSound = false;
+    private final DoorBellSoundPlayer doorBellSoundPlayer;
 
     public Customer() {
         Random random = new Random();
@@ -68,6 +71,7 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
         correctSoundPlayer = new CorrectSoundPlayer();
         incorrectSoundPlayer = new IncorrectSoundPlayer();
         walkingSoundPlayer = new WalkingSoundPlayer();
+        doorBellSoundPlayer = new DoorBellSoundPlayer();
 
         setOpaque(false);
     }
@@ -155,6 +159,13 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
 
         delayTimer.setRepeats(false);
         delayTimer.start();
+    }
+
+    public void playEnterSound() {
+        if (!hasPlayedEnterSound) {
+            doorBellSoundPlayer.playSound();
+        }
+        hasPlayedEnterSound = true;
     }
 
 
