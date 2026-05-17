@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import window.screen.gameScreen.point.Point;
+import window.soundPlayer.correctSoundPlayer.CorrectSoundPlayer;
+import window.soundPlayer.incorrectSoundPlayer.IncorrectSoundPlayer;
 
 public class Customer extends JComponent implements GameScreenListener, MenuStartButtonListener {
 
@@ -27,6 +29,9 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
     private Timer moveTimer;
     private Runnable onExitCallback;
     String playerName;
+
+    final private CorrectSoundPlayer correctSoundPlayer;
+    final private IncorrectSoundPlayer incorrectSoundPlayer;
 
     public Customer() {
         Random random = new Random();
@@ -57,6 +62,9 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        correctSoundPlayer = new CorrectSoundPlayer();
+        incorrectSoundPlayer = new IncorrectSoundPlayer();
 
         setOpaque(false);
     }
@@ -96,9 +104,11 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
         if (Point.getInstance() != null) {
             if (isCorrect) {
                 Point.getInstance().processService(currentOrder, currentOrder);
+                correctSoundPlayer.playSound();
                 this.displayMessage = "อาหารอร่อยมากเลย";
             } else {
                 Point.getInstance().processService(currentOrder, "WRONG_FOOD");
+                incorrectSoundPlayer.playSound();
                 this.displayMessage = "ร้านนี้ไม่ดีเลยทำอาหารก็ผิด";
             }
         }
