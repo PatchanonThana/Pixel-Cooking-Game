@@ -8,6 +8,8 @@ import window.screen.menuScreen.menuButton.exitButton.ExitButtonListener;
 import window.screen.menuScreen.menuButton.startButton.MenuStartButtonListener;
 import window.screen.menuScreen.menuButton.kumwanButton.KumwanButtonListener;
 import window.soundPlayer.bgmPlayer.BGMPlayer;
+import window.soundPlayer.bgmPlayer.InGameBGMPlayer;
+import window.soundPlayer.doorSoundPlayer.DoorSoundPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,11 +30,14 @@ public class MainScreen extends JPanel implements
     CardLayout cardLayout;
     MainWindow mainWindow;
     BGMPlayer bgm;
+    InGameBGMPlayer inGameBGMPlayer;
     public String playerName = "Player";
     public int playerScore;
     boolean startButtonClicked = false;
     boolean haveName;
     private final Icon inputIcon;
+
+    private final DoorSoundPlayer doorSoundPlayer;
 
     GameScreen gameScreen;
 
@@ -53,6 +58,9 @@ public class MainScreen extends JPanel implements
         add(gameScreen, Screen.GAME.name());
 
         bgm = new BGMPlayer();
+        bgm.start();
+
+        inGameBGMPlayer = new InGameBGMPlayer();
 
         cardLayout.show(this, Screen.MENU.name());
 
@@ -61,6 +69,8 @@ public class MainScreen extends JPanel implements
         )));
         Image sizedInputIcon = rawInputIcon.getImage().getScaledInstance(32,32, Image.SCALE_SMOOTH);
         inputIcon  = new ImageIcon(sizedInputIcon);
+
+        doorSoundPlayer = new DoorSoundPlayer();
 
     }
 
@@ -120,6 +130,11 @@ public class MainScreen extends JPanel implements
             //tell gameScreen to tell customer to change player name
             gameScreen.changeCustomerPlayerName(playerName);
         }
+
+        bgm.stop();
+        inGameBGMPlayer.start();
+
+        doorSoundPlayer.playSound();
         showCard(Screen.GAME.name());
         startButtonClicked = true;
 
@@ -135,13 +150,16 @@ public class MainScreen extends JPanel implements
     // --------- Back ---------
     @Override
     public void gameToMenuButtonClicked() {
+        bgm.start();
+        inGameBGMPlayer.stop();
+        doorSoundPlayer.playSound();
         showCard(Screen.MENU.name());
     }
 
     // --------- Exit ---------
     @Override
     public void exitButtonClicked() {
-        bgm.stop();
+        bgm.destroy();
 
         //Save player data at  player/data.properties
         Properties prop = new Properties();
