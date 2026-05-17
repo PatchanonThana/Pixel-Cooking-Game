@@ -10,6 +10,7 @@ import window.soundPlayer.boilSoundPlayer.BoilSoundPlayer;
 import window.soundPlayer.frySoundPlayer.FryCapSoundPlayer;
 import window.soundPlayer.frySoundPlayer.FrySoundPlayer;
 import window.soundPlayer.handSoundPlayer.HandSoundPlayer;
+import window.soundPlayer.oilSoundPlayer.OilSoundPlayer;
 import window.soundPlayer.potSoundPlayer.PotSoundPlayer;
 import window.soundPlayer.pourWaterSoundPlayer.PourWaterSoundPlayer;
 import window.soundPlayer.streamSoundPlayer.StreamSoundPlayer;
@@ -58,6 +59,7 @@ public class Pot extends JComponent implements GameScreenListener {
     final private PotSoundPlayer potSoundPlayer;
     final private SugarSoundPlayer sugarSoundPlayer;
     final private FryCapSoundPlayer fryCapSoundPlayer;
+    final private OilSoundPlayer oilSoundPlayer;
 
     public Pot() {
         potZone = new Rectangle();
@@ -81,6 +83,7 @@ public class Pot extends JComponent implements GameScreenListener {
         potSoundPlayer = new PotSoundPlayer();
         sugarSoundPlayer = new SugarSoundPlayer();
         fryCapSoundPlayer = new FryCapSoundPlayer();
+        oilSoundPlayer = new OilSoundPlayer();
     }
 
     private Image loadImage(String path) {
@@ -148,6 +151,7 @@ public class Pot extends JComponent implements GameScreenListener {
             resetPot();
             state = State.OIL;
             ing.returnToStart();
+            oilSoundPlayer.playSound();
             updatePotImage();
             return true;
         }
