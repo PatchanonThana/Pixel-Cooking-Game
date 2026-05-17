@@ -16,7 +16,7 @@ public class SoundPlayer {
 
     public SoundPlayer() {
         FloatControl soundControl = (FloatControl) clipDing.getControl(FloatControl.Type.MASTER_GAIN);
-        soundControl.setValue(-10f);
+        soundControl.setValue(6f);
     }
 
     public void playSoundWithDing(Clip clip, int time, int startPosition) {
