@@ -45,6 +45,17 @@ public class MenuExitButton extends JButton implements MenuListener {
 
         addActionListener(e -> {
             buttonSoundPlayer.playSound();
+            int confirm = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure to exit the game?",
+                    "Exit game",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null);
+            if (confirm != JOptionPane.YES_OPTION) {
+                return;
+            }
+
             for (ExitButtonListener listener : exitButtonListeners) {
                 listener.exitButtonClicked();
             }
