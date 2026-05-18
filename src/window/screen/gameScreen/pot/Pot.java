@@ -54,17 +54,13 @@ public class Pot extends JComponent implements GameScreenListener {
 
     // ─── Images ───────────────────────────────────────────────────────────────
 
-    // หม้อพื้นฐาน
     private Image emptyImage;
     private Image waterImage;
     private Image oilImage;
     private Image sugarImage;
-
-    // หม้อ + ซึ้ง (นึ่ง)
     private Image steamerMidImage;
     private Image steamerFoodImage;
     private Image steamerTopImage;
-
     private Image currentImage;
 
     // ─── State ────────────────────────────────────────────────────────────────
@@ -72,7 +68,7 @@ public class Pot extends JComponent implements GameScreenListener {
     private State state = State.EMPTY;
     private Stack<PotLayer> layers = new Stack<>();
     private Ingredient currentFood;
-    private boolean isCooking = false;
+    private boolean isCooking  = false;
     private boolean isSteaming = false;
     private Timer timer;
     private Rectangle potZone;
@@ -80,15 +76,15 @@ public class Pot extends JComponent implements GameScreenListener {
 
     // ─── Sound Players ────────────────────────────────────────────────────────
 
-    private FrySoundPlayer frySoundPlayer;
-    private StreamSoundPlayer streamSoundPlayer;
-    private BoilSoundPlayer boilSoundPlayer;
+    private FrySoundPlayer       frySoundPlayer;
+    private StreamSoundPlayer    streamSoundPlayer;
+    private BoilSoundPlayer      boilSoundPlayer;
     private PourWaterSoundPlayer pourWaterSoundPlayer;
-    private HandSoundPlayer handSoundPlayer;
-    private PotSoundPlayer potSoundPlayer;
-    private SugarSoundPlayer sugarSoundPlayer;
-    private FryCapSoundPlayer fryCapSoundPlayer;
-    private OilSoundPlayer oilSoundPlayer;
+    private HandSoundPlayer      handSoundPlayer;
+    private PotSoundPlayer       potSoundPlayer;
+    private SugarSoundPlayer     sugarSoundPlayer;
+    private FryCapSoundPlayer    fryCapSoundPlayer;
+    private OilSoundPlayer       oilSoundPlayer;
 
     // ─── Constructor ──────────────────────────────────────────────────────────
 
@@ -103,25 +99,25 @@ public class Pot extends JComponent implements GameScreenListener {
     // ─── Initialization ───────────────────────────────────────────────────────
 
     private void initializePotImages() {
-        emptyImage     = loadImage("/equipment/emptypot.png");
-        waterImage     = loadImage("/equipment/waterpot.png");
-        oilImage       = loadImage("/equipment/oilpot.png");
-        sugarImage     = loadImage("/equipment/sugarpot.png");
+        emptyImage       = loadImage("/equipment/emptypot.png");
+        waterImage       = loadImage("/equipment/waterpot.png");
+        oilImage         = loadImage("/equipment/oilpot.png");
+        sugarImage       = loadImage("/equipment/sugarpot.png");
         steamerMidImage  = loadImage("/equipment/steamermidpot.png");
         steamerFoodImage = loadImage("/equipment/thianpot.png");
         steamerTopImage  = loadImage("/equipment/steamertoppot.png");
     }
 
     private void initializeSoundPlayers() {
-        frySoundPlayer      = new FrySoundPlayer();
-        streamSoundPlayer   = new StreamSoundPlayer();
-        boilSoundPlayer     = new BoilSoundPlayer();
+        frySoundPlayer       = new FrySoundPlayer();
+        streamSoundPlayer    = new StreamSoundPlayer();
+        boilSoundPlayer      = new BoilSoundPlayer();
         pourWaterSoundPlayer = new PourWaterSoundPlayer();
-        handSoundPlayer     = new HandSoundPlayer();
-        potSoundPlayer      = new PotSoundPlayer();
-        sugarSoundPlayer    = new SugarSoundPlayer();
-        fryCapSoundPlayer   = new FryCapSoundPlayer();
-        oilSoundPlayer      = new OilSoundPlayer();
+        handSoundPlayer      = new HandSoundPlayer();
+        potSoundPlayer       = new PotSoundPlayer();
+        sugarSoundPlayer     = new SugarSoundPlayer();
+        fryCapSoundPlayer    = new FryCapSoundPlayer();
+        oilSoundPlayer       = new OilSoundPlayer();
     }
 
     // ─── Image Utility ────────────────────────────────────────────────────────
@@ -159,22 +155,41 @@ public class Pot extends JComponent implements GameScreenListener {
     }
 
     /**
-     * Removes the top layer from the pot (called on right-click).
-     * Player can remove any layer one at a time.
+     * Removes the top removable layer (FOOD or STEAMER_MID only).
+     * SYRUP and STEAMER_TOP are managed by the system — not removable by player.
      */
     public void removeTopLayer() {
         if (layers.isEmpty()) return;
 
-        PotLayer topLayer = layers.pop();
+        Stack<PotLayer> temp = new Stack<>();
+        PotLayer targetLayer = null;
 
-        if (topLayer.type == LayerType.FOOD && topLayer.ingredient != null) {
-            topLayer.ingredient.setVisible(true);
-            topLayer.ingredient.returnToStart();
+        // ค้นหา layer บนสุดที่ผู้เล่นเอาออกได้
+        while (!layers.isEmpty()) {
+            PotLayer layer = layers.pop();
+            if (targetLayer == null
+                    && layer.type != LayerType.SYRUP
+                    && layer.type != LayerType.STEAMER_TOP) {
+                targetLayer = layer;
+                break;
+            }
+            temp.push(layer);
+        }
+
+        // คืน layer ที่ข้ามไปกลับ stack ตามลำดับเดิม
+        while (!temp.isEmpty()) {
+            layers.push(temp.pop());
+        }
+
+        if (targetLayer == null) return;
+
+        if (targetLayer.type == LayerType.FOOD
+                && targetLayer.ingredient != null) {
+            targetLayer.ingredient.setVisible(true);
+            targetLayer.ingredient.returnToStart();
             currentFood = null;
             potSoundPlayer.playSound();
-        } else if (topLayer.type == LayerType.STEAMER_TOP) {
-            potSoundPlayer.playSound();
-        } else if (topLayer.type == LayerType.STEAMER_MID) {
+        } else if (targetLayer.type == LayerType.STEAMER_MID) {
             potSoundPlayer.playSound();
         }
 
@@ -185,7 +200,7 @@ public class Pot extends JComponent implements GameScreenListener {
 
     /**
      * Removes a specific layer type from the stack regardless of position.
-     * Used for toggling ingredients on/off (e.g., drag syrup to remove, drag again to add).
+     * Used internally by the system (not triggered by player directly).
      */
     private void removeLayerByType(LayerType typeToRemove) {
         Stack<PotLayer> temp = new Stack<>();
@@ -194,20 +209,18 @@ public class Pot extends JComponent implements GameScreenListener {
         while (!layers.isEmpty()) {
             PotLayer layer = layers.pop();
             if (!found && layer.type == typeToRemove) {
-                // Found: remove this layer
-                if (layer.type == LayerType.FOOD && layer.ingredient != null) {
+                if (layer.type == LayerType.FOOD
+                        && layer.ingredient != null) {
                     layer.ingredient.setVisible(true);
                     layer.ingredient.returnToStart();
                     currentFood = null;
                 }
                 found = true;
             } else {
-                // Keep all other layers
                 temp.push(layer);
             }
         }
 
-        // Restore remaining layers in original order
         while (!temp.isEmpty()) {
             layers.push(temp.pop());
         }
@@ -221,8 +234,8 @@ public class Pot extends JComponent implements GameScreenListener {
 
     private boolean hasSteamerMid() { return containsLayer(LayerType.STEAMER_MID); }
     private boolean hasSteamerTop() { return containsLayer(LayerType.STEAMER_TOP); }
-    private boolean hasSyrup()      { return containsLayer(LayerType.SYRUP); }
-    private boolean hasFood()       { return containsLayer(LayerType.FOOD); }
+    private boolean hasSyrup()      { return containsLayer(LayerType.SYRUP);       }
+    private boolean hasFood()       { return containsLayer(LayerType.FOOD);        }
 
     /** True when strainer is placed and food is in, but lid is not yet closed. */
     private boolean isWaitingForSteamerTop() {
@@ -251,7 +264,6 @@ public class Pot extends JComponent implements GameScreenListener {
 
     private boolean addSugar(Ingredient ing) {
         if (state != State.WATER) return false;
-        // Cannot add syrup while strainer is open (no lid)
         if (hasSteamerMid() && !hasSteamerTop()) return false;
 
         if (hasSyrup()) {
@@ -271,7 +283,7 @@ public class Pot extends JComponent implements GameScreenListener {
 
     private boolean addSteamerMid(Ingredient ing) {
         if (state != State.WATER) return false;
-        if (hasSyrup()) return false; // Cannot place strainer over syrup
+        if (hasSyrup()) return false;
 
         if (hasSteamerMid()) {
             removeLayerByType(LayerType.STEAMER_MID);
@@ -289,17 +301,9 @@ public class Pot extends JComponent implements GameScreenListener {
     }
 
     private boolean addSteamerTop(Ingredient ing) {
-        if (state != State.WATER) return false;
-        if (!hasSteamerMid()) return false;
-
-        if (hasSteamerTop()) {
-            removeLayerByType(LayerType.STEAMER_TOP);
-            ing.returnToStart();
-            potSoundPlayer.playSound();
-            updatePotImage();
-            return true;
-        }
-
+        if (state != State.WATER)  return false;
+        if (!hasSteamerMid())      return false;
+        if (hasSteamerTop())       return false; // ล็อก: ระบบจัดการเอง ผู้เล่นเอาออกไม่ได้
         if (!isWaitingForSteamerTop()) return false;
 
         layers.push(new PotLayer(LayerType.STEAMER_TOP));
@@ -311,7 +315,6 @@ public class Pot extends JComponent implements GameScreenListener {
         return true;
     }
 
-    /** FIX: Restored all missing == comparison operators */
     private boolean handleFood(Ingredient ing) {
         if (currentFood != null || isCooking) return false;
 
@@ -337,7 +340,7 @@ public class Pot extends JComponent implements GameScreenListener {
             return false;
         }
 
-        // ── Steaming (place on strainer, waiting for lid) ─────────────────────
+        // ── Steaming ──────────────────────────────────────────────────────────
         if (state == State.WATER && hasSteamerMid() && !hasSteamerTop()) {
             if (kind == FoodKind.THIAN && prep == PrepState.WRAPPED) {
                 putFoodInPot(ing, true);
@@ -361,7 +364,7 @@ public class Pot extends JComponent implements GameScreenListener {
             return false;
         }
 
-        // ── Remove food if player drags cooked food out of pot ────────────────
+        // ── Remove food if player drags cooked food out ───────────────────────
         if (currentFood == ing) {
             removeTopLayer();
             return true;
@@ -372,7 +375,6 @@ public class Pot extends JComponent implements GameScreenListener {
 
     // ─── Food Placement ───────────────────────────────────────────────────────
 
-    /** Hides ingredient from screen and tracks it as the current pot food. */
     private void putFoodInPot(Ingredient ing, boolean steaming) {
         currentFood = ing;
         isSteaming  = steaming;
@@ -380,7 +382,6 @@ public class Pot extends JComponent implements GameScreenListener {
         repaint();
     }
 
-    /** Returns cooked food to the cutting board and resets relevant pot state. */
     private void takeFoodOutOfPot() {
         findCutBoard();
 
@@ -388,8 +389,10 @@ public class Pot extends JComponent implements GameScreenListener {
             currentFood.setVisible(true);
             if (cutBoard != null) {
                 Rectangle boardZone = cutBoard.getBoardZone();
-                int newX = boardZone.x + (boardZone.width  / 2) - (currentFood.getWidth()  / 2);
-                int newY = boardZone.y + (boardZone.height / 2) - (currentFood.getHeight() / 2);
+                int newX = boardZone.x + (boardZone.width  / 2)
+                        - (currentFood.getWidth()  / 2);
+                int newY = boardZone.y + (boardZone.height / 2)
+                        - (currentFood.getHeight() / 2);
                 currentFood.setLocation(newX, newY);
             }
         }
@@ -401,7 +404,7 @@ public class Pot extends JComponent implements GameScreenListener {
 
         removeLayerByType(LayerType.FOOD);
 
-        // After steaming finishes, automatically remove strainer and lid
+        // หลังนึ่งเสร็จ ระบบเอาซึ้งและฝาออกเอง
         if (wasStea) {
             removeLayerByType(LayerType.STEAMER_TOP);
             removeLayerByType(LayerType.STEAMER_MID);
@@ -413,29 +416,37 @@ public class Pot extends JComponent implements GameScreenListener {
     // ─── Right-Click Handler ──────────────────────────────────────────────────
 
     /**
-     * จัดการการคลิกขวา - เอาเลเยอร์บนสุดออก
-     * ผู้เล่นสามารถคลิกขวาหลายครั้งเพื่อเอาเลเยอร์ทีละชั้น
+     * คลิกขวา → เอาเลเยอร์ที่ผู้เล่นเอาออกได้ (FOOD / STEAMER_MID) ออกทีละชั้น
+     * SYRUP และ STEAMER_TOP ระบบจัดการเอง ผู้เล่นเอาออกไม่ได้
      */
     private void handleRightClick() {
         if (layers.isEmpty()) return;
-        // ห้ามเอาของออกระหว่างกำลังปรุงอาหาร
-        if (isCooking) return;
+        if (isCooking) return; // ล็อกระหว่างปรุง
 
-        PotLayer topLayer = layers.peek();
-        String layerName = switch (topLayer.type) {
-            case FOOD        -> "Food";
-            case STEAMER_MID -> "Strainer";
-            case STEAMER_TOP -> "Pot Lid";
-            case SYRUP       -> "Sugar Syrup";
-        };
+        // ตรวจว่ามี layer ที่เอาออกได้ไหม
+        boolean hasRemovable = layers.stream().anyMatch(
+                l -> l.type == LayerType.FOOD
+                        || l.type == LayerType.STEAMER_MID
+        );
+        if (!hasRemovable) return;
 
-        System.out.println("Removing: " + layerName);
+        // Log layer บนสุดที่เอาออกได้
+        for (int i = layers.size() - 1; i >= 0; i--) {
+            PotLayer layer = layers.get(i);
+            if (layer.type == LayerType.FOOD
+                    || layer.type == LayerType.STEAMER_MID) {
+                String name = (layer.type == LayerType.FOOD)
+                        ? "Food" : "Strainer";
+                System.out.println("Removing: " + name);
+                break;
+            }
+        }
+
         removeTopLayer();
     }
 
     // ─── Cooking Timers ───────────────────────────────────────────────────────
 
-    /** Applies syrup layer with a minimal delay (allows image update). */
     private void startSyrupCooking() {
         if (timer != null && timer.isRunning()) timer.stop();
         updatePotImage();
@@ -444,7 +455,6 @@ public class Pot extends JComponent implements GameScreenListener {
         timer.start();
     }
 
-    /** Steams food for 3 seconds, then marks it as STEAMED and returns it. */
     private void startSteaming() {
         if (timer != null && timer.isRunning()) timer.stop();
         isCooking = true;
@@ -458,7 +468,6 @@ public class Pot extends JComponent implements GameScreenListener {
         timer.start();
     }
 
-    /** Cooks food for the given duration, then updates its state and returns it. */
     private void startCooking(PrepState newState, String newImage, int cookTime) {
         if (timer != null && timer.isRunning()) timer.stop();
         isCooking = true;
@@ -474,7 +483,6 @@ public class Pot extends JComponent implements GameScreenListener {
 
     // ─── Pot Reset ────────────────────────────────────────────────────────────
 
-    /** Clears all pot state and layers, returning any held food to its start. */
     private void resetPot() {
         state = State.EMPTY;
         layers.clear();
@@ -506,9 +514,9 @@ public class Pot extends JComponent implements GameScreenListener {
     private Image getWaterStateImage() {
         if (layers.isEmpty()) return waterImage;
 
-        boolean hasMid  = hasSteamerMid();
-        boolean hasTop  = hasSteamerTop();
-        boolean hasFood = hasFood();
+        boolean hasMid   = hasSteamerMid();
+        boolean hasTop   = hasSteamerTop();
+        boolean hasFood  = hasFood();
         boolean hasSyrup = hasSyrup();
 
         if (hasMid && hasTop && hasFood) return steamerTopImage;
@@ -537,19 +545,16 @@ public class Pot extends JComponent implements GameScreenListener {
 
     @Override
     public void gameScreenResized(Dimension size) {
-        // FIX: Restored broken multiplication operators (* instead of _ or *0)
         int w = (int) (size.width  * 0.15);
         int h = (int) (size.height * 0.15);
         int x = (size.width - w) / 2;
         int y = (int) (size.height * 0.75);
-
         setBounds(x, y, w, h);
 
         int zoneW = (int) (w * 0.4);
         int zoneH = (int) (h * 0.05);
         int zoneX = x + (w - zoneW) / 2;
-        int zoneY = y + (int) (h  * 0.45);
-
+        int zoneY = y + (int) (h * 0.45);
         potZone = new Rectangle(zoneX, zoneY, zoneW, zoneH);
     }
 
@@ -564,11 +569,9 @@ public class Pot extends JComponent implements GameScreenListener {
             g2.drawImage(currentImage, 0, 0, getWidth(), getHeight(), this);
         }
 
-        // Draw food floating inside pot (hidden during steaming)
         if (currentFood != null && !isSteaming) {
             Image foodImg = currentFood.getFoodImage();
             if (foodImg != null) {
-                // FIX: Restored broken multiplication operators
                 int foodW = (int) (getWidth()  * 0.6);
                 int foodH = (int) (getHeight() * 0.6);
                 int foodX = (getWidth()  - foodW) / 2;
