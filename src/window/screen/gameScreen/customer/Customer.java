@@ -22,6 +22,7 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
     private String currentOrder;
     private String displayMessage;
     private Timer messageTimer;
+    public boolean isServed = false;
 
     private final String[] menuItems = {"ขนมวง", "ขนมเทียน", "ขนมแคบ"};
 
@@ -133,6 +134,7 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
     }
 
     public void startLeaveAnimation() {
+        this.isServed = true;
         // หน่วงเวลา2.0วินาที และลบข้อความ
         Timer delayTimer = new Timer(2000, e -> {
             this.chatImage = null;
@@ -141,9 +143,8 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
 
             // ลูกค้าเดินไปทางซ้ายออกจากร้าน
             moveTimer = new Timer(10, e2 -> {
-                setLocation(getX() - 5, getY()); // ขยับทีละ 5 พิกเซล
+                setLocation(getX() - 5, getY());
 
-                // เช็คว่าเดินทะลุขอบจอซ้ายไปหรือยัง
                 if (getX() + getWidth() < 0) {
                     moveTimer.stop();
                     walkingSoundPlayer.stop();
