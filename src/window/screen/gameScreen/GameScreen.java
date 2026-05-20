@@ -10,7 +10,6 @@ import window.screen.mainScreen.MainScreen;
 import window.screen.gameScreen.customer.Customer;
 import window.screen.gameScreen.point.Point;
 import window.screen.gameScreen.trash.trashcan;
-import window.screen.gameScreen.gametimer.GameTimer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,12 +45,7 @@ public class GameScreen extends JPanel{
         ToMenuButton toMenuButton = new ToMenuButton(mainScreen);
         gameLayer.add(toMenuButton, JLayeredPane.PALETTE_LAYER);
 
-        //currentCustomer = new Customer();
-        //gameLayer.add(currentCustomer, JLayeredPane.PALETTE_LAYER);
         spawnNewCustomer();
-
-        GameTimer gameTimer = new GameTimer();
-        gameLayer.add(gameTimer, JLayeredPane.POPUP_LAYER);
 
         gameLayer.add(cutBoard,JLayeredPane.POPUP_LAYER);
         gameLayer.add(pot,JLayeredPane.POPUP_LAYER);
