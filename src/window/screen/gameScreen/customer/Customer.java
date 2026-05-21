@@ -105,6 +105,14 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
 
             if (timeLeft <= 0) {
                 // เมื่อเวลาหมด
+                // หักคะแนนหมดเวลา
+                if (Point.getInstance() != null) {
+                    Point.getInstance().timeOutPunish();
+                }
+                //ลบคะแนนทันทีไม่รอให้ลูกค้าออกก่อน
+                if (getParent() != null) {
+                    getParent().repaint();
+                }
                 this.isServed = true;
                 this.displayMessage = "ทำไมร้านนี้ทำช้าจัง";
                 orderTimer.stop();
@@ -137,11 +145,11 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
         //เช็คว่าส่งอาหารถูกมั้ยและคำนวณคะแนน
         if (Point.getInstance() != null) {
             if (isCorrect) {
-                Point.getInstance().processService(currentOrder, currentOrder);
+                Point.getInstance().processService(currentOrder, currentOrder, (int)timeLeft);
                 correctSoundPlayer.playSound();
                 this.displayMessage = "อาหารอร่อยมากเลย";
             } else {
-                Point.getInstance().processService(currentOrder, "WRONG_FOOD");
+                Point.getInstance().processService(currentOrder, "WRONG_FOOD", 0);
                 incorrectSoundPlayer.playSound();
                 this.displayMessage = "ร้านนี้ไม่ดีเลยทำอาหารก็ผิด";
             }
