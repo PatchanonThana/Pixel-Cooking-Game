@@ -47,7 +47,7 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
         Random random = new Random();
         int menuIndex = random.nextInt(menuItems.length);
         this.currentOrder = menuItems[menuIndex];
-        int spriteNumber = random.nextInt(3) + 1;
+        int spriteNumber = random.nextInt(4) + 1;
         this.displayMessage = "เชฟผมขอสั่งเมนู(" + currentOrder + ")";
         setOpaque(false);
 
@@ -211,15 +211,15 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
     @Override
     public void gameScreenResized(Dimension size) {
         //ขนาดตัวละคร
-        charH = (int) (size.height * 0.7);
-        charW = (int) (charH * 1);
+        charH = (int) (size.height * 0.50);
+        charW = (int) (charH * 0.81);
 
         // ตำแหน่งตัวละคร
         int responsiveX = (int) (size.width * 0.39);
         int responsiveY = (int) (size.height * 0.766) - charH;
 
         //กรอบใสที่ใส่ตัวละครและกล่องข้อความ
-        setBounds(responsiveX, responsiveY, (int) (charW * 3), (int) (charH * 0.915));
+        setBounds(responsiveX, responsiveY, (int) (charW * 3), (int) (charH * 0.88));
     }
 
     @Override
@@ -228,7 +228,7 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
 
         if (customerImage != null) {
             //เลื่อนตัวละครลงมาวาดที่Y=50เพื่อเผื่อพื้นที่ด้านบนให้กล่องข้อความ
-            g.drawImage(customerImage, -200, 120, charW, charH, this);
+            g.drawImage(customerImage, 0, 50, charW, charH, this);
         }
 
         if (timeLeft > 0 && !isServed) {
@@ -268,8 +268,8 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
             int chatWidth = Math.max(400, textWidth + 200);
             int chatHeight = 280;
 
-            int chatX = charW - 400;
-            int chatY = 240;
+            int chatX = charW - 80;
+            int chatY = 0;
 
             g.drawImage(chatImage, chatX, chatY, chatWidth, chatHeight, this);
 
