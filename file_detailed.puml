@@ -291,35 +291,44 @@ package window {
 
       package point {
         class Point {
-          - instance Point
-          - totalScore: int
-          - highestScore: itn
-          - filePath: String
-          + Point()
-          + getInstance(): Point
-          + processService(String,String): void
-          - calculateAddScore(String): void
-          - loadHighScore: void
-          - saveHighScore: void
-          + draw(Graphics2D,int): void
-          + getTotalScore(): int
+                  - instance Point
+                  - totalScore: int
+                  - highestScore: itn
+                  - highestScore: int
+                  - filePath: String
+                  + Point()
+                  + getInstance(): Point
+                  + processService(String,String): void
+                  - calculateAddScore(String): void
+                  - loadHighScore: void
+                  - saveHighScore: void
+                  + processService(String,String,int): void
+                  + timeOutPunish(): void
+                  - calculateAddScore(String,int): void
+                  - loadHighScore(): void
+                  - saveHighScore(): void
+                  + draw(Graphics2D,int): void
+                  + getTotalScore(): int
         }
       }
 
       package trash {
         class trashcan {
-          - trashImage: Image
-          - width: int
-          - height: itn
-          - onTrashClicked: Runnable
-          - gameLayer: JLayeredPane
-          - mainDough: Dough
-          + trashCan()
-          + setup(JLayeredPane,Dough): void
-          + performTrashLogic(): void
-          + setOnTrashClicked(Runnable): void
-          + gameScreenResized(Dimension): void
-          + paintComponent(Graphics2D): void
+                  - trashImage: Image
+                  - width: int
+                  - height: itn
+                  - height: int
+                  - onTrashClicked: Runnable
+                  - gameLayer: JLayeredPane
+                  - mainDough: Dough
+                  + trashCan()
+                  + setup(JLayeredPane,Dough): void
+                  + performTrashLogic(): void
+                  - performTrashLogic(): void
+                  + setOnTrashClicked(Runnable): void
+                  + gameScreenResized(Dimension): void
+                  + paintComponent(Graphics2D): void
+                  # paintComponent(Graphics): void
         }
       }
 
@@ -454,14 +463,14 @@ window.screen.gameScreen.GameScreen --> window.screen.gameScreen.pot.Pot
 window.screen.gameScreen.GameScreen --> window.screen.gameScreen.cutBoard.CutBoard
 window.screen.gameScreen.GameScreen --> window.screen.gameScreen.customer.Customer
 window.screen.gameScreen.GameScreen --> window.screen.gameScreen.ingredient.Ingredient
-window.screen.gameScreen.GameScreen --> window.screen.gameScreen.trash.trashcan
+window.screen.gameScreen.GameScreen --> window.screen.gameScreen.trash.trashCan
 window.screen.gameScreen.GameScreen --> window.screen.gameScreen.backgrond.Background
 window.screen.gameScreen.GameScreen --> window.screen.gameScreen.toMenuButton.ToMenuButton
 window.screen.gameScreen.GameScreen --> window.screen.gameScreen.point.Point
 
 window.screen.gameScreen.pot.Pot ..|> window.screen.gameScreen.GameScreenListener
 window.screen.gameScreen.cutBoard.CutBoard ..|> window.screen.gameScreen.GameScreenListener
-window.screen.gameScreen.trash.trashcan ..|> window.screen.gameScreen.GameScreenListener
+window.screen.gameScreen.trash.trashCan ..|> window.screen.gameScreen.GameScreenListener
 window.screen.gameScreen.backgrond.Background ..|> window.screen.gameScreen.GameScreenListener
 window.screen.gameScreen.toMenuButton.ToMenuButton ..|> window.screen.gameScreen.GameScreenListener
 window.screen.gameScreen.ingredient.Ingredient ..|> window.screen.gameScreen.GameScreenListener
