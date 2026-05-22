@@ -219,7 +219,7 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
         int responsiveY = (int) (size.height * 0.766) - charH;
 
         //กรอบใสที่ใส่ตัวละครและกล่องข้อความ
-        setBounds(responsiveX, responsiveY, (int) (charW * 3), (int) (charH * 0.915));
+        setBounds(responsiveX, responsiveY, (int) (charW * 3)+200, (int) (charH * 0.915));
     }
 
     @Override
