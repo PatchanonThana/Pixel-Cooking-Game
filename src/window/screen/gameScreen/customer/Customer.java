@@ -30,8 +30,9 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
 
     private final String[] menuItems = {"ขนมวง", "ขนมเทียน", "ขนมแคบ"};
 
-    private int charW = 450;
-    private int charH = 550;
+    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private int charH = (int) (screenSize.height * 0.50);
+    private int charW = (int) (charH * 0.81);
 
     private Timer moveTimer;
     private Runnable onExitCallback;
@@ -228,6 +229,7 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
 
         if (customerImage != null) {
             //เลื่อนตัวละครลงมาวาดที่Y=50เพื่อเผื่อพื้นที่ด้านบนให้กล่องข้อความ
+            //int drawWidth = (int) (charW * 1.1);
             g.drawImage(customerImage, -200, 120, charW, charH, this);
         }
 
