@@ -1,0 +1,481 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package app {
+  class Main {
+    + main(String[] args): void
+  }
+}
+
+package window {
+  package mainWindow {
+    class MainWindow {
+      + MainWindow()
+      + exitButtonClicked(): void
+  }
+  }
+
+  package screen {
+    package mainScreen {
+      class MainScreen {
+        - gameScreen: GameScreen
+        - bgm: BGMPlayer
+        - inGameBGMPlayer: InGameBGMPlayer
+        - doorBellSoundPlayer: DoorBellSoundPlayer
+        - playerName: String
+        + MainScreen(MainWindow)
+        + showCard(String): void
+        + askForName(): String
+        + menuStartButtonClicked(): void
+        + kumwanButtonClicked(): void
+        + gameToMenuButtonClicked(): void
+        + exitButtonClicked(): void
+  }
+    }
+
+    package menuScreen {
+      class MenuScreen {
+        + menuLayer:JLayeredPane
+        + mainScreen:MainScreen
+        + mainWindow:MainWindow
+        + MenuScreen()
+      }
+
+      package background {
+        class Background {
+          - backgroundImage:Image
+          - thisSize:Dimension
+          + Background()
+          + menuResized(Dimension): void
+          + paintComponent(Graphics2D): void
+        }
+      }
+
+      package menuButton {
+        package exitButton {
+          class MenuExitButton {
+            - exitButtonListener: List<ExitButtonListener>
+            - rawExitImage:Image
+            - rawHoverExitImage: Image
+            + MenuExitButton()
+            + menuResized(Dimension): void
+          }
+          interface ExitButtonListener {
+            + exitButtonClicked(): void
+          }
+        }
+        package startButton {
+          class MenuStartButton {
+            - rawStartImage: Image
+            - rawHoverStartImage: Image
+            - startButtonListener: MenuStartButtonListener
+            + MenuStartButton()
+            + menuResized(Dimension size)
+          }
+          interface MenuStartButtonListener {
+            + menuStartButtonClicked(): void
+          }
+        }
+        package kumwanButton {
+          class MenuKumwanButton {
+            - rawImage: Image
+            + MenuKumwanButton()
+            + menuScreenResized(Dimension size)
+          }
+          interface KumwanButtonListener {
+            + kumwanButtonClicked(): void
+          }
+        }
+      }
+    }
+
+    package gameScreen {
+      class GameScreen {
+        + pot: Pot
+        + cutBoard: CutBoard
+        + currentCustomer: Customer
+        + trashBtn: trashcan
+        + gameLayer: JLayeredPane
+        + mainScreen:MainScreen
+        + dough: Dough
+        + playerName: String
+        + firstCustomer: boolean
+        + GameScreen()
+        + spawnNewCustomer(): void
+        + paintChildren(Graphics2D): void
+        changeCustomerPlayerName(String): void
+      }
+      interface GameScreenListener {
+        + onGameStateChanged(GameEvent): void
+      }
+
+      package backgrond {
+        class Background {
+          - backgroundImage: Image
+          - thisSize: Dimension
+          + Background()
+          + gameScreenResized(): void
+          + paintComponent(Graphics2D): void
+        }
+      }
+
+      package cutBoard {
+        class CutBoard {
+          + boardZone: Rectangle
+          + pot: Pot
+          + cutBoard: cutBoard
+          - ingredients: ArrayList<Ingredient>
+          - handSoundPlayer: HandSoundPlayer
+          + CutBoard()
+          + getBoardZone(): Rectangle
+          + addIngredient(Ingredient): void
+          + checkRecipe(): void
+          + removeIngredient(Ingredient): void
+        }
+      }
+
+      package pot {
+        class Pot {
+          + {static} enum State
+          + {static} enum LayerType
+          --+ Pot: PotLayer
+          --+ Dough: RightClickHandler
+          - emptyImage, waterImage, oilImage, sugarImage: Image
+          - steamerMidImage, steamerFoodImage, steamerTopImage, currentImage: Image
+          - frySoundPlayer: FrySoundPlayer
+          - fryCapSoundPlayer: FryCapSoundPlayer
+          - streamSoundPlayer: StreamSoundPlayer
+          - boilSoundPlayer: BoilSoundPlayer
+          - pourWaterSoundPlayer: PourWaterSoundPlayer
+          - handSoundPlayer: HandSoundPlayer
+          - potSoundPlayer: PotSoundPlayer
+          - sugarSoundPlayer: SugarSoundPlayer
+          - oilSoundPlayer: OilSoundPlayer
+          + Pot()
+          - initialPotImage(): void
+          - initialSoundPlayer(): void
+          - loadImage(String): Image
+          - getPotZone(): Rectangle
+          + removeTopLayer(): void
+          - removeLayerByType(LayerType): void
+          - containsLayer(),hasStreamerMid(),hasStreamerTop(),hasSyrup(),hasFood(),isWaitingForStreamerTop():boolean
+          - addWater(Ingredient),addOil(Ingredient),addSugar(Ingredient),addStreamMid(Ingredient),addStreamerTop(Ingredient): boolean
+          - handleFood(Ingredient):boolean
+          - putFoodInPot(Ingredient),putFoodOutPot(),handleRightClick(),startSyrupCooking(): void
+          - startStreaming(),startCooking(),resetPot(),updatePotImage(): void
+          - getWaterStateImage(): Image
+          - findCutBoard(): void
+          - gameScreenResized(Dimension): void
+          - paintComponent(Graphics2D): void
+        }
+      }
+
+      package customer {
+        class Customer {
+          - customerImage : Image
+          - chatImage: Image
+          - currentOrder: String
+          - displayMessage: String
+          - messageTimer: Timer
+          + isServed: boolean
+          - orderTimer: Timer
+          - orderTimeLimit: double
+          - timeLeft: double
+          - menuItems: String[]
+          - charW: int
+          - charH: int
+          - moveTimer: Timer
+          - onExitCallback: Runnable
+          - playerName: String
+          - correctSoundPlayer: CorrectSoundPlayer
+          - incorrectSoundPlayer: IncorrectSoundPlayer
+          - walkingSoundPlayer: WalkingSoundPlayer
+          - hasPlayedEnterSound: boolean
+          - doorBellSoundPlayer: DoorBellSoundPlayer
+          + Customer()
+          + setNewPlayerName(String): void
+          + menuStartButtonClicked(): void
+          + getCurrentOrder(): String
+          + startOrderTimer(): void
+          + checkOrder(Ingredient): boolean
+          + setOnExitCallback(Runnable): void
+          + startLeaveAnimation(): void
+          + playEnterSound(): void
+          + gameScreenResized: void
+          # paintComponent: void
+        }
+      }
+
+      package ingredient {
+        class Ingredient {
+          + {static} enum Type
+          + {static} enum PrepState
+          + {static} enum FoodKind
+          - foodKind: FoodKind
+          - prepState: PrepState
+          # type: Type
+          - filename: String
+          - relX,relY: double
+          - startX,startY: int
+          - width,height: int
+          - relWidth,relHeight: double
+          + ingredientImage: BufferedImage
+          + pressedPoint: Point
+          + scale: int
+          # pot: Pot
+          # cutBoard: CutBoard
+          - customer: Customer
+          + setCustomerTarget(Customer): void
+          + Ingredient()
+          - loadImage(String): void
+          + getFoodKind(): FoodKind
+          + setFoodKind(): void
+          + getType(): Type
+          + getPrepState(): PrepState
+          + setPrepState(): void
+          + getFileName(): String(
+          + getFoodImage: Image
+          + setImage(): void
+          + returnToStart(): void
+          +-- clickListener: ClickListener
+          # OnRightClick(): void
+          +-- dragListener: DragListener
+          + gameScreenResized(Dimension): void
+          + paintComponent(Graphics2D): void
+        }
+        class Dough {
+          - startX: Double
+          - startY: Double
+          - smashSoundPlayer: SmashSoundPlayer
+          + Dough(Pot,CutBoard)
+          # OnRightClick: void
+          + resetDough: void
+        }
+        class circleDough {
+          + circleDough()
+        }
+      }
+
+      package point {
+        class Point {
+          - instance Point
+          - totalScore: int
+          - highestScore: itn
+          - filePath: String
+          + Point()
+          + getInstance(): Point
+          + processService(String,String): void
+          - calculateAddScore(String): void
+          - loadHighScore: void
+          - saveHighScore: void
+          + draw(Graphics2D,int): void
+          + getTotalScore(): int
+        }
+      }
+
+      package trash {
+        class trashcan {
+          - trashImage: Image
+          - width: int
+          - height: itn
+          - onTrashClicked: Runnable
+          - gameLayer: JLayeredPane
+          - mainDough: Dough
+          + trashCan()
+          + setup(JLayeredPane,Dough): void
+          + performTrashLogic(): void
+          + setOnTrashClicked(Runnable): void
+          + gameScreenResized(Dimension): void
+          + paintComponent(Graphics2D): void
+        }
+      }
+
+      package toMenuButton {
+        class ToMenuButton {
+          - thisSize: Dimension
+          - toMenuButtonListener: ToMenuButtonListener
+          + ToMenuButton()
+          + gameScreenResized(Graphics2D): void
+        }
+        interface ToMenuButtonListener {
+          + gameToMenuButtonClicked(): void
+        }
+      }
+    }
+  }
+
+  package soundPlayer {
+    class SoundPlayer {
+      # clipDing: Clip
+      + SoundPlayer()
+      + playSoundWithDing(Clip,int,int): void
+      + playSound(Clip,int,int): void
+      + getAudioStream(String): Clip
+    }
+
+
+      class BGMPlayer {
+        - clip: Clip
+        + BGMPlayer()
+        + start(): void
+        + stop(): void
+        + destroy(): void
+      }
+      class InGameBGMPlayer {
+        - clip: Clip
+        + BGMPlayer()
+        + start(): void
+        + stop(): void
+        + destroy(): void
+      }
+
+
+    class DoorBellSoundPlayer {
+      + clip: Clip
+      + DoorBellSoundPlayer()
+      + playSound(): void
+    }
+    class CorrectSoundPlayer {
+      + clip: Clip
+      + CorrectSoundPlayer()
+      + playSound(): void
+    }
+    class IncorrectSoundPlayer {
+      + clip: Clip
+      + IncorrectSoundPlayer()
+      + playSound(): void
+    }
+    class WalkingSoundPlayer {
+      + clip: Clip
+      + WalkingSoundPlayer()
+      + playSound(): void
+    }
+    class PotSoundPlayer {
+      + clip: Clip
+      + PotSoundPlayer()
+      + playSound(): void
+    }
+    class OilSoundPlayer {
+      + clip: Clip
+      + OilSoundPlayer()
+      + playOilSound(): void
+    }
+    class PourWaterSoundPlayer {
+      + clip: Clip
+      + PourWaterSoundPlayer()
+      + playSound(): void
+    }
+    class StreamSoundPlayer {
+      + clip: Clip
+      + StreamSoundPlayer()
+      + playSound(): void
+    }
+    class FrySoundPlayer {
+      + clip: Clip
+      + FrySoundPlayer()
+      + playSound(): void
+    }
+    class FryCapSoundPlayer {
+      + clip: Clip
+      + FryCapSoundPlayer()
+      + playSound(): void
+    }
+    class SugarSoundPlayer {
+      + clip: Clip
+      + SugarSoundPlayer()
+      + playSound(): void
+    }
+    class BoilSoundPlayer {
+      + clip: Clip
+      + BoilSoundPlayer()
+      + playSound(): void
+    }
+    class ButtonSoundPlayer {
+      + clip: Clip
+      + ButtonSoundPlayer()
+      + playSound(): void
+    }
+  }
+}
+
+Main --> window.mainWindow.MainWindow
+window.mainWindow.MainWindow --> window.screen.mainScreen.MainScreen
+window.screen.mainScreen.MainScreen --> window.screen.menuScreen.MenuScreen
+window.screen.mainScreen.MainScreen --> window.screen.gameScreen.GameScreen
+
+window.screen.menuScreen.MenuScreen --> window.screen.menuScreen.background.Background
+window.screen.menuScreen.MenuScreen --> window.screen.menuScreen.menuButton.exitButton.MenuExitButton
+window.screen.menuScreen.MenuScreen --> window.screen.menuScreen.menuButton.startButton.MenuStartButton
+window.screen.menuScreen.MenuScreen --> window.screen.menuScreen.menuButton.kumwanButton.MenuKumwanButton
+
+window.screen.menuScreen.menuButton.exitButton.MenuExitButton ..|> window.screen.menuScreen.menuButton.exitButton.ExitButtonListener
+window.screen.menuScreen.menuButton.startButton.MenuStartButton ..|> window.screen.menuScreen.menuButton.startButton.MenuStartButtonListener
+window.screen.menuScreen.menuButton.kumwanButton.MenuKumwanButton ..|> window.screen.menuScreen.menuButton.kumwanButton.KumwanButtonListener
+
+window.screen.mainScreen.MainScreen ..|> window.screen.menuScreen.menuButton.startButton.MenuStartButtonListener
+window.screen.mainScreen.MainScreen ..|> window.screen.gameScreen.toMenuButton.ToMenuButtonListener
+window.screen.mainScreen.MainScreen ..|> window.screen.menuScreen.menuButton.exitButton.ExitButtonListener
+window.screen.mainScreen.MainScreen ..|> window.screen.menuScreen.menuButton.kumwanButton.KumwanButtonListener
+
+window.screen.gameScreen.GameScreen --> window.screen.gameScreen.pot.Pot
+window.screen.gameScreen.GameScreen --> window.screen.gameScreen.cutBoard.CutBoard
+window.screen.gameScreen.GameScreen --> window.screen.gameScreen.customer.Customer
+window.screen.gameScreen.GameScreen --> window.screen.gameScreen.ingredient.Ingredient
+window.screen.gameScreen.GameScreen --> window.screen.gameScreen.trash.trashcan
+window.screen.gameScreen.GameScreen --> window.screen.gameScreen.backgrond.Background
+window.screen.gameScreen.GameScreen --> window.screen.gameScreen.toMenuButton.ToMenuButton
+window.screen.gameScreen.GameScreen --> window.screen.gameScreen.point.Point
+
+window.screen.gameScreen.pot.Pot ..|> window.screen.gameScreen.GameScreenListener
+window.screen.gameScreen.cutBoard.CutBoard ..|> window.screen.gameScreen.GameScreenListener
+window.screen.gameScreen.trash.trashcan ..|> window.screen.gameScreen.GameScreenListener
+window.screen.gameScreen.backgrond.Background ..|> window.screen.gameScreen.GameScreenListener
+window.screen.gameScreen.toMenuButton.ToMenuButton ..|> window.screen.gameScreen.GameScreenListener
+window.screen.gameScreen.ingredient.Ingredient ..|> window.screen.gameScreen.GameScreenListener
+window.screen.gameScreen.customer.Customer ..|> window.screen.gameScreen.GameScreenListener
+
+window.screen.gameScreen.ingredient.Dough ..|> window.screen.gameScreen.ingredient.Ingredient
+window.screen.gameScreen.ingredient.circleDough ..|> window.screen.gameScreen.ingredient.Ingredient
+
+window.screen.gameScreen.customer.Customer ..|> window.screen.menuScreen.menuButton.startButton.MenuStartButtonListener
+
+window.screen.gameScreen.customer.Customer --> window.screen.gameScreen.point.Point
+window.screen.gameScreen.customer.Customer --> window.soundPlayer.DoorBellSoundPlayer
+window.screen.gameScreen.customer.Customer --> window.soundPlayer.CorrectSoundPlayer
+window.screen.gameScreen.customer.Customer --> window.soundPlayer.IncorrectSoundPlayer
+window.screen.gameScreen.customer.Customer --> window.soundPlayer.WalkingSoundPlayer
+
+window.screen.gameScreen.pot.Pot --> window.screen.gameScreen.ingredient.Ingredient
+window.screen.gameScreen.ingredient.Ingredient --> window.screen.gameScreen.pot.Pot
+window.screen.gameScreen.ingredient.Ingredient --> window.screen.gameScreen.cutBoard.CutBoard
+window.screen.gameScreen.ingredient.Ingredient --> window.screen.gameScreen.customer.Customer
+
+window.screen.mainScreen.MainScreen --> window.soundPlayer.BGMPlayer
+window.screen.mainScreen.MainScreen --> window.soundPlayer.InGameBGMPlayer
+window.screen.mainScreen.MainScreen --> window.soundPlayer.DoorBellSoundPlayer
+
+window.screen.gameScreen.pot.Pot --> window.soundPlayer.FrySoundPlayer
+window.screen.gameScreen.pot.Pot --> window.soundPlayer.FryCapSoundPlayer
+window.screen.gameScreen.pot.Pot --> window.soundPlayer.StreamSoundPlayer
+window.screen.gameScreen.pot.Pot --> window.soundPlayer.BoilSoundPlayer
+window.screen.gameScreen.pot.Pot --> window.soundPlayer.PourWaterSoundPlayer
+window.screen.gameScreen.pot.Pot --> window.soundPlayer.HandSoundPlayer
+window.screen.gameScreen.pot.Pot --> window.soundPlayer.PotSoundPlayer
+window.screen.gameScreen.pot.Pot --> window.soundPlayer.SugarSoundPlayer
+window.screen.gameScreen.pot.Pot --> window.soundPlayer.OilSoundPlayer
+
+IncorrectSoundPlayer -[hidden]down- CorrectSoundPlayer
+CorrectSoundPlayer -[hidden]down- WalkingSoundPlayer
+WalkingSoundPlayer -[hidden]down- ButtonSoundPlayer
+ButtonSoundPlayer -[hidden]down- SugarSoundPlayer
+
+DoorBellSoundPlayer -[hidden]down- FryCapSoundPlayer
+FryCapSoundPlayer -[hidden]down- FrySoundPlayer
+FrySoundPlayer -[hidden]down- StreamSoundPlayer
+StreamSoundPlayer -[hidden]down- PourWaterSoundPlayer
+
+OilSoundPlayer -[hidden]down- PotSoundPlayer
+PotSoundPlayer -[hidden]down- HandSoundPlayer
+HandSoundPlayer -[hidden]down- BoilSoundPlayer
+
+@enduml
