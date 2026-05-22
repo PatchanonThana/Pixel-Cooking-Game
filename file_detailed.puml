@@ -138,8 +138,6 @@ package window {
         class Pot {
           + {static} enum State
           + {static} enum LayerType
-          --+ Pot: PotLayer
-          --+ Dough: RightClickHandler
           - state: State
           - layers: Stack<PotLayer>
           - currentFood: Ingredient
@@ -190,7 +188,18 @@ package window {
           - getWaterStateImage(): Image
           - findCutBoard(): void
           - gameScreenResized(Dimension): void
-          - paintComponent(Graphics2D): void
+          - paintComponent(Graphics): void
+        }
+
+        class PotLayer {
+          - type: LayerType
+          - ingredient: Ingredient
+          + PotLayer(LayerType)
+          + PotLayer(LayerType, Ingredient)
+        }
+
+        class RightClickHandler {
+          + RightClickHandler()
         }
       }
 
