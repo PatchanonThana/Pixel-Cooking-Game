@@ -228,20 +228,16 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
         super.paintComponent(g);
 
         if (customerImage != null) {
-            //เลื่อนตัวละครลงมาวาดที่Y=50เพื่อเผื่อพื้นที่ด้านบนให้กล่องข้อความ
-            //int drawWidth = (int) (charW * 1.1);
-            g.drawImage(customerImage, -200, 120, charW, charH, this);
+            g.drawImage(customerImage, -150, 120, charW, charH, this);
         }
 
         if (timeLeft > 0 && !isServed) {
-            //int maxBarWidth = (int) (charW * 0.8);
-            //int barHeight = (int) (charH * 0.05);
             int maxBarWidth = (int) (charW * 0.4);
             int barHeight = (int) (charH * 0.03);
 
             int currentBarWidth = (int) (((double) timeLeft / orderTimeLimit) * maxBarWidth);
 
-            int barX = (charW - maxBarWidth) / 2 -(int)(charH * 0.27);
+            int barX = (charW - maxBarWidth) / 2 -(int)(charH * 0.2);
             int barY = (int)(charH * 0.25) - barHeight;
 
             //วาดพื้นหลังหลอด(สีดำ)
@@ -272,7 +268,7 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
             int chatWidth = Math.max(400, textWidth + 200);
             int chatHeight = 280;
 
-            int chatX = (int) (charW * 0.43);
+            int chatX = (int) (charW * 0.5);
             int chatY = (int) (charH * 0.2);
 
             g.drawImage(chatImage, chatX, chatY, chatWidth, chatHeight, this);
