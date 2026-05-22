@@ -237,8 +237,8 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
 
             int currentBarWidth = (int) (((double) timeLeft / orderTimeLimit) * maxBarWidth);
 
-            int barX = (charW - maxBarWidth) / 2;
-            int barY = 50 - barHeight - 10;
+            int barX = ((charW - maxBarWidth) / 2) - (int)(charW * 0.35);
+            int barY = (int)(charH * 0.15) - barHeight;
 
             //วาดพื้นหลังหลอด(สีดำ)
             g.setColor(Color.BLACK);
@@ -268,8 +268,8 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
             int chatWidth = Math.max(400, textWidth + 200);
             int chatHeight = 280;
 
-            int chatX = charW - 80;
-            int chatY = 0;
+            int chatX = charW - 400;
+            int chatY = 250;
 
             g.drawImage(chatImage, chatX, chatY, chatWidth, chatHeight, this);
 
