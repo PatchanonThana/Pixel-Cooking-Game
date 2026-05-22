@@ -267,9 +267,7 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
             int chatWidth = Math.max(400, textWidth + 200);
             int chatHeight = 280;
 
-            //int chatX = charW - 400;
             int chatX = (int) (charW * 0.43);
-            //int chatY = 240;
             int chatY = (int) (charH * 0.2);
 
             g.drawImage(chatImage, chatX, chatY, chatWidth, chatHeight, this);
