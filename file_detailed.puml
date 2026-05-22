@@ -140,6 +140,14 @@ package window {
           + {static} enum LayerType
           --+ Pot: PotLayer
           --+ Dough: RightClickHandler
+          - state: State
+          - layers: Stack<PotLayer>
+          - currentFood: Ingredient
+          - isCooking: boolean
+          - isSteaming: boolean
+          - timer: Timer
+          - potZone: Rectangle
+          - cutBoard: CutBoard
           - emptyImage, waterImage, oilImage, sugarImage: Image
           - steamerMidImage, steamerFoodImage, steamerTopImage, currentImage: Image
           - frySoundPlayer: FrySoundPlayer
@@ -152,17 +160,33 @@ package window {
           - sugarSoundPlayer: SugarSoundPlayer
           - oilSoundPlayer: OilSoundPlayer
           + Pot()
-          - initialPotImage(): void
-          - initialSoundPlayer(): void
-          - loadImage(String): Image
-          - getPotZone(): Rectangle
+          + addIngredient(Ingredient): boolean
+          + getPotZone(): Rectangle
           + removeTopLayer(): void
+          - initializePotImages(): void
+          - initializeSoundPlayers(): void
+          - loadImage(String): Image
           - removeLayerByType(LayerType): void
-          - containsLayer(),hasStreamerMid(),hasStreamerTop(),hasSyrup(),hasFood(),isWaitingForStreamerTop():boolean
-          - addWater(Ingredient),addOil(Ingredient),addSugar(Ingredient),addStreamMid(Ingredient),addStreamerTop(Ingredient): boolean
-          - handleFood(Ingredient):boolean
-          - putFoodInPot(Ingredient),putFoodOutPot(),handleRightClick(),startSyrupCooking(): void
-          - startStreaming(),startCooking(),resetPot(),updatePotImage(): void
+          - containsLayer(LayerType): boolean
+          - hasSteamerMid(): boolean
+          - hasSteamerTop(): boolean
+          - hasSyrup(): boolean
+          - hasFood(): boolean
+          - isWaitingForSteamerTop(): boolean
+          - addWater(Ingredient): boolean
+          - addOil(Ingredient): boolean
+          - addSugar(Ingredient): boolean
+          - addSteamerMid(Ingredient): boolean
+          - addSteamerTop(Ingredient): boolean
+          - handleFood(Ingredient): boolean
+          - putFoodInPot(Ingredient, boolean): void
+          - takeFoodOutOfPot(): void
+          - handleRightClick(): void
+          - startSyrupCooking(): void
+          - startSteaming(): void
+          - startCooking(PrepState,String,int): void
+          - resetPot(): void
+          - updatePotImage(): void
           - getWaterStateImage(): Image
           - findCutBoard(): void
           - gameScreenResized(Dimension): void
@@ -260,15 +284,14 @@ package window {
         class Point {
           - instance Point
           - totalScore: int
-          - highestScore: int
+          - highestScore: itn
           - filePath: String
           + Point()
           + getInstance(): Point
-          + processService(String,String,int): void
-          + timeOutPunish(): void
-          - calculateAddScore(String,int): void
-          - loadHighScore(): void
-          - saveHighScore(): void
+          + processService(String,String): void
+          - calculateAddScore(String): void
+          - loadHighScore: void
+          - saveHighScore: void
           + draw(Graphics2D,int): void
           + getTotalScore(): int
         }
@@ -278,16 +301,16 @@ package window {
         class trashcan {
           - trashImage: Image
           - width: int
-          - height: int
+          - height: itn
           - onTrashClicked: Runnable
           - gameLayer: JLayeredPane
           - mainDough: Dough
           + trashCan()
           + setup(JLayeredPane,Dough): void
-          - performTrashLogic(): void
+          + performTrashLogic(): void
           + setOnTrashClicked(Runnable): void
           + gameScreenResized(Dimension): void
-          # paintComponent(Graphics): void
+          + paintComponent(Graphics2D): void
         }
       }
 
@@ -422,14 +445,14 @@ window.screen.gameScreen.GameScreen --> window.screen.gameScreen.pot.Pot
 window.screen.gameScreen.GameScreen --> window.screen.gameScreen.cutBoard.CutBoard
 window.screen.gameScreen.GameScreen --> window.screen.gameScreen.customer.Customer
 window.screen.gameScreen.GameScreen --> window.screen.gameScreen.ingredient.Ingredient
-window.screen.gameScreen.GameScreen --> window.screen.gameScreen.trash.trashCan
+window.screen.gameScreen.GameScreen --> window.screen.gameScreen.trash.trashcan
 window.screen.gameScreen.GameScreen --> window.screen.gameScreen.backgrond.Background
 window.screen.gameScreen.GameScreen --> window.screen.gameScreen.toMenuButton.ToMenuButton
 window.screen.gameScreen.GameScreen --> window.screen.gameScreen.point.Point
 
 window.screen.gameScreen.pot.Pot ..|> window.screen.gameScreen.GameScreenListener
 window.screen.gameScreen.cutBoard.CutBoard ..|> window.screen.gameScreen.GameScreenListener
-window.screen.gameScreen.trash.trashCan ..|> window.screen.gameScreen.GameScreenListener
+window.screen.gameScreen.trash.trashcan ..|> window.screen.gameScreen.GameScreenListener
 window.screen.gameScreen.backgrond.Background ..|> window.screen.gameScreen.GameScreenListener
 window.screen.gameScreen.toMenuButton.ToMenuButton ..|> window.screen.gameScreen.GameScreenListener
 window.screen.gameScreen.ingredient.Ingredient ..|> window.screen.gameScreen.GameScreenListener

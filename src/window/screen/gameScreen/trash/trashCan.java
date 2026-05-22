@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 
-public class trashCan extends JComponent implements GameScreenListener {
+public class trashcan extends JComponent implements GameScreenListener {
     private Image trashImage;
     private int width, height;
     private Runnable onTrashClicked; // ตัวส่งสัญญาณไปล้างค่าอาหาร
@@ -19,7 +19,7 @@ public class trashCan extends JComponent implements GameScreenListener {
     private JLayeredPane gameLayer;
     private Dough mainDough;
 
-    public trashCan() {
+    public trashcan() {
         try {
             URL imgUrl = getClass().getResource("Binbutton.png");
             if (imgUrl != null) {

@@ -9,7 +9,7 @@ import window.screen.gameScreen.toMenuButton.ToMenuButton;
 import window.screen.mainScreen.MainScreen;
 import window.screen.gameScreen.customer.Customer;
 import window.screen.gameScreen.point.Point;
-import window.screen.gameScreen.trash.trashCan;
+import window.screen.gameScreen.trash.trashcan;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +25,7 @@ public class GameScreen extends JPanel{
     Customer currentCustomer;
 
     Dough dough;
-    trashCan trashBtn;
+    trashcan trashBtn;
 
     String playerName;
 
@@ -126,7 +126,7 @@ public class GameScreen extends JPanel{
         this.dough = new Dough(pot, cutBoard);
         gameLayer.add(this.dough, JLayeredPane.DRAG_LAYER);
 
-        this.trashBtn = new trashCan();
+        this.trashBtn = new trashcan();
         this.trashBtn.setup(gameLayer, this.dough);
         this.trashBtn.setOnTrashClicked(() -> {
         });
@@ -189,7 +189,7 @@ public class GameScreen extends JPanel{
         }
     }
 
-    //tell customer to change player name
+    //tell customer to change plaeyr name
     public void changeCustomerPlayerName(String playerName) {
         currentCustomer.setNewPlayerName(playerName);
         this.playerName =  playerName;
