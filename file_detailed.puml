@@ -293,15 +293,10 @@ package window {
         class Point {
                   - instance Point
                   - totalScore: int
-                  - highestScore: itn
                   - highestScore: int
                   - filePath: String
                   + Point()
                   + getInstance(): Point
-                  + processService(String,String): void
-                  - calculateAddScore(String): void
-                  - loadHighScore: void
-                  - saveHighScore: void
                   + processService(String,String,int): void
                   + timeOutPunish(): void
                   - calculateAddScore(String,int): void
@@ -316,18 +311,15 @@ package window {
         class trashcan {
                   - trashImage: Image
                   - width: int
-                  - height: itn
                   - height: int
                   - onTrashClicked: Runnable
                   - gameLayer: JLayeredPane
                   - mainDough: Dough
                   + trashCan()
                   + setup(JLayeredPane,Dough): void
-                  + performTrashLogic(): void
                   - performTrashLogic(): void
                   + setOnTrashClicked(Runnable): void
                   + gameScreenResized(Dimension): void
-                  + paintComponent(Graphics2D): void
                   # paintComponent(Graphics): void
         }
       }
