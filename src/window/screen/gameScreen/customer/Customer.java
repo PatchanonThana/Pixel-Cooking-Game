@@ -30,8 +30,8 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
 
     private final String[] menuItems = {"ขนมวง", "ขนมเทียน", "ขนมแคบ"};
 
-    private int charW = 1250;
-    private int charH = 1050;
+    private int charW = 450;
+    private int charH = 550;
 
     private Timer moveTimer;
     private Runnable onExitCallback;
