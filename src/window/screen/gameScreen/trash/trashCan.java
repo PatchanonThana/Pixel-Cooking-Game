@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 
-public class trashcan extends JComponent implements GameScreenListener {
+public class trashCan extends JComponent implements GameScreenListener {
     private Image trashImage;
     private int width, height;
     private Runnable onTrashClicked; // ตัวส่งสัญญาณไปล้างค่าอาหาร
@@ -19,7 +19,7 @@ public class trashcan extends JComponent implements GameScreenListener {
     private JLayeredPane gameLayer;
     private Dough mainDough;
 
-    public trashcan() {
+    public trashCan() {
         try {
             URL imgUrl = getClass().getResource("Binbutton.png");
             if (imgUrl != null) {
@@ -62,7 +62,7 @@ public class trashcan extends JComponent implements GameScreenListener {
     private void performTrashLogic() {
         if (gameLayer == null || mainDough == null)
             return;
-        // ลบแป้งร่างแปลงในเลเยอร์ DRAG_LAYER
+        //ลบแป้งร่างแปลงในเลเยอร์ DRAG_LAYER
         Component[] comps = gameLayer.getComponentsInLayer(JLayeredPane.DRAG_LAYER);
         for (Component c : comps) {
             if (c instanceof Ingredient ing && ing.getType() == Ingredient.Type.FOOD) {
@@ -72,7 +72,7 @@ public class trashcan extends JComponent implements GameScreenListener {
             }
         }
 
-        // resetแป้งก่อน
+        //resetแป้งก่อน
         mainDough.resetDough();
         if (mainDough.getParent() == null) {
             gameLayer.add(mainDough, JLayeredPane.DRAG_LAYER);
@@ -80,7 +80,7 @@ public class trashcan extends JComponent implements GameScreenListener {
         mainDough.setVisible(true);
         mainDough.gameScreenResized(gameLayer.getSize());
 
-        // วาดหน้าจอใหม่
+        //วาดหน้าจอใหม่
         gameLayer.revalidate();
         gameLayer.repaint();
     }

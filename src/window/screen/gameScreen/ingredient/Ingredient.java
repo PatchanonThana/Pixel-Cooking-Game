@@ -3,7 +3,6 @@ import window.screen.gameScreen.cutBoard.CutBoard;
 import window.screen.gameScreen.GameScreenListener;
 import window.screen.gameScreen.pot.Pot;
 import window.screen.gameScreen.customer.Customer;
-import window.screen.gameScreen.gametimer.GameTimer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -133,7 +132,6 @@ public class Ingredient extends JComponent implements GameScreenListener {
 
     private class ClickListener extends MouseAdapter{
         public void mousePressed(MouseEvent e){
-            if (GameTimer.isTimeUp) return; // 🌟 ถ้าหมดเวลา ให้จบการทำงานทันที!
 
             pressedPoint = e.getPoint();
 
@@ -143,7 +141,6 @@ public class Ingredient extends JComponent implements GameScreenListener {
         }
         //เช็คการปล่อยวัตถุออกจากเมาส์
         public void mouseReleased(MouseEvent e){
-            if (GameTimer.isTimeUp) return;
 
             Rectangle ingredientRect = new Rectangle(getLocation().x, getLocation().y, getWidth(), getHeight());
 
@@ -196,7 +193,6 @@ public class Ingredient extends JComponent implements GameScreenListener {
     //ลากวัตถุ
     private class DragListener extends MouseMotionAdapter{
         public void mouseDragged(MouseEvent e){
-            if (GameTimer.isTimeUp) return;
 
             Container parent = getParent();
             Point parentPoint = SwingUtilities.convertPoint(

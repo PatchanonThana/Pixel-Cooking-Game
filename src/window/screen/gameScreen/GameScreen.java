@@ -9,8 +9,7 @@ import window.screen.gameScreen.toMenuButton.ToMenuButton;
 import window.screen.mainScreen.MainScreen;
 import window.screen.gameScreen.customer.Customer;
 import window.screen.gameScreen.point.Point;
-import window.screen.gameScreen.trash.trashcan;
-import window.screen.gameScreen.gametimer.GameTimer;
+import window.screen.gameScreen.trash.trashCan;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +25,7 @@ public class GameScreen extends JPanel{
     Customer currentCustomer;
 
     Dough dough;
-    trashcan trashBtn;
+    trashCan trashBtn;
 
     String playerName;
 
@@ -46,12 +45,7 @@ public class GameScreen extends JPanel{
         ToMenuButton toMenuButton = new ToMenuButton(mainScreen);
         gameLayer.add(toMenuButton, JLayeredPane.PALETTE_LAYER);
 
-        //currentCustomer = new Customer();
-        //gameLayer.add(currentCustomer, JLayeredPane.PALETTE_LAYER);
         spawnNewCustomer();
-
-        GameTimer gameTimer = new GameTimer();
-        gameLayer.add(gameTimer, JLayeredPane.POPUP_LAYER);
 
         gameLayer.add(cutBoard,JLayeredPane.POPUP_LAYER);
         gameLayer.add(pot,JLayeredPane.POPUP_LAYER);
@@ -132,7 +126,7 @@ public class GameScreen extends JPanel{
         this.dough = new Dough(pot, cutBoard);
         gameLayer.add(this.dough, JLayeredPane.DRAG_LAYER);
 
-        this.trashBtn = new trashcan();
+        this.trashBtn = new trashCan();
         this.trashBtn.setup(gameLayer, this.dough);
         this.trashBtn.setOnTrashClicked(() -> {
         });
@@ -195,7 +189,7 @@ public class GameScreen extends JPanel{
         }
     }
 
-    //tell customer to change plaeyr name
+    //tell customer to change player name
     public void changeCustomerPlayerName(String playerName) {
         currentCustomer.setNewPlayerName(playerName);
         this.playerName =  playerName;

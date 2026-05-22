@@ -24,6 +24,10 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
     private Timer messageTimer;
     public boolean isServed = false;
 
+    private Timer orderTimer;
+    private double orderTimeLimit = 20.0;
+    private double timeLeft = 20.0;
+
     private final String[] menuItems = {"ขนมวง", "ขนมเทียน", "ขนมแคบ"};
 
     private int charW = 450;
@@ -75,6 +79,8 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
         doorBellSoundPlayer = new DoorBellSoundPlayer();
 
         setOpaque(false);
+
+        startOrderTimer();
     }
 
     public void setNewPlayerName(String playerName) {
@@ -90,6 +96,34 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
 
     public String getCurrentOrder() {
         return currentOrder;
+    }
+
+    public void startOrderTimer() {
+        timeLeft = orderTimeLimit;
+        orderTimer = new Timer(20, e -> {
+            timeLeft -= 0.02 ;
+
+            if (timeLeft <= 0) {
+                // เมื่อเวลาหมด
+                // หักคะแนนหมดเวลา
+                if (Point.getInstance() != null) {
+                    Point.getInstance().timeOutPunish();
+                }
+                //ลบคะแนนทันทีไม่รอให้ลูกค้าออกก่อน
+                if (getParent() != null) {
+                    getParent().repaint();
+                }
+                this.isServed = true;
+                this.displayMessage = "ทำไมร้านนี้ทำช้าจัง";
+                orderTimer.stop();
+                startLeaveAnimation();
+            }
+
+            repaint();
+        });
+
+        //orderTimer.setRepeats(false); // สั่งให้จับเวลาแค่รอบเดียวต่อคน
+        orderTimer.start();
     }
 
     public boolean checkOrder(Ingredient food) {
@@ -111,11 +145,11 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
         //เช็คว่าส่งอาหารถูกมั้ยและคำนวณคะแนน
         if (Point.getInstance() != null) {
             if (isCorrect) {
-                Point.getInstance().processService(currentOrder, currentOrder);
+                Point.getInstance().processService(currentOrder, currentOrder, (int)timeLeft);
                 correctSoundPlayer.playSound();
                 this.displayMessage = "อาหารอร่อยมากเลย";
             } else {
-                Point.getInstance().processService(currentOrder, "WRONG_FOOD");
+                Point.getInstance().processService(currentOrder, "WRONG_FOOD", 0);
                 incorrectSoundPlayer.playSound();
                 this.displayMessage = "ร้านนี้ไม่ดีเลยทำอาหารก็ผิด";
             }
@@ -134,6 +168,10 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
     }
 
     public void startLeaveAnimation() {
+        if (orderTimer != null && orderTimer.isRunning()) {
+            orderTimer.stop();
+        }
+
         this.isServed = true;
         // หน่วงเวลา2.0วินาที และลบข้อความ
         Timer delayTimer = new Timer(2000, e -> {
@@ -191,6 +229,32 @@ public class Customer extends JComponent implements GameScreenListener, MenuStar
         if (customerImage != null) {
             //เลื่อนตัวละครลงมาวาดที่Y=50เพื่อเผื่อพื้นที่ด้านบนให้กล่องข้อความ
             g.drawImage(customerImage, -200, 120, charW, charH, this);
+        }
+
+        if (timeLeft > 0 && !isServed) {
+            int maxBarWidth = (int) (charW * 0.8);
+            int barHeight = (int) (charH * 0.05);
+
+            int currentBarWidth = (int) (((double) timeLeft / orderTimeLimit) * maxBarWidth);
+
+            int barX = (charW - maxBarWidth) / 2;
+            int barY = 50 - barHeight - 10;
+
+            //วาดพื้นหลังหลอด(สีดำ)
+            g.setColor(Color.BLACK);
+            g.fillRect(barX, barY, maxBarWidth, barHeight);
+
+            if (timeLeft <= 5) {
+                g.setColor(Color.RED);
+            } else {
+                g.setColor(Color.GREEN);
+            }
+
+            //วาดหลอดเวลาที่ลงเรื่อยๆ ทับลงไป
+            g.fillRect(barX, barY, currentBarWidth, barHeight);
+            //วาดกรอบสีขาวรอบ
+            g.setColor(Color.WHITE);
+            g.drawRect(barX, barY, maxBarWidth, barHeight);
         }
 
         // วาดกล่องข้อความ
