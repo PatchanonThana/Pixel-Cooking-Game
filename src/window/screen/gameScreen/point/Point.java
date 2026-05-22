@@ -140,7 +140,6 @@ public class Point {
         g2.drawString(highestText, x, bestY);
     }
 
-    //เผื่อต้องใช้ค่าคะแนนไปทำหน้า GameOver
     public int getTotalScore() {
         return totalScore;
     }
